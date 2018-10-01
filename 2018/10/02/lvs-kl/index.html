@@ -1,0 +1,770 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8">
+  <meta name=referrer content=never>
+  <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, minimum-scale=1, user-scalable=no, minimal-ui">
+  <meta name="renderer" content="webkit">
+  <meta http-equiv="Cache-Control" content="no-transform" />
+  <meta http-equiv="Cache-Control" content="no-siteapp" />
+  <meta name="apple-mobile-web-app-capable" content="yes">
+  <meta name="apple-mobile-web-app-status-bar-style" content="black">
+  <meta name="format-detection" content="telephone=no,email=no,adress=no">
+  <!-- Color theme for statusbar -->
+  <meta name="theme-color" content="#000000" />
+  <!-- 强制页面在当前窗口以独立页面显示,防止别人在框架里调用页面 -->
+  <meta http-equiv="window-target" content="_top" />
+  
+  
+  <title>Lvs+Keepalived高可用负载均衡 | Duoyi&#39;s Blog</title>
+  <meta name="description" content="descriptions">
+<meta name="keywords" content="keepalived,lvs,负载均衡">
+<meta property="og:type" content="article">
+<meta property="og:title" content="Lvs+Keepalived高可用负载均衡">
+<meta property="og:url" content="http://duoyichen.github.com/2018/10/02/lvs-kl/index.html">
+<meta property="og:site_name" content="Hexo">
+<meta property="og:description" content="descriptions">
+<meta property="og:locale" content="default">
+<meta property="og:updated_time" content="2018-10-01T20:24:21.234Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="Lvs+Keepalived高可用负载均衡">
+<meta name="twitter:description" content="descriptions">
+  <!-- Canonical links -->
+  <link rel="canonical" href="http://duoyichen.github.com/2018/10/02/lvs-kl/index.html">
+  
+    <link rel="alternate" href="/atom.xml" title="Hexo" type="application/atom+xml">
+  
+  
+    <link rel="icon" href="/favicon.png" type="image/x-icon">
+  
+  <!-- font-awesome CSS -->
+  <!-- <link href="https://cdn.bootcss.com/font-awesome/4.7.0/css/font-awesome.min.css" rel="stylesheet"> -->
+  <link rel="stylesheet" href="/css/style.css">
+  
+    
+    
+
+</head>
+
+
+<body class="main-center theme-green" itemscope itemtype="http://schema.org/WebPage">
+  <header class="header" itemscope itemtype="http://schema.org/WPHeader">
+  <div class="slimContent">
+    <div class="navbar-header">
+      
+      
+      <div class="profile-block text-center">
+        <a id="avatar" href="https://duoyichen.github.com" target="_blank">
+          <img class="img-circle img-rotate" src="/images/avatar.jpg" width="200" height="200">
+        </a>
+        <h2 id="name" class="hidden-xs hidden-sm">DuoyiChen</h2>
+        <h3 id="title" class="hidden-xs hidden-sm hidden-md">运维开发工程师</h3>
+        <small id="location" class="text-muted hidden-xs hidden-sm"><i class="icon icon-map-marker"></i> 北京  中国</small>
+      </div>
+      
+      <div class="search" id="search-form-wrap">
+
+    <form class="search-form sidebar-form">
+        <div class="input-group">
+            <input type="text" class="search-form-input form-control" placeholder="搜索" />
+            <span class="input-group-btn">
+                <button type="submit" class="search-form-submit btn btn-flat" onclick="return false;"><i class="icon icon-search"></i></button>
+            </span>
+        </div>
+    </form>
+    <div class="ins-search">
+  <div class="ins-search-mask"></div>
+  <div class="ins-search-container">
+    <div class="ins-input-wrapper">
+      <input type="text" class="ins-search-input" placeholder="想要查找什么..." x-webkit-speech />
+      <button type="button" class="close ins-close ins-selectable" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">×</span></button>
+    </div>
+    <div class="ins-section-wrapper">
+      <div class="ins-section-container"></div>
+    </div>
+  </div>
+</div>
+
+
+</div>
+      <button class="navbar-toggle collapsed" type="button" data-toggle="collapse" data-target="#main-navbar" aria-controls="main-navbar" aria-expanded="false">
+        <span class="sr-only">Toggle navigation</span>
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+      </button>
+    </div>
+    <nav id="main-navbar" class="collapse navbar-collapse" itemscope itemtype="http://schema.org/SiteNavigationElement" role="navigation">
+      <ul class="nav navbar-nav main-nav menu-highlight">
+        
+        
+        <li class="menu-item menu-item-home">
+          <a href="/.">
+            
+            <i class="icon icon-home-fill"></i>
+            
+            <span class="menu-title">首页</span>
+          </a>
+        </li>
+        
+        
+        <li class="menu-item menu-item-archives">
+          <a href="/archives">
+            
+            <i class="icon icon-archives-fill"></i>
+            
+            <span class="menu-title">归档</span>
+          </a>
+        </li>
+        
+        
+        <li class="menu-item menu-item-categories">
+          <a href="/categories">
+            
+            <i class="icon icon-folder"></i>
+            
+            <span class="menu-title">分类</span>
+          </a>
+        </li>
+        
+        
+        <li class="menu-item menu-item-tags">
+          <a href="/tags">
+            
+            <i class="icon icon-tags"></i>
+            
+            <span class="menu-title">标签</span>
+          </a>
+        </li>
+        
+        
+        <li class="menu-item menu-item-repository">
+          <a href="/repository">
+            
+            <i class="icon icon-project"></i>
+            
+            <span class="menu-title">项目</span>
+          </a>
+        </li>
+        
+        
+        <li class="menu-item menu-item-links">
+          <a href="/links">
+            
+            <i class="icon icon-friendship"></i>
+            
+            <span class="menu-title">友链</span>
+          </a>
+        </li>
+        
+        
+        <li class="menu-item menu-item-about">
+          <a href="/about">
+            
+            <i class="icon icon-cup-fill"></i>
+            
+            <span class="menu-title">关于</span>
+          </a>
+        </li>
+        
+      </ul>
+      
+	
+    <ul class="social-links">
+    	
+        <li><a href="https://github.com/duoyichen" target="_blank" title="Github" data-toggle=tooltip data-placement=top><i class="icon icon-github"></i></a></li>
+        
+        <li><a href="http://weibo.com/duoyichen" target="_blank" title="Weibo" data-toggle=tooltip data-placement=top><i class="icon icon-weibo"></i></a></li>
+        
+        <li><a href="https://duoyichen.github.com" target="_blank" title="Twitter" data-toggle=tooltip data-placement=top><i class="icon icon-twitter"></i></a></li>
+        
+        <li><a href="/atom.xml" target="_blank" title="Rss" data-toggle=tooltip data-placement=top><i class="icon icon-rss"></i></a></li>
+        
+    </ul>
+
+    </nav>
+  </div>
+</header>
+
+  
+    <aside class="sidebar" itemscope itemtype="http://schema.org/WPSideBar">
+  <div class="slimContent">
+    
+      <div class="widget">
+    <h3 class="widget-title">公告</h3>
+    <div class="widget-body">
+        <div id="board">
+            <div class="content">
+                <br>积土成山，风雨兴焉<br>积水成渊，蛟龙生焉<br>不积跬步，无以至千里<br>不积小流，无以成江海<br><p>技术改变世界，学习改变人生</p><p>欢迎交流与分享经验!</p>
+            </div>
+        </div>
+    </div>
+</div>
+
+    
+      
+  <div class="widget">
+    <h3 class="widget-title">分类</h3>
+    <div class="widget-body">
+      <ul class="category-list"><li class="category-list-item"><a class="category-list-link" href="/categories/云计算/">云计算</a><span class="category-list-count">1</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/其他/">其他</a><span class="category-list-count">2</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/开发/">开发</a><span class="category-list-count">1</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/运维/">运维</a><span class="category-list-count">2</span></li></ul>
+    </div>
+  </div>
+
+
+    
+      
+  <div class="widget">
+    <h3 class="widget-title">标签</h3>
+    <div class="widget-body">
+      <ul class="tag-list"><li class="tag-list-item"><a class="tag-list-link" href="/tags/cmdb/">cmdb</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/docker/">docker</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/keepalived/">keepalived</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/kubernets/">kubernets</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/lvs/">lvs</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/openstack/">openstack</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/python/">python</a><span class="tag-list-count">2</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/云计算/">云计算</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/其他/">其他</a><span class="tag-list-count">2</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/容器/">容器</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/负载均衡/">负载均衡</a><span class="tag-list-count">1</span></li></ul>
+    </div>
+  </div>
+
+
+    
+      
+  <div class="widget">
+    <h3 class="widget-title">标签云</h3>
+    <div class="widget-body tagcloud">
+      <a href="/tags/cmdb/" style="font-size: 13px;">cmdb</a> <a href="/tags/docker/" style="font-size: 13px;">docker</a> <a href="/tags/keepalived/" style="font-size: 13px;">keepalived</a> <a href="/tags/kubernets/" style="font-size: 13px;">kubernets</a> <a href="/tags/lvs/" style="font-size: 13px;">lvs</a> <a href="/tags/openstack/" style="font-size: 13px;">openstack</a> <a href="/tags/python/" style="font-size: 14px;">python</a> <a href="/tags/云计算/" style="font-size: 13px;">云计算</a> <a href="/tags/其他/" style="font-size: 14px;">其他</a> <a href="/tags/容器/" style="font-size: 13px;">容器</a> <a href="/tags/负载均衡/" style="font-size: 13px;">负载均衡</a>
+    </div>
+  </div>
+
+    
+      
+  <div class="widget">
+    <h3 class="widget-title">归档</h3>
+    <div class="widget-body">
+      <ul class="archive-list"><li class="archive-list-item"><a class="archive-list-link" href="/archives/2018/10/">October 2018</a><span class="archive-list-count">6</span></li></ul>
+    </div>
+  </div>
+
+
+    
+      
+  <div class="widget">
+    <h3 class="widget-title">最新文章</h3>
+    <div class="widget-body">
+      <ul class="recent-post-list list-unstyled no-thumbnail">
+        
+          <li>
+            
+            <div class="item-inner">
+              <p class="item-category">
+                <a class="category-link" href="/categories/云计算/">云计算</a>
+              </p>
+              <p class="item-title">
+                <a href="/2018/10/02/openstack-m-centos/" class="title">OpenStack mitaka 版本安装部署（CentOS7）</a>
+              </p>
+              <p class="item-date">
+                <time datetime="2018-10-01T20:36:13.000Z" itemprop="datePublished">2018-10-02</time>
+              </p>
+            </div>
+          </li>
+          
+          <li>
+            
+            <div class="item-inner">
+              <p class="item-category">
+                <a class="category-link" href="/categories/运维/">运维</a>
+              </p>
+              <p class="item-title">
+                <a href="/2018/10/02/lvs-kl/" class="title">Lvs+Keepalived高可用负载均衡</a>
+              </p>
+              <p class="item-date">
+                <time datetime="2018-10-01T20:21:48.000Z" itemprop="datePublished">2018-10-02</time>
+              </p>
+            </div>
+          </li>
+          
+          <li>
+            
+            <div class="item-inner">
+              <p class="item-category">
+                <a class="category-link" href="/categories/运维/">运维</a>
+              </p>
+              <p class="item-title">
+                <a href="/2018/10/02/k8s/" class="title">Kubernets集群安装部署</a>
+              </p>
+              <p class="item-date">
+                <time datetime="2018-10-01T20:13:57.000Z" itemprop="datePublished">2018-10-02</time>
+              </p>
+            </div>
+          </li>
+          
+          <li>
+            
+            <div class="item-inner">
+              <p class="item-category">
+                <a class="category-link" href="/categories/开发/">开发</a>
+              </p>
+              <p class="item-title">
+                <a href="/2018/10/02/cmdb/" class="title">CMDB资产管理系统</a>
+              </p>
+              <p class="item-date">
+                <time datetime="2018-10-01T20:02:22.000Z" itemprop="datePublished">2018-10-02</time>
+              </p>
+            </div>
+          </li>
+          
+          <li>
+            
+            <div class="item-inner">
+              <p class="item-category">
+                <a class="category-link" href="/categories/其他/">其他</a>
+              </p>
+              <p class="item-title">
+                <a href="/2018/10/01/firsr-blog/" class="title">Hexo静态博客搭建指南</a>
+              </p>
+              <p class="item-date">
+                <time datetime="2018-10-01T01:27:47.000Z" itemprop="datePublished">2018-10-01</time>
+              </p>
+            </div>
+          </li>
+          
+      </ul>
+    </div>
+  </div>
+  
+
+    
+  </div>
+</aside>
+
+  
+  
+<aside class="sidebar sidebar-toc collapse" id="collapseToc" itemscope itemtype="http://schema.org/WPSideBar">
+  <div class="slimContent">
+    <nav id="toc" class="article-toc">
+      <h3 class="toc-title">文章目录</h3>
+      <ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#一-ARP协议"><span class="toc-number">1.</span> <span class="toc-text">一.ARP协议</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#1-1什么是arp协议"><span class="toc-number">1.1.</span> <span class="toc-text">1.1什么是arp协议</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#1-2arp工作原理"><span class="toc-number">1.2.</span> <span class="toc-text">1.2arp工作原理</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#1-3arp代理"><span class="toc-number">1.3.</span> <span class="toc-text">1.3arp代理</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#二-LVS简介"><span class="toc-number">2.</span> <span class="toc-text">二.LVS简介</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#2-1lvs概念"><span class="toc-number">2.1.</span> <span class="toc-text">2.1lvs概念</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#2-2lvs三种基本模型"><span class="toc-number">2.2.</span> <span class="toc-text">2.2lvs三种基本模型</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#2-2-1lvs-DR模型是lvs的默认模型，也是企业中用到的最多的模型"><span class="toc-number">2.2.1.</span> <span class="toc-text">2.2.1lvs-DR模型是lvs的默认模型，也是企业中用到的最多的模型</span></a></li></ol></li><li class="toc-item toc-level-3"><a class="toc-link" href="#2-2-2LVS-TUN-模式"><span class="toc-number">2.3.</span> <span class="toc-text">2.2.2LVS-TUN 模式</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#2-2-3LVS-NAT-模式"><span class="toc-number">2.4.</span> <span class="toc-text">2.2.3LVS-NAT 模式</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#三-LVS-DR模式详解"><span class="toc-number">3.</span> <span class="toc-text">三.LVS-DR模式详解</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#四-LVS的安装"><span class="toc-number">4.</span> <span class="toc-text">四.LVS的安装</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#4-1升级内核并安装内核开发包开启内核转发"><span class="toc-number">4.1.</span> <span class="toc-text">4.1升级内核并安装内核开发包开启内核转发</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#4-2安装lvs"><span class="toc-number">4.2.</span> <span class="toc-text">4.2安装lvs</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#五-LVS应用案例"><span class="toc-number">5.</span> <span class="toc-text">五.LVS应用案例</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#5-1配置lvs主机"><span class="toc-number">5.1.</span> <span class="toc-text">5.1配置lvs主机</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#5-2添加转发VIP"><span class="toc-number">5.2.</span> <span class="toc-text">5.2添加转发VIP</span></a><ol class="toc-child"><li class="toc-item toc-level-5"><a class="toc-link" href="#s-参数使用wrr轮询算法-p会话保持20秒"><span class="toc-number">5.2.0.1.</span> <span class="toc-text">-s 参数使用wrr轮询算法 -p会话保持20秒</span></a></li></ol></li></ol></li><li class="toc-item toc-level-3"><a class="toc-link" href="#5-3添加后端RSV（web）"><span class="toc-number">5.3.</span> <span class="toc-text">5.3添加后端RSV（web）</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#5-4查看设置"><span class="toc-number">5.4.</span> <span class="toc-text">5.4查看设置</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#5-5配置后端rsv的lo网卡"><span class="toc-number">5.5.</span> <span class="toc-text">5.5配置后端rsv的lo网卡</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#5-6抑制rsv的arp"><span class="toc-number">5.6.</span> <span class="toc-text">5.6抑制rsv的arp</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#5-7用curl命令验证"><span class="toc-number">5.7.</span> <span class="toc-text">5.7用curl命令验证</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#八-KEEPALIVED配置"><span class="toc-number">6.</span> <span class="toc-text">八.KEEPALIVED配置</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#九-生产实例"><span class="toc-number">7.</span> <span class="toc-text">九.生产实例</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#9-1只做高可用VIP切换"><span class="toc-number">7.1.</span> <span class="toc-text">9.1只做高可用VIP切换</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#9-1-1按照上一章配置文件只复制到VIP切换部分到配置文件"><span class="toc-number">7.1.1.</span> <span class="toc-text">9.1.1按照上一章配置文件只复制到VIP切换部分到配置文件</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#9-1-2分别启动主从keepalived"><span class="toc-number">7.1.2.</span> <span class="toc-text">9.1.2分别启动主从keepalived</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#9-1-3查看主从IP"><span class="toc-number">7.1.3.</span> <span class="toc-text">9.1.3查看主从IP</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#9-1-4停止主机keepalived模拟主机故障"><span class="toc-number">7.1.4.</span> <span class="toc-text">9.1.4停止主机keepalived模拟主机故障</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#9-1-5启动主机keepalived模拟故障恢复"><span class="toc-number">7.1.5.</span> <span class="toc-text">9.1.5启动主机keepalived模拟故障恢复</span></a></li></ol></li><li class="toc-item toc-level-3"><a class="toc-link" href="#9-2结合lvs做4成负载均衡"><span class="toc-number">7.2.</span> <span class="toc-text">9.2结合lvs做4成负载均衡</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#9-2-1修改主从两台主机的配置文件添加lvs部分"><span class="toc-number">7.2.1.</span> <span class="toc-text">9.2.1修改主从两台主机的配置文件添加lvs部分</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#9-2-2重启keepalived查看ipvs信息"><span class="toc-number">7.2.2.</span> <span class="toc-text">9.2.2重启keepalived查看ipvs信息</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#9-2-3模拟主机故障"><span class="toc-number">7.2.3.</span> <span class="toc-text">9.2.3模拟主机故障</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#9-2-3模拟故障恢复"><span class="toc-number">7.2.4.</span> <span class="toc-text">9.2.3模拟故障恢复</span></a></li></ol></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#十-配置脚本触发主从切换"><span class="toc-number">8.</span> <span class="toc-text">十.配置脚本触发主从切换</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#10-1添加监控脚本部分"><span class="toc-number">8.1.</span> <span class="toc-text">10.1添加监控脚本部分</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#10-2给虚拟主机添加使用的脚本"><span class="toc-number">8.2.</span> <span class="toc-text">10.2给虚拟主机添加使用的脚本</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#10-3以mysql为例编写监控脚本"><span class="toc-number">8.3.</span> <span class="toc-text">10.3以mysql为例编写监控脚本</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#10-4重启两个keepalived"><span class="toc-number">8.4.</span> <span class="toc-text">10.4重启两个keepalived</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#10-5查看VIP"><span class="toc-number">8.5.</span> <span class="toc-text">10.5查看VIP</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#10-6停止主机mysql查看VIP"><span class="toc-number">8.6.</span> <span class="toc-text">10.6停止主机mysql查看VIP</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#10-7启动主机mysql恢复测试"><span class="toc-number">8.7.</span> <span class="toc-text">10.7启动主机mysql恢复测试</span></a></li></ol></li></ol>
+    </nav>
+  </div>
+</aside>
+
+<main class="main" role="main">
+  <div class="content">
+  <article id="post-lvs-kl" class="article article-type-post" itemscope itemtype="http://schema.org/BlogPosting">
+    
+    <div class="article-header">
+      
+        
+  
+    <h1 class="article-title" itemprop="name">
+      Lvs+Keepalived高可用负载均衡
+    </h1>
+  
+
+      
+      <div class="article-meta">
+        <span class="article-date">
+    <i class="icon icon-calendar-check"></i>
+	<a href="/2018/10/02/lvs-kl/" class="article-date">
+	  <time datetime="2018-10-01T20:21:48.000Z" itemprop="datePublished">2018-10-02</time>
+	</a>
+</span>
+        
+  <span class="article-category">
+    <i class="icon icon-folder"></i>
+    <a class="article-category-link" href="/categories/运维/">运维</a>
+  </span>
+
+        
+  <span class="article-tag">
+    <i class="icon icon-tags"></i>
+	<a class="article-tag-link" href="/tags/keepalived/">keepalived</a>, <a class="article-tag-link" href="/tags/lvs/">lvs</a>, <a class="article-tag-link" href="/tags/负载均衡/">负载均衡</a>
+  </span>
+
+
+        
+
+        <span class="post-comment"><i class="icon icon-comment"></i> <a href="/2018/10/02/lvs-kl/#comments" class="article-comment-link">评论</a></span>
+        
+	
+		<span class="post-wordcount hidden-xs" itemprop="wordCount">字数统计: 5.3k(字)</span>
+	
+	
+		<span class="post-readcount hidden-xs" itemprop="timeRequired">阅读时长: 26(分)</span>
+	
+
+      </div>
+    </div>
+    <div class="article-entry marked-body" itemprop="articleBody">
+      
+        <p><br></p>
+<h2 id="一-ARP协议"><a href="#一-ARP协议" class="headerlink" title="一.ARP协议"></a>一.ARP协议</h2><h3 id="1-1什么是arp协议"><a href="#1-1什么是arp协议" class="headerlink" title="1.1什么是arp协议"></a>1.1什么是arp协议</h3><p>地址解析协议，即ARP（Address Resolution Protocol），是根据IP地址获取物理地址的一个TCP/IP协议。主机发送信息时将包含目标IP地址的ARP请求广播到网络上的所有主机，并接收返回消息，以此确定目标的物理地址；收到返回消息后将该IP地址和物理地址存入本机ARP缓存中并保留一定时间，下次请求时直接查询ARP缓存以节约资源。地址解析协议是建立在网络中各个主机互相信任的基础上的，网络上的主机可以自主发送ARP应答消息，其他主机收到应答报文时不会检测该报文的真实性就会将其记入本机ARP缓存；由此攻击者就可以向某一主机发送伪ARP应答报文，使其发送的信息无法到达预期的主机或到达错误的主机，这就构成了一个ARP欺骗。ARP命令可用于查询本机ARP缓存中IP地址和MAC地址的对应关系、添加或删除静态对应关系等。相关协议有RARP、代理ARP。NDP用于在IPv6中代替地址解析协议。</p>
+<h3 id="1-2arp工作原理"><a href="#1-2arp工作原理" class="headerlink" title="1.2arp工作原理"></a>1.2arp工作原理</h3><ul>
+<li>主机A的IP地址为192.168.1.1，MAC地址为0A-11-22-33-44-01；</li>
+<li>主机B的IP地址为192.168.1.2，MAC地址为0A-11-22-33-44-02；</li>
+<li>当主机A要与主机B通信时，地址解析协议可以将主机B的IP地址（192.168.1.2）解析成主机B的MAC地址，以下为工作流程：</li>
+<li>第1步：根据主机A上的路由表内容，IP确定用于访问主机B的转发IP地址是192.168.1.2。然后A主机在自己的本地ARP缓存中检查主机B的匹配MAC地址。</li>
+<li>第2步：如果主机A在ARP缓存中没有找到映射，它将询问192.168.1.2的硬件地址，从而将ARP请求帧广播到本地网络上的所有主机。源主机A的IP地址和MAC地址都包括在ARP请求中。本地网络上的每台主机都接收到ARP请求并且检查是否与自己的IP地址匹配。如果主机发现请求的IP地址与自己的IP地址不匹配，它将丢弃ARP请求。</li>
+<li>第3步：主机B确定ARP请求中的IP地址与自己的IP地址匹配，则将主机A的IP地址和MAC地址映射添加到本地ARP缓存中。</li>
+<li>第4步：主机B将包含其MAC地址的ARP回复消息直接发送回主机A。</li>
+<li>第5步：当主机A收到从主机B发来的ARP回复消息时，会用主机B的IP和MAC地址映射更新ARP缓存。本机缓存是有生存期的，生存期结束后，将再次重复上面的过程。主机B的MAC地址一旦确定，主机A就能向主机B发送IP通信了<h3 id="1-3arp代理"><a href="#1-3arp代理" class="headerlink" title="1.3arp代理"></a>1.3arp代理</h3>C1和PC2虽然属于不同的广播域，但它们处于同一网段中，因此PC1会向PC2发出ARP请求广播包，请求获得PC2的MAC地址。由于路由器不会转发广播包，因此ARP请求只能到达路由器，不能到达PC2。当在路由器上启用ARP代理后，路由器会查看ARP请求，发现IP地址172.16.20.100属于它连接的另一个网络，因此路由器用自己的接口MAC地址代替PC2的MAC地址，向PC1发送了一个ARP应答。</li>
+</ul>
+<h2 id="二-LVS简介"><a href="#二-LVS简介" class="headerlink" title="二.LVS简介"></a>二.LVS简介</h2><h3 id="2-1lvs概念"><a href="#2-1lvs概念" class="headerlink" title="2.1lvs概念"></a>2.1lvs概念</h3><p>LVS集群采用IP负载均衡技术和基于内容请求分发技术。调度器具有很好的吞吐率，将请求均衡地转移到不同的服务器上执行，且调度器自动屏蔽掉服务器的故障，从而将一组服务器构成一个高性能的、高可用的虚拟服务器。整个服务器集群的结构对客户是透明的，而且无需修改客户端和服务器端的程序。为此，在设计时需要考虑系统的透明性、可伸缩性、高可用性和易管理性。</p>
+<h3 id="2-2lvs三种基本模型"><a href="#2-2lvs三种基本模型" class="headerlink" title="2.2lvs三种基本模型"></a>2.2lvs三种基本模型</h3><h4 id="2-2-1lvs-DR模型是lvs的默认模型，也是企业中用到的最多的模型"><a href="#2-2-1lvs-DR模型是lvs的默认模型，也是企业中用到的最多的模型" class="headerlink" title="2.2.1lvs-DR模型是lvs的默认模型，也是企业中用到的最多的模型"></a>2.2.1lvs-DR模型是lvs的默认模型，也是企业中用到的最多的模型</h4><p><code>LVS_NAT模型，通常应用与rs较少，rs节点无要求，端口转换的场景</code></p>
+<p><code>解读：地址转换模型，vs通过修改目的ip将报文发送到rs.rs通过dip网关将报文发给vs,vs再将报文的源ip进行修改发送给客户端</code></p>
+<h3 id="2-2-2LVS-TUN-模式"><a href="#2-2-2LVS-TUN-模式" class="headerlink" title="2.2.2LVS-TUN 模式"></a>2.2.2LVS-TUN 模式</h3><p><code>lvs-TUN模型可以运用于异地机房的负载调度上。</code></p>
+<p><code>解读：隧道模型，跟DR模型比较相似，都是由rs直接回复给cs .跟dr模型不同的是，vs和rs之间可以存在路由，原因是tun模型在报文源ip和目的ip后又加入了一层源ip和目的ip的信息。</code></p>
+<h3 id="2-2-3LVS-NAT-模式"><a href="#2-2-3LVS-NAT-模式" class="headerlink" title="2.2.3LVS-NAT 模式"></a>2.2.3LVS-NAT 模式</h3><p><code>LVS_NAT模型，通常应用与rs较少，rs节点无要求，端口转换的场景</code></p>
+<p><code>解读：地址转换模型，vs通过修改目的ip将报文发送到rs.rs通过dip网关将报文发给vs,vs再将报文的源ip进行修改发送给客户端。</code></p>
+<h2 id="三-LVS-DR模式详解"><a href="#三-LVS-DR模式详解" class="headerlink" title="三.LVS-DR模式详解"></a>三.LVS-DR模式详解</h2><ul>
+<li>场景假设：<ul>
+<li>客户端：ip：192.168.1.1，mac：00：00：00：00：00：01</li>
+<li>Lvs：vip：192.168.0.2，mac：00：00：00：00：00：02</li>
+<li>Web服务器：ip：192.168.0.3，mac：00：00：00：00：00：03，lo网卡ip：192.168.0.2</li>
+</ul>
+</li>
+<li>Lvs工作流程流程：<ul>
+<li>客户向lvs发送一个请求后lvs收到的报文为源IP地址为：192.168.0.1，源mac为：00：00：00：00：00：01。目标IP地址为：192.168.0.2，目标mac地址为：00：00：00：00：00：02</li>
+<li>当lvs收到请求后会根据自身算法选择一个web服务器对报文进行修改并转发给web服务器，此时转发的报文为IP地址为：192.168.0.1，源mac为：00：00：00：00：00：01，目标IP地址为：192.168.0.2，目标mac地址为：00：00：00：00：00：03</li>
+<li>Web服务器收到lvs抓发过来的请求进行回复，此时web参看报文发现自己的lo网卡有目标地址那么进行恢复。回复的报文为源IP地址：192.168.0.2，源mac地址为：00：00：00：00：00：03，目标IP地址为：192.168.0.1，目标Imac、地址为：00：00：00：00：00：01</li>
+</ul>
+</li>
+<li>总结：<ul>
+<li>整个lvs-的dr模式客户端的计算机可以理解为arp欺骗，是客户的计算机始终认为和同一台计算机通信。</li>
+</ul>
+</li>
+</ul>
+<h2 id="四-LVS的安装"><a href="#四-LVS的安装" class="headerlink" title="四.LVS的安装"></a>四.LVS的安装</h2><h3 id="4-1升级内核并安装内核开发包开启内核转发"><a href="#4-1升级内核并安装内核开发包开启内核转发" class="headerlink" title="4.1升级内核并安装内核开发包开启内核转发"></a>4.1升级内核并安装内核开发包开启内核转发</h3><figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">yum update -y kernel</span><br><span class="line">yum install -y kernel-devel</span><br><span class="line">reboot</span><br><span class="line">ln -s /usr/src/kernels/`uname -r` /usr/src/linux</span><br><span class="line">sed -i 's#net.ipv4.ip_forward = 0#net.ipv4.ip_forward = 1#g' /etc/sysctl.conf  </span><br><span class="line">sysctl -p</span><br></pre></td></tr></table></figure>
+<h3 id="4-2安装lvs"><a href="#4-2安装lvs" class="headerlink" title="4.2安装lvs"></a>4.2安装lvs</h3><figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">yum install popt-devel ipvsadm -y</span><br><span class="line">root@template ~ 23:58:02 # lsmod | grep ip_vs</span><br><span class="line">root@template ~ 23:58:14 # modprobe ip_vs</span><br><span class="line">root@template ~ 23:58:23 # lsmod | grep ip_vs</span><br><span class="line">ip_vs                 126897  0 </span><br><span class="line">libcrc32c               1246  1 ip_vs</span><br><span class="line">ipv6                  336282  282 ip_vs,ip6t_REJECT,nf_conntrack_ipv6,nf_defrag_ipv6</span><br></pre></td></tr></table></figure>
+<h2 id="五-LVS应用案例"><a href="#五-LVS应用案例" class="headerlink" title="五.LVS应用案例"></a>五.LVS应用案例</h2><h3 id="5-1配置lvs主机"><a href="#5-1配置lvs主机" class="headerlink" title="5.1配置lvs主机"></a>5.1配置lvs主机</h3><p><code>ifconfig eth网卡号:编号 VIP netmask 255.255.255.0 up</code></p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><span class="line">[root@lvs01 ~]# ifconfig eth0:12 192.168.241.11 netmask 255.255.255.0 up</span><br><span class="line">[root@lvs01 ~]# ip a </span><br><span class="line">1: lo: &lt;LOOPBACK,UP,LOWER_UP&gt; mtu 65536 qdisc noqueue state UNKNOWN </span><br><span class="line">    link/loopback 00:00:00:00:00:00 brd 00:00:00:00:00:00</span><br><span class="line">    inet 127.0.0.1/8 scope host lo</span><br><span class="line">    inet6 ::1/128 scope host </span><br><span class="line">       valid_lft forever preferred_lft forever</span><br><span class="line">2: eth0: &lt;BROADCAST,MULTICAST,UP,LOWER_UP&gt; mtu 1500 qdisc pfifo_fast state UP qlen 1000</span><br><span class="line">    link/ether 00:0c:29:cc:ec:94 brd ff:ff:ff:ff:ff:ff</span><br><span class="line">    inet 192.168.241.12/24 brd 192.168.241.255 scope global eth0</span><br><span class="line">    inet 192.168.241.11/24 brd 192.168.241.255 scope global secondary eth0:12</span><br><span class="line">    inet6 fe80::20c:29ff:fecc:ec94/64 scope link </span><br><span class="line">       valid_lft forever preferred_lft forever</span><br></pre></td></tr></table></figure>
+<h3 id="5-2添加转发VIP"><a href="#5-2添加转发VIP" class="headerlink" title="5.2添加转发VIP"></a>5.2添加转发VIP</h3><p><code>ipvsadm -A -t VIP:port -s wrr -p 20</code></p>
+<h5 id="s-参数使用wrr轮询算法-p会话保持20秒"><a href="#s-参数使用wrr轮询算法-p会话保持20秒" class="headerlink" title="-s 参数使用wrr轮询算法 -p会话保持20秒"></a>-s 参数使用wrr轮询算法 -p会话保持20秒</h5><figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">[root@lvs01 ~]# ipvsadm -A -t 192.168.241.11:80 -s wrr -p 20</span><br><span class="line">[root@lvs01 ~]#</span><br></pre></td></tr></table></figure>
+<h3 id="5-3添加后端RSV（web）"><a href="#5-3添加后端RSV（web）" class="headerlink" title="5.3添加后端RSV（web）"></a>5.3添加后端RSV（web）</h3><p><code>ipvsadm -a -t VIP:port -r RIP:port -g -w 1</code></p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">[root@lvs01 ~]# ipvsadm -a -t 192.168.241.11:80 -r 192.168.241.15:80 -g -w 1</span><br><span class="line">[root@lvs01 ~]# ipvsadm -a -t 192.168.241.11:80 -r 192.168.241.16:80 -g -w 1</span><br><span class="line">[root@lvs01 ~]#</span><br></pre></td></tr></table></figure>
+<h3 id="5-4查看设置"><a href="#5-4查看设置" class="headerlink" title="5.4查看设置"></a>5.4查看设置</h3><figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line">[root@lvs01 ~]# ipvsadm -L -n</span><br><span class="line">IP Virtual Server version 1.2.1 (size=4096)</span><br><span class="line">Prot LocalAddress:Port Scheduler Flags</span><br><span class="line"><span class="meta">  -&gt;</span><span class="bash"> RemoteAddress:Port           Forward Weight ActiveConn InActConn</span></span><br><span class="line">TCP  192.168.241.11:80 wrr persistent 20</span><br><span class="line"><span class="meta">  -&gt;</span><span class="bash"> 192.168.241.15:80            Route   1      0          0         </span></span><br><span class="line"><span class="meta">  -&gt;</span><span class="bash"> 192.168.241.16:80            Route   1      0          0         </span></span><br><span class="line">[root@lvs01 ~]#</span><br></pre></td></tr></table></figure>
+<h3 id="5-5配置后端rsv的lo网卡"><a href="#5-5配置后端rsv的lo网卡" class="headerlink" title="5.5配置后端rsv的lo网卡"></a>5.5配置后端rsv的lo网卡</h3><p><code>ifconfig lo:num VIP netmask 255.255.255.255 up</code></p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><span class="line">[root@apache ~]# ifconfig lo:0 192.168.241.11 netmask 255.255.255.255 up      </span><br><span class="line">[root@apache ~]# ip a </span><br><span class="line">1: lo: &lt;LOOPBACK,UP,LOWER_UP&gt; mtu 16436 qdisc noqueue state UNKNOWN </span><br><span class="line">    link/loopback 00:00:00:00:00:00 brd 00:00:00:00:00:00</span><br><span class="line">    inet 127.0.0.1/8 scope host lo</span><br><span class="line">    inet 192.168.241.11/32 brd 192.168.241.11 scope global lo:0</span><br><span class="line">    inet6 ::1/128 scope host </span><br><span class="line">       valid_lft forever preferred_lft forever</span><br><span class="line">2: eth0: &lt;BROADCAST,MULTICAST,UP,LOWER_UP&gt; mtu 1500 qdisc pfifo_fast state UP qlen 1000</span><br><span class="line">    link/ether 00:0c:29:d9:fc:b8 brd ff:ff:ff:ff:ff:ff</span><br><span class="line">    inet 192.168.241.15/24 brd 192.168.241.255 scope global eth0</span><br><span class="line">    inet6 fe80::20c:29ff:fed9:fcb8/64 scope link </span><br><span class="line">       valid_lft forever preferred_lft forever</span><br></pre></td></tr></table></figure>
+<h3 id="5-6抑制rsv的arp"><a href="#5-6抑制rsv的arp" class="headerlink" title="5.6抑制rsv的arp"></a>5.6抑制rsv的arp</h3><figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">echo "1" &gt; /proc/sys/net/ipv4/conf/all/arp_ignore</span><br><span class="line">echo "1" &gt; /proc/sys/net/ipv4/conf/lo/arp_ignore</span><br><span class="line">echo "2" &gt; /proc/sys/net/ipv4/conf/lo/arp_announce</span><br><span class="line">echo "2" &gt; /proc/sys/net/ipv4/conf/all/arp_announce</span><br></pre></td></tr></table></figure>
+<h3 id="5-7用curl命令验证"><a href="#5-7用curl命令验证" class="headerlink" title="5.7用curl命令验证"></a>5.7用curl命令验证</h3><figure class="highlight plain"><figcaption><span>192.168.241.11</span></figcaption><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br></pre></td><td class="code"><pre><span class="line">```</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">## 六.KEEPALIVED介绍</span><br><span class="line">* Layer3,4&amp;7工作在IP/TCP协议栈的IP层，TCP层，及应用层,原理分别如下：</span><br><span class="line">* Layer3：Keepalived使用Layer3的方式工作式时，Keepalived会定期向服务器群中的服务器发送一个ICMP的数据包（既我们平时用的Ping程序）,如果发现某台服务的IP地址没有激活，Keepalived便报告这台服务器失效，并将它从服务器群中剔除，这种情况的典型例子是某台服务器被非法关机。Layer3的方式是以服务器的IP地址是否有效作为服务器工作正常与否的标准。</span><br><span class="line">* Layer4:如果您理解了Layer3的方式，Layer4就容易了。Layer4主要以TCP端口的状态来决定服务器工作正常与否。如web server的服务端口一般是80，如果Keepalived检测到80端口没有启动，则Keepalived将把这台服务器从服务器群中剔除。</span><br><span class="line">* Layer7：Layer7就是工作在具体的应用层了，比Layer3,Layer4要复杂一点，在网络上占用的带宽也要大一些。Keepalived将根据用户的设定检查服务器程序的运行是否正常，如果与用户的设定不相符，则Keepalived将把服务器从服务器群中剔除。</span><br><span class="line">## 七.安装KEEPALIVED</span><br><span class="line">```shell</span><br><span class="line">tar zxf keepalived-1.1.17.tar.gz</span><br><span class="line">cd keepalived-1.1.17</span><br><span class="line">./configure</span><br><span class="line">make &amp;&amp; make install</span><br><span class="line">cp /usr/local/etc/rc.d/init.d/keepalived /etc/init.d  </span><br><span class="line">cp /usr/local/etc/sysconfig/keepalived /etc/sysconfig</span><br><span class="line">cp /usr/local/etc/keepalived/keepalived.conf /etc/keepalived  </span><br><span class="line">cp /usr/local/sbin/keepalive /usr/sbin</span><br><span class="line">chkconfig --add keepalived</span><br><span class="line">#注：使用lvs+keepalived高可用请在安装keepalived之前安装lvs软件，参见第四章</span><br></pre></td></tr></table></figure>
+<h2 id="八-KEEPALIVED配置"><a href="#八-KEEPALIVED配置" class="headerlink" title="八.KEEPALIVED配置"></a>八.KEEPALIVED配置</h2><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br><span class="line">68</span><br><span class="line">69</span><br></pre></td><td class="code"><pre><span class="line">global_defs &#123;</span><br><span class="line">	notification_email &#123;</span><br><span class="line">	znyang@vip.qq.com</span><br><span class="line">  &#125;</span><br><span class="line"></span><br><span class="line">  notification_email_from Alexandre.Cassen@firewall.loc</span><br><span class="line">	smtp_server 127.0.0.1</span><br><span class="line">	smtp_connect_timeout 30</span><br><span class="line">	router_id LVS_1  #这行是keepalived服务器ID在同一个局域网内一定不能重复</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">vrrp_script nginx_check &#123;   #配置监控脚本</span><br><span class="line">  script &quot;/root/nginx_check.sh&quot;   #监控脚本</span><br><span class="line">  interval 1    ###检测时间间隔 1s###</span><br><span class="line">  weigh -60   ###如果条件成立（脚本返回非0），权重-60###</span><br><span class="line">&#125;</span><br><span class="line"> </span><br><span class="line">vrrp_instance VI_1 &#123;</span><br><span class="line">	state MASTER  #MASTER 是主 BACKUP是从</span><br><span class="line">	interface eth0  #网络接口（需要绑定VIP的网卡）</span><br><span class="line">	virtual_router_id 51  #配置实例的表示，在同一个配置文件中每个实例的标识是唯一的，被节点的要和主节点的一致</span><br><span class="line">	priority 100  #优先级数值越大优先级越高一般同一个实例中主比从大100</span><br><span class="line"> 	advert_int 1  #同步检查的时间间隔</span><br><span class="line"></span><br><span class="line">  track_script &#123;</span><br><span class="line">        nginx_check  #使用监控脚本</span><br><span class="line">  &#125;</span><br><span class="line"></span><br><span class="line"> 	authentication &#123;</span><br><span class="line"> 	  auth_type PASS  #权限类型是密码</span><br><span class="line"> 	  auth_pass 1111  #密码</span><br><span class="line"> 	&#125;</span><br><span class="line">  </span><br><span class="line"> 	virtual_ipaddress &#123;</span><br><span class="line"> 		192.168.18.200</span><br><span class="line">    #虚拟路由器的地址（ ifconfig eth网卡号:编号 VIP netmask 255.255.255.0 up就是这个虚拟ip）</span><br><span class="line"> 	&#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">##################若只做VIP切换则不需要下面的转发配置###########################################</span><br><span class="line"></span><br><span class="line">virtual_server 192.168.18.200 8080 &#123;  #配置虚拟主机</span><br><span class="line">    delay_loop 6</span><br><span class="line">    lb_algo wrr</span><br><span class="line">    lb_kind DR</span><br><span class="line">    nat_mask 255.255.255.0</span><br><span class="line">    persistence_timeout 50</span><br><span class="line">    protocol TCP</span><br><span class="line"></span><br><span class="line">    real_server 192.168.18.203 8080 &#123; #第一个RS</span><br><span class="line">        weight 1</span><br><span class="line">        TCP_CHECK &#123;</span><br><span class="line">            connect_timeout 8</span><br><span class="line">            nb_get_retry 3</span><br><span class="line">            delay_before_retry 3</span><br><span class="line">            connect_port 8080  #健康检查的端口</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    real_server 192.168.18.204 8080 &#123;  #第二个RS</span><br><span class="line">        weight 1</span><br><span class="line">        TCP_CHECK &#123;</span><br><span class="line">          connect_timeout 8</span><br><span class="line">          nb_get_retry 3</span><br><span class="line">          delay_before_retry 3</span><br><span class="line">          connect_port 8080  #健康检查的端口</span><br><span class="line">     &#125;</span><br><span class="line">  &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<h2 id="九-生产实例"><a href="#九-生产实例" class="headerlink" title="九.生产实例"></a>九.生产实例</h2><h3 id="9-1只做高可用VIP切换"><a href="#9-1只做高可用VIP切换" class="headerlink" title="9.1只做高可用VIP切换"></a>9.1只做高可用VIP切换</h3><h4 id="9-1-1按照上一章配置文件只复制到VIP切换部分到配置文件"><a href="#9-1-1按照上一章配置文件只复制到VIP切换部分到配置文件" class="headerlink" title="9.1.1按照上一章配置文件只复制到VIP切换部分到配置文件"></a>9.1.1按照上一章配置文件只复制到VIP切换部分到配置文件</h4><p><code>先清空配置文参照上文配置</code></p>
+<h4 id="9-1-2分别启动主从keepalived"><a href="#9-1-2分别启动主从keepalived" class="headerlink" title="9.1.2分别启动主从keepalived"></a>9.1.2分别启动主从keepalived</h4><figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">[root@lvs01 keepalived]# /etc/init.d/keepalived start</span><br><span class="line">Starting keepalived:                                       [  OK  ]</span><br><span class="line">[root@lvs02 keepalived]# /etc/init.d/keepalived start</span><br><span class="line">Starting keepalived:                                       [  OK  ]</span><br></pre></td></tr></table></figure>
+<h4 id="9-1-3查看主从IP"><a href="#9-1-3查看主从IP" class="headerlink" title="9.1.3查看主从IP"></a>9.1.3查看主从IP</h4><figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br></pre></td><td class="code"><pre><span class="line">[root@lvs01 keepalived]# ip a </span><br><span class="line">1: lo: &lt;LOOPBACK,UP,LOWER_UP&gt; mtu 65536 qdisc noqueue state UNKNOWN </span><br><span class="line">    link/loopback 00:00:00:00:00:00 brd 00:00:00:00:00:00</span><br><span class="line">    inet 127.0.0.1/8 scope host lo</span><br><span class="line">    inet6 ::1/128 scope host </span><br><span class="line">       valid_lft forever preferred_lft forever</span><br><span class="line">2: eth0: &lt;BROADCAST,MULTICAST,UP,LOWER_UP&gt; mtu 1500 qdisc pfifo_fast state UP qlen 1000</span><br><span class="line">    link/ether 00:0c:29:cc:ec:94 brd ff:ff:ff:ff:ff:ff</span><br><span class="line">    inet 192.168.241.12/24 brd 192.168.241.255 scope global eth0</span><br><span class="line">    `inet 192.168.44.11/32 scope global eth0`</span><br><span class="line">    inet6 fe80::20c:29ff:fecc:ec94/64 scope link </span><br><span class="line">       valid_lft forever preferred_lft forever</span><br><span class="line">[root@lvs02 keepalived]# ip a </span><br><span class="line">1: lo: &lt;LOOPBACK,UP,LOWER_UP&gt; mtu 65536 qdisc noqueue state UNKNOWN </span><br><span class="line">    link/loopback 00:00:00:00:00:00 brd 00:00:00:00:00:00</span><br><span class="line">    inet 127.0.0.1/8 scope host lo</span><br><span class="line">    inet6 ::1/128 scope host </span><br><span class="line">       valid_lft forever preferred_lft forever</span><br><span class="line">2: eth0: &lt;BROADCAST,MULTICAST,UP,LOWER_UP&gt; mtu 1500 qdisc pfifo_fast state UP qlen 1000</span><br><span class="line">    link/ether 00:0c:29:f4:f8:ab brd ff:ff:ff:ff:ff:ff</span><br><span class="line">    inet 192.168.241.13/24 brd 192.168.241.255 scope global eth0</span><br><span class="line">    inet6 fe80::20c:29ff:fef4:f8ab/64 scope link </span><br><span class="line">       valid_lft forever preferred_lft forever</span><br></pre></td></tr></table></figure>
+<h4 id="9-1-4停止主机keepalived模拟主机故障"><a href="#9-1-4停止主机keepalived模拟主机故障" class="headerlink" title="9.1.4停止主机keepalived模拟主机故障"></a>9.1.4停止主机keepalived模拟主机故障</h4><ul>
+<li><p>主机信息</p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line">[root@lvs01 keepalived]# ip a </span><br><span class="line">1: lo: &lt;LOOPBACK,UP,LOWER_UP&gt; mtu 65536 qdisc noqueue state UNKNOWN </span><br><span class="line">    link/loopback 00:00:00:00:00:00 brd 00:00:00:00:00:00</span><br><span class="line">    inet 127.0.0.1/8 scope host lo</span><br><span class="line">    inet6 ::1/128 scope host </span><br><span class="line">       valid_lft forever preferred_lft forever</span><br><span class="line">2: eth0: &lt;BROADCAST,MULTICAST,UP,LOWER_UP&gt; mtu 1500 qdisc pfifo_fast state UP qlen 1000</span><br><span class="line">    link/ether 00:0c:29:cc:ec:94 brd ff:ff:ff:ff:ff:ff</span><br><span class="line">    inet 192.168.241.12/24 brd 192.168.241.255 scope global eth0</span><br><span class="line">    inet6 fe80::20c:29ff:fecc:ec94/64 scope link </span><br><span class="line">       valid_lft forever preferred_lft forever</span><br></pre></td></tr></table></figure>
+</li>
+<li><p>从机信息</p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line">[root@lvs02 keepalived]# ip a</span><br><span class="line">1: lo: &lt;LOOPBACK,UP,LOWER_UP&gt; mtu 65536 qdisc noqueue state UNKNOWN </span><br><span class="line">    link/loopback 00:00:00:00:00:00 brd 00:00:00:00:00:00</span><br><span class="line">    inet 127.0.0.1/8 scope host lo</span><br><span class="line">    inet6 ::1/128 scope host </span><br><span class="line">       valid_lft forever preferred_lft forever</span><br><span class="line">2: eth0: &lt;BROADCAST,MULTICAST,UP,LOWER_UP&gt; mtu 1500 qdisc pfifo_fast state UP qlen 1000</span><br><span class="line">    link/ether 00:0c:29:f4:f8:ab brd ff:ff:ff:ff:ff:ff</span><br><span class="line">    inet 192.168.241.13/24 brd 192.168.241.255 scope global eth0</span><br><span class="line">    `inet 192.168.44.11/32 scope global eth0`</span><br><span class="line">    inet6 fe80::20c:29ff:fef4:f8ab/64 scope link </span><br><span class="line">       valid_lft forever preferred_lft forever</span><br></pre></td></tr></table></figure>
+</li>
+</ul>
+<h4 id="9-1-5启动主机keepalived模拟故障恢复"><a href="#9-1-5启动主机keepalived模拟故障恢复" class="headerlink" title="9.1.5启动主机keepalived模拟故障恢复"></a>9.1.5启动主机keepalived模拟故障恢复</h4><ul>
+<li><p>主机信息</p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line">[root@lvs01 keepalived]# ip a</span><br><span class="line">1: lo: &lt;LOOPBACK,UP,LOWER_UP&gt; mtu 65536 qdisc noqueue state UNKNOWN </span><br><span class="line">    link/loopback 00:00:00:00:00:00 brd 00:00:00:00:00:00</span><br><span class="line">    inet 127.0.0.1/8 scope host lo</span><br><span class="line">    inet6 ::1/128 scope host </span><br><span class="line">       valid_lft forever preferred_lft forever</span><br><span class="line">2: eth0: &lt;BROADCAST,MULTICAST,UP,LOWER_UP&gt; mtu 1500 qdisc pfifo_fast state UP qlen 1000</span><br><span class="line">    link/ether 00:0c:29:cc:ec:94 brd ff:ff:ff:ff:ff:ff</span><br><span class="line">    inet 192.168.241.12/24 brd 192.168.241.255 scope global eth0</span><br><span class="line">    `inet 192.168.44.11/32 scope global eth0`</span><br><span class="line">    inet6 fe80::20c:29ff:fecc:ec94/64 scope link </span><br><span class="line">       valid_lft forever preferred_lft forever</span><br></pre></td></tr></table></figure>
+</li>
+<li><p>从机信息</p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line">[root@lvs02 keepalived]# ip a </span><br><span class="line">1: lo: &lt;LOOPBACK,UP,LOWER_UP&gt; mtu 65536 qdisc noqueue state UNKNOWN </span><br><span class="line">    link/loopback 00:00:00:00:00:00 brd 00:00:00:00:00:00</span><br><span class="line">    inet 127.0.0.1/8 scope host lo</span><br><span class="line">    inet6 ::1/128 scope host </span><br><span class="line">       valid_lft forever preferred_lft forever</span><br><span class="line">2: eth0: &lt;BROADCAST,MULTICAST,UP,LOWER_UP&gt; mtu 1500 qdisc pfifo_fast state UP qlen 1000</span><br><span class="line">    link/ether 00:0c:29:f4:f8:ab brd ff:ff:ff:ff:ff:ff</span><br><span class="line">    inet 192.168.241.13/24 brd 192.168.241.255 scope global eth0</span><br><span class="line">    inet6 fe80::20c:29ff:fef4:f8ab/64 scope link </span><br><span class="line">       valid_lft forever preferred_lft forever</span><br></pre></td></tr></table></figure>
+</li>
+</ul>
+<h3 id="9-2结合lvs做4成负载均衡"><a href="#9-2结合lvs做4成负载均衡" class="headerlink" title="9.2结合lvs做4成负载均衡"></a>9.2结合lvs做4成负载均衡</h3><h4 id="9-2-1修改主从两台主机的配置文件添加lvs部分"><a href="#9-2-1修改主从两台主机的配置文件添加lvs部分" class="headerlink" title="9.2.1修改主从两台主机的配置文件添加lvs部分"></a>9.2.1修改主从两台主机的配置文件添加lvs部分</h4><p><code>参见上文</code></p>
+<h4 id="9-2-2重启keepalived查看ipvs信息"><a href="#9-2-2重启keepalived查看ipvs信息" class="headerlink" title="9.2.2重启keepalived查看ipvs信息"></a>9.2.2重启keepalived查看ipvs信息</h4><figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line">[root@lvs01 keepalived]# /etc/init.d/keepalived restart</span><br><span class="line">Stopping keepalived:                                       [  OK  ]</span><br><span class="line">Starting keepalived:                                       [  OK  ]</span><br><span class="line">[root@lvs01 keepalived]# ipvsadm</span><br><span class="line">IP Virtual Server version 1.2.1 (size=4096)</span><br><span class="line">Prot LocalAddress:Port Scheduler Flags</span><br><span class="line"><span class="meta">  -&gt;</span><span class="bash"> RemoteAddress:Port           Forward Weight ActiveConn InActConn</span></span><br><span class="line">TCP  192.168.241.11:http wrr persistent 50</span><br><span class="line"><span class="meta">  -&gt;</span><span class="bash"> 192.168.241.15:http          Route   1      0          0         </span></span><br><span class="line"><span class="meta">  -&gt;</span><span class="bash"> 192.168.241.16:http          Route   1      0          0</span></span><br></pre></td></tr></table></figure>
+<h4 id="9-2-3模拟主机故障"><a href="#9-2-3模拟主机故障" class="headerlink" title="9.2.3模拟主机故障"></a>9.2.3模拟主机故障</h4><ul>
+<li><p>主机信息</p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">[root@lvs01 keepalived]# /etc/init.d/keepalived stop</span><br><span class="line">Stopping keepalived:                                       [  OK  ]</span><br><span class="line">[root@lvs01 keepalived]# ipvsadm -L -n</span><br><span class="line">IP Virtual Server version 1.2.1 (size=4096)</span><br><span class="line">Prot LocalAddress:Port Scheduler Flags</span><br><span class="line"><span class="meta">  -&gt;</span><span class="bash"> RemoteAddress:Port           Forward Weight ActiveConn InActConn</span></span><br></pre></td></tr></table></figure>
+</li>
+<li><p>从机信息</p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line">[root@lvs02 keepalived]# ipvsadm -L -n</span><br><span class="line">IP Virtual Server version 1.2.1 (size=4096)</span><br><span class="line">Prot LocalAddress:Port Scheduler Flags</span><br><span class="line"><span class="meta">  -&gt;</span><span class="bash"> RemoteAddress:Port           Forward Weight ActiveConn InActConn</span></span><br><span class="line">TCP  192.168.241.11:80 wrr persistent 50</span><br><span class="line"><span class="meta">  -&gt;</span><span class="bash"> 192.168.241.15:80            Route   1      0          0         </span></span><br><span class="line"><span class="meta">  -&gt;</span><span class="bash"> 192.168.241.16:80            Route   1      0          0         </span></span><br><span class="line">注：即使主故障，从接管，ipvs信息在从上并不会被删除，只会做VIP的切换</span><br></pre></td></tr></table></figure>
+</li>
+</ul>
+<h4 id="9-2-3模拟故障恢复"><a href="#9-2-3模拟故障恢复" class="headerlink" title="9.2.3模拟故障恢复"></a>9.2.3模拟故障恢复</h4><ul>
+<li><p>主机信息</p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line">[root@lvs01 keepalived]# ip a </span><br><span class="line">1: lo: &lt;LOOPBACK,UP,LOWER_UP&gt; mtu 65536 qdisc noqueue state UNKNOWN </span><br><span class="line">    link/loopback 00:00:00:00:00:00 brd 00:00:00:00:00:00</span><br><span class="line">    inet 127.0.0.1/8 scope host lo</span><br><span class="line">    inet6 ::1/128 scope host </span><br><span class="line">       valid_lft forever preferred_lft forever</span><br><span class="line">2: eth0: &lt;BROADCAST,MULTICAST,UP,LOWER_UP&gt; mtu 1500 qdisc pfifo_fast state UP qlen 1000</span><br><span class="line">    link/ether 00:0c:29:cc:ec:94 brd ff:ff:ff:ff:ff:ff</span><br><span class="line">    inet 192.168.241.12/24 brd 192.168.241.255 scope global eth0</span><br><span class="line">    inet 192.168.44.11/32 scope global eth0</span><br><span class="line">    inet6 fe80::20c:29ff:fecc:ec94/64 scope link </span><br><span class="line">       valid_lft forever preferred_lft forever</span><br></pre></td></tr></table></figure>
+</li>
+<li><p>从机信息</p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line">[root@lvs02 keepalived]# ip a </span><br><span class="line">1: lo: &lt;LOOPBACK,UP,LOWER_UP&gt; mtu 65536 qdisc noqueue state UNKNOWN </span><br><span class="line">    link/loopback 00:00:00:00:00:00 brd 00:00:00:00:00:00</span><br><span class="line">    inet 127.0.0.1/8 scope host lo</span><br><span class="line">    inet6 ::1/128 scope host </span><br><span class="line">       valid_lft forever preferred_lft forever</span><br><span class="line">2: eth0: &lt;BROADCAST,MULTICAST,UP,LOWER_UP&gt; mtu 1500 qdisc pfifo_fast state UP qlen 1000</span><br><span class="line">    link/ether 00:0c:29:f4:f8:ab brd ff:ff:ff:ff:ff:ff</span><br><span class="line">    inet 192.168.241.13/24 brd 192.168.241.255 scope global eth0</span><br><span class="line">    inet6 fe80::20c:29ff:fef4:f8ab/64 scope link </span><br><span class="line">       valid_lft forever preferred_lft forever</span><br></pre></td></tr></table></figure>
+</li>
+</ul>
+<h2 id="十-配置脚本触发主从切换"><a href="#十-配置脚本触发主从切换" class="headerlink" title="十.配置脚本触发主从切换"></a>十.配置脚本触发主从切换</h2><h3 id="10-1添加监控脚本部分"><a href="#10-1添加监控脚本部分" class="headerlink" title="10.1添加监控脚本部分"></a>10.1添加监控脚本部分</h3><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">vrrp_script mysql_check &#123;   #配置监控脚本</span><br><span class="line">  script &quot;/root/mysql_check.sh&quot;   #监控脚本</span><br><span class="line">  interval 1    ###检测时间间隔 1s###</span><br><span class="line">  weigh -100   ###如果条件成立（脚本返回非0），权重-100###</span><br><span class="line">&#125;</span><br><span class="line">#添加位置见第八章</span><br></pre></td></tr></table></figure>
+<h3 id="10-2给虚拟主机添加使用的脚本"><a href="#10-2给虚拟主机添加使用的脚本" class="headerlink" title="10.2给虚拟主机添加使用的脚本"></a>10.2给虚拟主机添加使用的脚本</h3><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">  track_script &#123;</span><br><span class="line">        mysql_check  #使用监控脚本</span><br><span class="line">  &#125;</span><br><span class="line">#添加位置见第八章</span><br></pre></td></tr></table></figure>
+<h3 id="10-3以mysql为例编写监控脚本"><a href="#10-3以mysql为例编写监控脚本" class="headerlink" title="10.3以mysql为例编写监控脚本"></a>10.3以mysql为例编写监控脚本</h3><figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">#</span><span class="bash">!/bin/bash</span></span><br><span class="line"> mysqladmin ping &gt; /dev/null 2&gt;&amp;1</span><br><span class="line"> if [ $? -eq 0 ]; then</span><br><span class="line">   exit 0</span><br><span class="line"> fi</span><br><span class="line"> exit 1</span><br></pre></td></tr></table></figure>
+<h3 id="10-4重启两个keepalived"><a href="#10-4重启两个keepalived" class="headerlink" title="10.4重启两个keepalived"></a>10.4重启两个keepalived</h3><figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">[root@lvs01 keepalived]# /etc/init.d/keepalived restart</span><br><span class="line">Stopping keepalived:                                       [  OK  ]</span><br><span class="line">Starting keepalived:                                       [  OK  ]</span><br><span class="line">[root@lvs02 keepalived]# /etc/init.d/keepalived restart</span><br><span class="line">Stopping keepalived:                                       [  OK  ]</span><br><span class="line">Starting keepalived:                                       [  OK  ]</span><br></pre></td></tr></table></figure>
+<h3 id="10-5查看VIP"><a href="#10-5查看VIP" class="headerlink" title="10.5查看VIP"></a>10.5查看VIP</h3><ul>
+<li><p>主机</p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line">[root@lvs01 keepalived]# ip a </span><br><span class="line">1: lo: &lt;LOOPBACK,UP,LOWER_UP&gt; mtu 65536 qdisc noqueue state UNKNOWN </span><br><span class="line">    link/loopback 00:00:00:00:00:00 brd 00:00:00:00:00:00</span><br><span class="line">    inet 127.0.0.1/8 scope host lo</span><br><span class="line">    inet6 ::1/128 scope host </span><br><span class="line">       valid_lft forever preferred_lft forever</span><br><span class="line">2: eth0: &lt;BROADCAST,MULTICAST,UP,LOWER_UP&gt; mtu 1500 qdisc pfifo_fast state UP qlen 1000</span><br><span class="line">    link/ether 00:0c:29:cc:ec:94 brd ff:ff:ff:ff:ff:ff</span><br><span class="line">    inet 192.168.241.12/24 brd 192.168.241.255 scope global eth0</span><br><span class="line">    inet 192.168.44.11/32 scope global eth0</span><br><span class="line">    inet6 fe80::20c:29ff:fecc:ec94/64 scope link </span><br><span class="line">       valid_lft forever preferred_lft forever</span><br></pre></td></tr></table></figure>
+</li>
+<li><p>从机</p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line">[root@lvs02 keepalived]# ip a</span><br><span class="line">1: lo: &lt;LOOPBACK,UP,LOWER_UP&gt; mtu 65536 qdisc noqueue state UNKNOWN </span><br><span class="line">    link/loopback 00:00:00:00:00:00 brd 00:00:00:00:00:00</span><br><span class="line">    inet 127.0.0.1/8 scope host lo</span><br><span class="line">    inet6 ::1/128 scope host </span><br><span class="line">       valid_lft forever preferred_lft forever</span><br><span class="line">2: eth0: &lt;BROADCAST,MULTICAST,UP,LOWER_UP&gt; mtu 1500 qdisc pfifo_fast state UP qlen 1000</span><br><span class="line">    link/ether 00:0c:29:f4:f8:ab brd ff:ff:ff:ff:ff:ff</span><br><span class="line">    inet 192.168.241.13/24 brd 192.168.241.255 scope global eth0</span><br><span class="line">    inet6 fe80::20c:29ff:fef4:f8ab/64 scope link </span><br><span class="line">       valid_lft forever preferred_lft forever</span><br></pre></td></tr></table></figure>
+</li>
+</ul>
+<h3 id="10-6停止主机mysql查看VIP"><a href="#10-6停止主机mysql查看VIP" class="headerlink" title="10.6停止主机mysql查看VIP"></a>10.6停止主机mysql查看VIP</h3><ul>
+<li><p>主机</p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><span class="line">[root@lvs01 keepalived]# /etc/init.d/mysqld stop </span><br><span class="line">Stopping mysqld:                                           [  OK  ]</span><br><span class="line">[root@lvs01 keepalived]# ip a</span><br><span class="line">1: lo: &lt;LOOPBACK,UP,LOWER_UP&gt; mtu 65536 qdisc noqueue state UNKNOWN </span><br><span class="line">    link/loopback 00:00:00:00:00:00 brd 00:00:00:00:00:00</span><br><span class="line">    inet 127.0.0.1/8 scope host lo</span><br><span class="line">    inet6 ::1/128 scope host </span><br><span class="line">       valid_lft forever preferred_lft forever</span><br><span class="line">2: eth0: &lt;BROADCAST,MULTICAST,UP,LOWER_UP&gt; mtu 1500 qdisc pfifo_fast state UP qlen 1000</span><br><span class="line">    link/ether 00:0c:29:cc:ec:94 brd ff:ff:ff:ff:ff:ff</span><br><span class="line">    inet 192.168.241.12/24 brd 192.168.241.255 scope global eth0</span><br><span class="line">    inet6 fe80::20c:29ff:fecc:ec94/64 scope link </span><br><span class="line">       valid_lft forever preferred_lft forever</span><br></pre></td></tr></table></figure>
+</li>
+<li><p>从机</p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line">[root@lvs02 keepalived]# ip a</span><br><span class="line">1: lo: &lt;LOOPBACK,UP,LOWER_UP&gt; mtu 65536 qdisc noqueue state UNKNOWN </span><br><span class="line">    link/loopback 00:00:00:00:00:00 brd 00:00:00:00:00:00</span><br><span class="line">    inet 127.0.0.1/8 scope host lo</span><br><span class="line">    inet6 ::1/128 scope host </span><br><span class="line">       valid_lft forever preferred_lft forever</span><br><span class="line">2: eth0: &lt;BROADCAST,MULTICAST,UP,LOWER_UP&gt; mtu 1500 qdisc pfifo_fast state UP qlen 1000</span><br><span class="line">    link/ether 00:0c:29:f4:f8:ab brd ff:ff:ff:ff:ff:ff</span><br><span class="line">    inet 192.168.241.13/24 brd 192.168.241.255 scope global eth0</span><br><span class="line">    `inet 192.168.44.11/32 scope global eth0`</span><br><span class="line">    inet6 fe80::20c:29ff:fef4:f8ab/64 scope link </span><br><span class="line">       valid_lft forever preferred_lft forever</span><br></pre></td></tr></table></figure>
+</li>
+</ul>
+<h3 id="10-7启动主机mysql恢复测试"><a href="#10-7启动主机mysql恢复测试" class="headerlink" title="10.7启动主机mysql恢复测试"></a>10.7启动主机mysql恢复测试</h3><ul>
+<li><p>主机</p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br></pre></td><td class="code"><pre><span class="line">[root@lvs01 keepalived]# /etc/init.d/mysqld start</span><br><span class="line">Starting mysqld:                                           [  OK  ]</span><br><span class="line">[root@lvs01 keepalived]# ip a</span><br><span class="line">1: lo: &lt;LOOPBACK,UP,LOWER_UP&gt; mtu 65536 qdisc noqueue state UNKNOWN </span><br><span class="line">    link/loopback 00:00:00:00:00:00 brd 00:00:00:00:00:00</span><br><span class="line">    inet 127.0.0.1/8 scope host lo</span><br><span class="line">    inet6 ::1/128 scope host </span><br><span class="line">       valid_lft forever preferred_lft forever</span><br><span class="line">2: eth0: &lt;BROADCAST,MULTICAST,UP,LOWER_UP&gt; mtu 1500 qdisc pfifo_fast state UP qlen 1000</span><br><span class="line">    link/ether 00:0c:29:cc:ec:94 brd ff:ff:ff:ff:ff:ff</span><br><span class="line">    inet 192.168.241.12/24 brd 192.168.241.255 scope global eth0</span><br><span class="line">    `inet 192.168.44.11/32 scope global eth0`</span><br><span class="line">    inet6 fe80::20c:29ff:fecc:ec94/64 scope link </span><br><span class="line">       valid_lft forever preferred_lft forever</span><br></pre></td></tr></table></figure>
+</li>
+<li><p>从机</p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line">[root@lvs02 keepalived]# ip a</span><br><span class="line">1: lo: &lt;LOOPBACK,UP,LOWER_UP&gt; mtu 65536 qdisc noqueue state UNKNOWN </span><br><span class="line">    link/loopback 00:00:00:00:00:00 brd 00:00:00:00:00:00</span><br><span class="line">    inet 127.0.0.1/8 scope host lo</span><br><span class="line">    inet6 ::1/128 scope host </span><br><span class="line">       valid_lft forever preferred_lft forever</span><br><span class="line">2: eth0: &lt;BROADCAST,MULTICAST,UP,LOWER_UP&gt; mtu 1500 qdisc pfifo_fast state UP qlen 1000</span><br><span class="line">    link/ether 00:0c:29:f4:f8:ab brd ff:ff:ff:ff:ff:ff</span><br><span class="line">    inet 192.168.241.13/24 brd 192.168.241.255 scope global eth0</span><br><span class="line">    inet6 fe80::20c:29ff:fef4:f8ab/64 scope link </span><br><span class="line">       valid_lft forever preferred_lft forever</span><br></pre></td></tr></table></figure>
+</li>
+</ul>
+
+      
+    </div>
+    <div class="article-footer">
+      <blockquote class="mt-2x">
+  <ul class="post-copyright list-unstyled">
+    
+    <li class="post-copyright-link hidden-xs">
+      <strong>本文链接：</strong>
+      <a href="http://duoyichen.github.com/2018/10/02/lvs-kl/" title="Lvs+Keepalived高可用负载均衡" target="_blank" rel="external">http://duoyichen.github.com/2018/10/02/lvs-kl/</a>
+    </li>
+    
+    
+      <li class="post-copyright-license">
+        <strong>版权声明： </strong> 本博客所有文章除特别声明外，均采用 <a href="http://creativecommons.org/licenses/by/4.0/deed.zh" target="_blank" rel="external">CC BY 4.0 CN协议</a> 许可协议。转载请注明出处！
+      </li>
+    
+  </ul>
+</blockquote>
+
+
+<div class="panel panel-default panel-badger">
+  <div class="panel-body">
+    <figure class="media">
+      <div class="media-left">
+        <a href="https://duoyichen.github.com" target="_blank" class="img-burn thumb-sm visible-lg">
+          <img src="/images/avatar.jpg" class="img-rounded w-full" alt="">
+        </a>
+      </div>
+      <div class="media-body">
+        <h3 class="media-heading"><a href="https://duoyichen.github.com" target="_blank"><span class="text-dark">DuoyiChen</span><small class="ml-1x">运维开发工程师</small></a></h3>
+        <div>积土成山，风雨兴焉。积水成渊，蛟龙生焉。不积跬步，无以至千里。不积小流，无以成江海。技术改变世界，学习改变人生！ 本人运维开发工程师，喜欢研究技术，熟悉Linux、Shell、Python，及云计算等，爱好旅游，诗词歌赋。欢迎交流与分享经验!</div>
+      </div>
+    </figure>
+  </div>
+</div>
+
+
+    </div>
+  </article>
+  
+    
+  <section id="comments">
+  	
+       
+<div id="lv-container" data-id="city" data-uid="MTAyMC80MDA3NS8xNjYwMg==">
+  <noscript> 为正常使用来必力评论功能请激活JavaScript</noscript>
+</div>
+      
+    
+  </section>
+
+
+  
+</div>
+
+  <nav class="bar bar-footer clearfix" data-stick-bottom>
+  <div class="bar-inner">
+  
+  <ul class="pager pull-left">
+    
+    <li class="prev">
+      <a href="/2018/10/02/openstack-m-centos/" title="OpenStack mitaka 版本安装部署（CentOS7）"><i class="icon icon-angle-left" aria-hidden="true"></i><span>&nbsp;&nbsp;上一篇</span></a>
+    </li>
+    
+    
+    <li class="next">
+      <a href="/2018/10/02/k8s/" title="Kubernets集群安装部署"><span>下一篇&nbsp;&nbsp;</span><i class="icon icon-angle-right" aria-hidden="true"></i></a>
+    </li>
+    
+    
+    <li class="toggle-toc">
+      <a class="toggle-btn collapsed" data-toggle="collapse" href="#collapseToc" aria-expanded="false" title="文章目录" role="button">
+        <span>[&nbsp;</span><span>文章目录</span>
+        <i class="text-collapsed icon icon-anchor"></i>
+        <i class="text-in icon icon-close"></i>
+        <span>]</span>
+      </a>
+    </li>
+    
+  </ul>
+  
+  
+  <!-- Button trigger modal -->
+  <button type="button" class="btn btn-fancy btn-donate pop-onhover bg-gradient-warning" data-toggle="modal" data-target="#donateModal"><span>赏</span></button>
+  <!-- <div class="wave-icon wave-icon-danger btn-donate" data-toggle="modal" data-target="#donateModal">
+    <div class="wave-circle"><span class="icon"><i class="icon icon-bill"></i></span></div>
+  </div> -->
+  
+  
+  <div class="bar-right">
+    
+    <div class="share-component" data-sites="weibo,qq,wechat,facebook" data-mobile-sites="wechat,weibo,qq,qzone"></div>
+    
+  </div>
+  </div>
+</nav>
+  
+<!-- Modal -->
+<div class="modal modal-center modal-small modal-xs-full fade" id="donateModal" tabindex="-1" role="dialog">
+  <div class="modal-dialog" role="document">
+    <div class="modal-content donate">
+      <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+      <div class="modal-body">
+        <div class="donate-box">
+          <div class="donate-head">
+            <p>感谢您的支持，我会继续努力的!</p>
+          </div>
+          <div class="tab-content">
+            <div role="tabpanel" class="tab-pane fade active in" id="alipay">
+              <div class="donate-payimg">
+                <img src="/images/donate/alipayimg.png" alt="扫码支持" title="扫一扫" />
+              </div>
+              <p class="text-muted mv">扫码打赏，你说多少就多少</p>
+              <p class="text-grey">打开支付宝扫一扫，即可进行扫码打赏哦</p>
+            </div>
+            <div role="tabpanel" class="tab-pane fade" id="wechatpay">
+              <div class="donate-payimg">
+                <img src="/images/donate/wechatpayimg.png" alt="扫码支持" title="扫一扫" />
+              </div>
+              <p class="text-muted mv">扫码打赏，你说多少就多少</p>
+              <p class="text-grey">打开微信扫一扫，即可进行扫码打赏哦</p>
+            </div>
+          </div>
+          <div class="donate-footer">
+            <ul class="nav nav-tabs nav-justified" role="tablist">
+              <li role="presentation" class="active">
+                <a href="#alipay" id="alipay-tab" role="tab" data-toggle="tab" aria-controls="alipay" aria-expanded="true"><i class="icon icon-alipay"></i> 支付宝</a>
+              </li>
+              <li role="presentation" class="">
+                <a href="#wechatpay" role="tab" id="wechatpay-tab" data-toggle="tab" aria-controls="wechatpay" aria-expanded="false"><i class="icon icon-wepay"></i> 微信支付</a>
+              </li>
+            </ul>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+
+
+</main>
+
+  <footer class="footer" itemscope itemtype="http://schema.org/WPFooter">
+	
+	
+    <ul class="social-links">
+    	
+        <li><a href="https://github.com/duoyichen" target="_blank" title="Github" data-toggle=tooltip data-placement=top><i class="icon icon-github"></i></a></li>
+        
+        <li><a href="http://weibo.com/duoyichen" target="_blank" title="Weibo" data-toggle=tooltip data-placement=top><i class="icon icon-weibo"></i></a></li>
+        
+        <li><a href="https://duoyichen.github.com" target="_blank" title="Twitter" data-toggle=tooltip data-placement=top><i class="icon icon-twitter"></i></a></li>
+        
+        <li><a href="/atom.xml" target="_blank" title="Rss" data-toggle=tooltip data-placement=top><i class="icon icon-rss"></i></a></li>
+        
+    </ul>
+
+    <div class="copyright">
+    	
+        &copy; 2018 DuoyiChen
+        
+        <div class="publishby">
+        	Theme by <a href="https://github.com/cofess" target="_blank"> cofess </a>base on <a href="https://github.com/cofess/hexo-theme-pure" target="_blank">pure</a>.
+        </div>
+    </div>
+</footer>
+  <!-- <script src="https://cdn.bootcss.com/jquery/1.12.4/jquery.min.js"></script> -->
+<script src="https://cdn.bootcss.com/jquery/3.3.1/jquery.min.js"></script>
+
+<script>
+    window.jQuery || document.write('<script src="js/jquery.min.js"><\/script>')
+</script>
+
+    <link href="https://cdn.bootcss.com/fancybox/3.3.5/jquery.fancybox.min.css" rel="stylesheet">
+    <script src="https://cdn.bootcss.com/fancybox/3.3.5/jquery.fancybox.min.js"></script>
+    <script>
+        //利用 FancyBox 实现点击图片放大
+        $(document).ready(function() {
+            $('article img').not('[hidden]').not('.panel-body img').each(function () {
+                var $image = $(this);
+                var imageCaption = $image.attr('alt');
+                var $imageWrapLink = $image.parent('a');
+                if ($imageWrapLink.length < 1) {
+                var src = this.getAttribute('src');
+                var idx = src.lastIndexOf('?');
+                if (idx != -1) {
+                    src = src.substring(0, idx);
+                }
+                $imageWrapLink = $image.wrap('<a href="' + src + '"></a>').parent('a');
+                }
+                $imageWrapLink.attr('data-fancybox', 'images');
+                if (imageCaption) {
+                $imageWrapLink.attr('data-caption', imageCaption);
+                }
+            });
+            $().fancybox({
+                selector: '[data-fancybox="images"]',
+                hash: false,
+                loop: false,
+            }); 
+        });
+    </script>
+    
+<script src="/js/plugin.min.js"></script>
+<script src="/js/application.js"></script>
+  
+    
+    
+    
+        <script>
+(function (window) {
+    var INSIGHT_CONFIG = {
+        TRANSLATION: {
+            POSTS: '文章',
+            PAGES: '页面',
+            CATEGORIES: '分类',
+            TAGS: '标签',
+            UNTITLED: '(未命名)',
+        },
+        ROOT_URL: '/',
+        CONTENT_URL: '/content.json',
+    };
+    window.INSIGHT_CONFIG = INSIGHT_CONFIG;
+})(window);
+</script>
+<script src="/js/insight.js"></script>
+    
+    
+    
+        
+
+
+    
+    
+        
+    
+<script defer type="text/javascript">
+  (function(d, s) {
+    var j, e = d.getElementsByTagName(s)[0];
+
+    if (typeof LivereTower === 'function') { return; }
+
+    j = d.createElement(s);
+    j.src = 'https://cdn-city.livere.com/js/embed.dist.js';
+    j.async = true;
+
+    e.parentNode.insertBefore(j, e);
+  })(document, 'script');
+</script>
+
+
+    
+    
+
+
+
+</body>
+</html>

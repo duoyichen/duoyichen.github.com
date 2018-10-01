@@ -1,0 +1,81 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
+  
+  <url>
+    <loc>http://duoyichen.github.com/2018/10/01/firsr-blog/</loc>
+    
+    <lastmod>2018-10-01T20:48:11.597Z</lastmod>
+    
+  </url>
+  
+  <url>
+    <loc>http://duoyichen.github.com/2018/10/02/openstack-m-centos/</loc>
+    
+    <lastmod>2018-10-01T20:45:12.889Z</lastmod>
+    
+  </url>
+  
+  <url>
+    <loc>http://duoyichen.github.com/2018/10/02/lvs-kl/</loc>
+    
+    <lastmod>2018-10-01T20:24:21.234Z</lastmod>
+    
+  </url>
+  
+  <url>
+    <loc>http://duoyichen.github.com/2018/10/02/k8s/</loc>
+    
+    <lastmod>2018-10-01T20:16:55.236Z</lastmod>
+    
+  </url>
+  
+  <url>
+    <loc>http://duoyichen.github.com/2018/10/02/cmdb/</loc>
+    
+    <lastmod>2018-10-01T20:10:22.633Z</lastmod>
+    
+  </url>
+  
+  <url>
+    <loc>http://duoyichen.github.com/links/index.html</loc>
+    
+    <lastmod>2018-10-01T19:49:22.322Z</lastmod>
+    
+  </url>
+  
+  <url>
+    <loc>http://duoyichen.github.com/repository/index.html</loc>
+    
+    <lastmod>2018-10-01T19:49:19.569Z</lastmod>
+    
+  </url>
+  
+  <url>
+    <loc>http://duoyichen.github.com/about/index.html</loc>
+    
+    <lastmod>2018-10-01T19:16:14.544Z</lastmod>
+    
+  </url>
+  
+  <url>
+    <loc>http://duoyichen.github.com/categories/index.html</loc>
+    
+    <lastmod>2018-10-01T19:14:11.376Z</lastmod>
+    
+  </url>
+  
+  <url>
+    <loc>http://duoyichen.github.com/tags/index.html</loc>
+    
+    <lastmod>2018-10-01T19:13:49.922Z</lastmod>
+    
+  </url>
+  
+  <url>
+    <loc>http://duoyichen.github.com/2018/10/01/hello-world/</loc>
+    
+    <lastmod>2018-10-01T19:06:13.090Z</lastmod>
+    
+  </url>
+  
+</urlset>
