@@ -18,8 +18,8 @@
   
   <entry>
     <title>OpenStack Mitaka + CentOS7.2 安装部署 06</title>
-    <link href="http://duoyichen.github.com/2018/10/02/openstack-m-centos-6/"/>
-    <id>http://duoyichen.github.com/2018/10/02/openstack-m-centos-6/</id>
+    <link href="http://duoyichen.github.com/2018-10/openstack-m-centos-6/"/>
+    <id>http://duoyichen.github.com/2018-10/openstack-m-centos-6/</id>
     <published>2018-10-01T20:36:18.000Z</published>
     <updated>2018-10-01T23:21:34.155Z</updated>
     
@@ -44,8 +44,8 @@
   
   <entry>
     <title>OpenStack Mitaka + CentOS7.2 安装部署 05</title>
-    <link href="http://duoyichen.github.com/2018/10/02/openstack-m-centos-5/"/>
-    <id>http://duoyichen.github.com/2018/10/02/openstack-m-centos-5/</id>
+    <link href="http://duoyichen.github.com/2018-10/openstack-m-centos-5/"/>
+    <id>http://duoyichen.github.com/2018-10/openstack-m-centos-5/</id>
     <published>2018-10-01T20:36:17.000Z</published>
     <updated>2018-10-01T23:21:15.572Z</updated>
     
@@ -70,8 +70,8 @@
   
   <entry>
     <title>OpenStack Mitaka + CentOS7.2 安装部署 04</title>
-    <link href="http://duoyichen.github.com/2018/10/02/openstack-m-centos-4/"/>
-    <id>http://duoyichen.github.com/2018/10/02/openstack-m-centos-4/</id>
+    <link href="http://duoyichen.github.com/2018-10/openstack-m-centos-4/"/>
+    <id>http://duoyichen.github.com/2018-10/openstack-m-centos-4/</id>
     <published>2018-10-01T20:36:16.000Z</published>
     <updated>2018-10-01T23:19:50.890Z</updated>
     
@@ -96,8 +96,8 @@
   
   <entry>
     <title>OpenStack Mitaka + CentOS7.2 安装部署 03</title>
-    <link href="http://duoyichen.github.com/2018/10/02/openstack-m-centos-3/"/>
-    <id>http://duoyichen.github.com/2018/10/02/openstack-m-centos-3/</id>
+    <link href="http://duoyichen.github.com/2018-10/openstack-m-centos-3/"/>
+    <id>http://duoyichen.github.com/2018-10/openstack-m-centos-3/</id>
     <published>2018-10-01T20:36:15.000Z</published>
     <updated>2018-10-01T23:22:09.133Z</updated>
     
@@ -122,8 +122,8 @@
   
   <entry>
     <title>OpenStack Mitaka + CentOS7.2 安装部署 02</title>
-    <link href="http://duoyichen.github.com/2018/10/02/openstack-m-centos-2/"/>
-    <id>http://duoyichen.github.com/2018/10/02/openstack-m-centos-2/</id>
+    <link href="http://duoyichen.github.com/2018-10/openstack-m-centos-2/"/>
+    <id>http://duoyichen.github.com/2018-10/openstack-m-centos-2/</id>
     <published>2018-10-01T20:36:14.000Z</published>
     <updated>2018-10-01T23:22:13.728Z</updated>
     
@@ -148,8 +148,8 @@
   
   <entry>
     <title>OpenStack Mitaka + CentOS7.2 安装部署 01</title>
-    <link href="http://duoyichen.github.com/2018/10/02/openstack-m-centos/"/>
-    <id>http://duoyichen.github.com/2018/10/02/openstack-m-centos/</id>
+    <link href="http://duoyichen.github.com/2018-10/openstack-m-centos/"/>
+    <id>http://duoyichen.github.com/2018-10/openstack-m-centos/</id>
     <published>2018-10-01T20:36:13.000Z</published>
     <updated>2018-10-01T23:22:18.426Z</updated>
     
@@ -174,8 +174,8 @@
   
   <entry>
     <title>Lvs+Keepalived高可用负载均衡</title>
-    <link href="http://duoyichen.github.com/2018/10/02/lvs-kl/"/>
-    <id>http://duoyichen.github.com/2018/10/02/lvs-kl/</id>
+    <link href="http://duoyichen.github.com/2018-10/lvs-kl/"/>
+    <id>http://duoyichen.github.com/2018-10/lvs-kl/</id>
     <published>2018-10-01T20:21:48.000Z</published>
     <updated>2018-10-01T20:24:21.234Z</updated>
     
@@ -200,8 +200,8 @@
   
   <entry>
     <title>Kubernets集群安装部署 06</title>
-    <link href="http://duoyichen.github.com/2018/10/02/k8s-6/"/>
-    <id>http://duoyichen.github.com/2018/10/02/k8s-6/</id>
+    <link href="http://duoyichen.github.com/2018-10/k8s-6/"/>
+    <id>http://duoyichen.github.com/2018-10/k8s-6/</id>
     <published>2018-10-01T20:19:57.000Z</published>
     <updated>2018-10-01T23:24:07.593Z</updated>
     
@@ -226,8 +226,8 @@
   
   <entry>
     <title>Kubernets集群安装部署 05</title>
-    <link href="http://duoyichen.github.com/2018/10/02/k8s-5/"/>
-    <id>http://duoyichen.github.com/2018/10/02/k8s-5/</id>
+    <link href="http://duoyichen.github.com/2018-10/k8s-5/"/>
+    <id>http://duoyichen.github.com/2018-10/k8s-5/</id>
     <published>2018-10-01T20:18:57.000Z</published>
     <updated>2018-10-01T23:23:52.324Z</updated>
     
@@ -252,8 +252,8 @@
   
   <entry>
     <title>Kubernets集群安装部署 04</title>
-    <link href="http://duoyichen.github.com/2018/10/02/k8s-4/"/>
-    <id>http://duoyichen.github.com/2018/10/02/k8s-4/</id>
+    <link href="http://duoyichen.github.com/2018-10/k8s-4/"/>
+    <id>http://duoyichen.github.com/2018-10/k8s-4/</id>
     <published>2018-10-01T20:16:57.000Z</published>
     <updated>2018-10-01T23:24:05.179Z</updated>
     
@@ -278,8 +278,8 @@
   
   <entry>
     <title>Kubernets集群安装部署 03</title>
-    <link href="http://duoyichen.github.com/2018/10/02/k8s-3/"/>
-    <id>http://duoyichen.github.com/2018/10/02/k8s-3/</id>
+    <link href="http://duoyichen.github.com/2018-10/k8s-3/"/>
+    <id>http://duoyichen.github.com/2018-10/k8s-3/</id>
     <published>2018-10-01T20:15:57.000Z</published>
     <updated>2018-10-01T23:24:01.653Z</updated>
     
@@ -304,8 +304,8 @@
   
   <entry>
     <title>Kubernets集群安装部署 02</title>
-    <link href="http://duoyichen.github.com/2018/10/02/k8s-2/"/>
-    <id>http://duoyichen.github.com/2018/10/02/k8s-2/</id>
+    <link href="http://duoyichen.github.com/2018-10/k8s-2/"/>
+    <id>http://duoyichen.github.com/2018-10/k8s-2/</id>
     <published>2018-10-01T20:14:57.000Z</published>
     <updated>2018-10-01T23:23:59.041Z</updated>
     
@@ -330,8 +330,8 @@
   
   <entry>
     <title>Kubernets集群安装部署 01</title>
-    <link href="http://duoyichen.github.com/2018/10/02/k8s/"/>
-    <id>http://duoyichen.github.com/2018/10/02/k8s/</id>
+    <link href="http://duoyichen.github.com/2018-10/k8s/"/>
+    <id>http://duoyichen.github.com/2018-10/k8s/</id>
     <published>2018-10-01T20:13:57.000Z</published>
     <updated>2018-10-01T23:23:56.868Z</updated>
     
@@ -356,8 +356,8 @@
   
   <entry>
     <title>CMDB资产管理系统</title>
-    <link href="http://duoyichen.github.com/2018/10/02/cmdb/"/>
-    <id>http://duoyichen.github.com/2018/10/02/cmdb/</id>
+    <link href="http://duoyichen.github.com/2018-10/cmdb/"/>
+    <id>http://duoyichen.github.com/2018-10/cmdb/</id>
     <published>2018-10-01T20:02:22.000Z</published>
     <updated>2018-10-01T23:25:51.534Z</updated>
     
@@ -380,8 +380,8 @@
   
   <entry>
     <title>Hexo静态博客搭建指南</title>
-    <link href="http://duoyichen.github.com/2018/10/01/firsr-blog/"/>
-    <id>http://duoyichen.github.com/2018/10/01/firsr-blog/</id>
+    <link href="http://duoyichen.github.com/2018-10/firsr-blog/"/>
+    <id>http://duoyichen.github.com/2018-10/firsr-blog/</id>
     <published>2018-10-01T01:27:47.000Z</published>
     <updated>2018-10-01T20:48:11.597Z</updated>
     
@@ -402,8 +402,8 @@
   
   <entry>
     <title>Hello World</title>
-    <link href="http://duoyichen.github.com/2018/10/01/hello-world/"/>
-    <id>http://duoyichen.github.com/2018/10/01/hello-world/</id>
+    <link href="http://duoyichen.github.com/2018-10/hello-world/"/>
+    <id>http://duoyichen.github.com/2018-10/hello-world/</id>
     <published>2018-10-01T01:07:47.000Z</published>
     <updated>2018-10-01T19:06:13.090Z</updated>
     

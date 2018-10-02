@@ -1,0 +1,671 @@
+<!DOCTYPE html>
+<html lang=zh>
+<head>
+  <meta charset="utf-8">
+  <meta name=referrer content=never>
+  <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, minimum-scale=1, user-scalable=no, minimal-ui">
+  <meta name="renderer" content="webkit">
+  <meta http-equiv="Cache-Control" content="no-transform" />
+  <meta http-equiv="Cache-Control" content="no-siteapp" />
+  <meta name="apple-mobile-web-app-capable" content="yes">
+  <meta name="apple-mobile-web-app-status-bar-style" content="black">
+  <meta name="format-detection" content="telephone=no,email=no,adress=no">
+  <!-- Color theme for statusbar -->
+  <meta name="theme-color" content="#000000" />
+  <!-- 强制页面在当前窗口以独立页面显示,防止别人在框架里调用页面 -->
+  <meta http-equiv="window-target" content="_top" />
+  
+  
+  <title>Kubernets集群安装部署 04 | Duoyi&#39;s Blog</title>
+  <meta name="description" content="descriptions">
+<meta name="keywords" content="kubernets,docker,容器">
+<meta property="og:type" content="article">
+<meta property="og:title" content="Kubernets集群安装部署 04">
+<meta property="og:url" content="http://duoyichen.github.com/2018-10/k8s-4/index.html">
+<meta property="og:site_name" content="Duoyi&#39;s Blog">
+<meta property="og:description" content="descriptions">
+<meta property="og:locale" content="zh-CN">
+<meta property="og:updated_time" content="2018-10-01T23:24:05.179Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="Kubernets集群安装部署 04">
+<meta name="twitter:description" content="descriptions">
+  <!-- Canonical links -->
+  <link rel="canonical" href="http://duoyichen.github.com/2018-10/k8s-4/index.html">
+  
+    <link rel="alternate" href="/atom.xml" title="Duoyi&#39;s Blog" type="application/atom+xml">
+  
+  
+    <link rel="icon" href="/favicon.png" type="image/x-icon">
+  
+  <!-- font-awesome CSS -->
+  <!-- <link href="https://cdn.bootcss.com/font-awesome/4.7.0/css/font-awesome.min.css" rel="stylesheet"> -->
+  <link rel="stylesheet" href="/css/style.css">
+  
+    
+    
+
+</head>
+
+
+<body class="main-center theme-green" itemscope itemtype="http://schema.org/WebPage">
+  <header class="header" itemscope itemtype="http://schema.org/WPHeader">
+  <div class="slimContent">
+    <div class="navbar-header">
+      
+      
+      <div class="profile-block text-center">
+        <a id="avatar" href="https://duoyichen.github.com" target="_blank">
+          <img class="img-circle img-rotate" src="/images/avatar.jpg" width="200" height="200">
+        </a>
+        <h2 id="name" class="hidden-xs hidden-sm">DuoyiChen</h2>
+        <h3 id="title" class="hidden-xs hidden-sm hidden-md">运维开发工程师</h3>
+        <small id="location" class="text-muted hidden-xs hidden-sm"><i class="icon icon-map-marker"></i> 北京  中国</small>
+      </div>
+      
+      <div class="search" id="search-form-wrap">
+
+    <form class="search-form sidebar-form">
+        <div class="input-group">
+            <input type="text" class="search-form-input form-control" placeholder="搜索" />
+            <span class="input-group-btn">
+                <button type="submit" class="search-form-submit btn btn-flat" onclick="return false;"><i class="icon icon-search"></i></button>
+            </span>
+        </div>
+    </form>
+    <div class="ins-search">
+  <div class="ins-search-mask"></div>
+  <div class="ins-search-container">
+    <div class="ins-input-wrapper">
+      <input type="text" class="ins-search-input" placeholder="想要查找什么..." x-webkit-speech />
+      <button type="button" class="close ins-close ins-selectable" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">×</span></button>
+    </div>
+    <div class="ins-section-wrapper">
+      <div class="ins-section-container"></div>
+    </div>
+  </div>
+</div>
+
+
+</div>
+      <button class="navbar-toggle collapsed" type="button" data-toggle="collapse" data-target="#main-navbar" aria-controls="main-navbar" aria-expanded="false">
+        <span class="sr-only">Toggle navigation</span>
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+      </button>
+    </div>
+    <nav id="main-navbar" class="collapse navbar-collapse" itemscope itemtype="http://schema.org/SiteNavigationElement" role="navigation">
+      <ul class="nav navbar-nav main-nav menu-highlight">
+        
+        
+        <li class="menu-item menu-item-home">
+          <a href="/.">
+            
+            <i class="icon icon-home-fill"></i>
+            
+            <span class="menu-title">首页</span>
+          </a>
+        </li>
+        
+        
+        <li class="menu-item menu-item-archives">
+          <a href="/archives">
+            
+            <i class="icon icon-archives-fill"></i>
+            
+            <span class="menu-title">归档</span>
+          </a>
+        </li>
+        
+        
+        <li class="menu-item menu-item-categories">
+          <a href="/categories">
+            
+            <i class="icon icon-folder"></i>
+            
+            <span class="menu-title">分类</span>
+          </a>
+        </li>
+        
+        
+        <li class="menu-item menu-item-tags">
+          <a href="/tags">
+            
+            <i class="icon icon-tags"></i>
+            
+            <span class="menu-title">标签</span>
+          </a>
+        </li>
+        
+        
+        <li class="menu-item menu-item-repository">
+          <a href="/repository">
+            
+            <i class="icon icon-project"></i>
+            
+            <span class="menu-title">项目</span>
+          </a>
+        </li>
+        
+        
+        <li class="menu-item menu-item-links">
+          <a href="/links">
+            
+            <i class="icon icon-friendship"></i>
+            
+            <span class="menu-title">友链</span>
+          </a>
+        </li>
+        
+        
+        <li class="menu-item menu-item-about">
+          <a href="/about">
+            
+            <i class="icon icon-cup-fill"></i>
+            
+            <span class="menu-title">关于</span>
+          </a>
+        </li>
+        
+      </ul>
+      
+	
+    <ul class="social-links">
+    	
+        <li><a href="https://github.com/duoyichen" target="_blank" title="Github" data-toggle=tooltip data-placement=top><i class="icon icon-github"></i></a></li>
+        
+        <li><a href="http://weibo.com/duoyichen" target="_blank" title="Weibo" data-toggle=tooltip data-placement=top><i class="icon icon-weibo"></i></a></li>
+        
+        <li><a href="https://duoyichen.github.com" target="_blank" title="Twitter" data-toggle=tooltip data-placement=top><i class="icon icon-twitter"></i></a></li>
+        
+        <li><a href="/atom.xml" target="_blank" title="Rss" data-toggle=tooltip data-placement=top><i class="icon icon-rss"></i></a></li>
+        
+    </ul>
+
+    </nav>
+  </div>
+</header>
+
+  
+    <aside class="sidebar" itemscope itemtype="http://schema.org/WPSideBar">
+  <div class="slimContent">
+    
+      <div class="widget">
+    <h3 class="widget-title">公告</h3>
+    <div class="widget-body">
+        <div id="board">
+            <div class="content">
+                <br>积土成山，风雨兴焉<br>积水成渊，蛟龙生焉<br>不积跬步，无以至千里<br>不积小流，无以成江海<br><p>技术改变世界，学习改变人生</p><p>欢迎交流与分享经验!</p>
+            </div>
+        </div>
+    </div>
+</div>
+
+    
+      
+  <div class="widget">
+    <h3 class="widget-title">分类</h3>
+    <div class="widget-body">
+      <ul class="category-list"><li class="category-list-item"><a class="category-list-link" href="/categories/云计算/">云计算</a><span class="category-list-count">6</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/其他/">其他</a><span class="category-list-count">2</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/开发/">开发</a><span class="category-list-count">1</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/运维/">运维</a><span class="category-list-count">7</span></li></ul>
+    </div>
+  </div>
+
+
+    
+      
+  <div class="widget">
+    <h3 class="widget-title">标签</h3>
+    <div class="widget-body">
+      <ul class="tag-list"><li class="tag-list-item"><a class="tag-list-link" href="/tags/cmdb/">cmdb</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/docker/">docker</a><span class="tag-list-count">6</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/keepalived/">keepalived</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/kubernets/">kubernets</a><span class="tag-list-count">6</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/lvs/">lvs</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/openstack/">openstack</a><span class="tag-list-count">6</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/python/">python</a><span class="tag-list-count">7</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/云计算/">云计算</a><span class="tag-list-count">6</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/其他/">其他</a><span class="tag-list-count">2</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/容器/">容器</a><span class="tag-list-count">6</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/负载均衡/">负载均衡</a><span class="tag-list-count">1</span></li></ul>
+    </div>
+  </div>
+
+
+    
+      
+  <div class="widget">
+    <h3 class="widget-title">标签云</h3>
+    <div class="widget-body tagcloud">
+      <a href="/tags/cmdb/" style="font-size: 13px;">cmdb</a> <a href="/tags/docker/" style="font-size: 13.67px;">docker</a> <a href="/tags/keepalived/" style="font-size: 13px;">keepalived</a> <a href="/tags/kubernets/" style="font-size: 13.67px;">kubernets</a> <a href="/tags/lvs/" style="font-size: 13px;">lvs</a> <a href="/tags/openstack/" style="font-size: 13.67px;">openstack</a> <a href="/tags/python/" style="font-size: 14px;">python</a> <a href="/tags/云计算/" style="font-size: 13.67px;">云计算</a> <a href="/tags/其他/" style="font-size: 13.33px;">其他</a> <a href="/tags/容器/" style="font-size: 13.67px;">容器</a> <a href="/tags/负载均衡/" style="font-size: 13px;">负载均衡</a>
+    </div>
+  </div>
+
+    
+      
+  <div class="widget">
+    <h3 class="widget-title">归档</h3>
+    <div class="widget-body">
+      <ul class="archive-list"><li class="archive-list-item"><a class="archive-list-link" href="/archives/2018/10/">十月 2018</a><span class="archive-list-count">16</span></li></ul>
+    </div>
+  </div>
+
+
+    
+      
+  <div class="widget">
+    <h3 class="widget-title">最新文章</h3>
+    <div class="widget-body">
+      <ul class="recent-post-list list-unstyled no-thumbnail">
+        
+          <li>
+            
+            <div class="item-inner">
+              <p class="item-category">
+                <a class="category-link" href="/categories/云计算/">云计算</a>
+              </p>
+              <p class="item-title">
+                <a href="/2018-10/openstack-m-centos-6/" class="title">OpenStack Mitaka + CentOS7.2 安装部署 06</a>
+              </p>
+              <p class="item-date">
+                <time datetime="2018-10-01T20:36:18.000Z" itemprop="datePublished">2018-10-02</time>
+              </p>
+            </div>
+          </li>
+          
+          <li>
+            
+            <div class="item-inner">
+              <p class="item-category">
+                <a class="category-link" href="/categories/云计算/">云计算</a>
+              </p>
+              <p class="item-title">
+                <a href="/2018-10/openstack-m-centos-5/" class="title">OpenStack Mitaka + CentOS7.2 安装部署 05</a>
+              </p>
+              <p class="item-date">
+                <time datetime="2018-10-01T20:36:17.000Z" itemprop="datePublished">2018-10-02</time>
+              </p>
+            </div>
+          </li>
+          
+          <li>
+            
+            <div class="item-inner">
+              <p class="item-category">
+                <a class="category-link" href="/categories/云计算/">云计算</a>
+              </p>
+              <p class="item-title">
+                <a href="/2018-10/openstack-m-centos-4/" class="title">OpenStack Mitaka + CentOS7.2 安装部署 04</a>
+              </p>
+              <p class="item-date">
+                <time datetime="2018-10-01T20:36:16.000Z" itemprop="datePublished">2018-10-02</time>
+              </p>
+            </div>
+          </li>
+          
+          <li>
+            
+            <div class="item-inner">
+              <p class="item-category">
+                <a class="category-link" href="/categories/云计算/">云计算</a>
+              </p>
+              <p class="item-title">
+                <a href="/2018-10/openstack-m-centos-3/" class="title">OpenStack Mitaka + CentOS7.2 安装部署 03</a>
+              </p>
+              <p class="item-date">
+                <time datetime="2018-10-01T20:36:15.000Z" itemprop="datePublished">2018-10-02</time>
+              </p>
+            </div>
+          </li>
+          
+          <li>
+            
+            <div class="item-inner">
+              <p class="item-category">
+                <a class="category-link" href="/categories/云计算/">云计算</a>
+              </p>
+              <p class="item-title">
+                <a href="/2018-10/openstack-m-centos-2/" class="title">OpenStack Mitaka + CentOS7.2 安装部署 02</a>
+              </p>
+              <p class="item-date">
+                <time datetime="2018-10-01T20:36:14.000Z" itemprop="datePublished">2018-10-02</time>
+              </p>
+            </div>
+          </li>
+          
+      </ul>
+    </div>
+  </div>
+  
+
+    
+  </div>
+</aside>
+
+  
+  
+<aside class="sidebar sidebar-toc collapse" id="collapseToc" itemscope itemtype="http://schema.org/WPSideBar">
+  <div class="slimContent">
+    <nav id="toc" class="article-toc">
+      <h3 class="toc-title">文章目录</h3>
+      <ol class="toc"><li class="toc-item toc-level-3"><a class="toc-link" href="#5-7-启动API-Server服务"><span class="toc-number">1.</span> <span class="toc-text">5.7 启动API Server服务</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#5-8-验证API-Server"><span class="toc-number">2.</span> <span class="toc-text">5.8 验证API Server</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#5-9-部署Controller-Manager服务"><span class="toc-number">3.</span> <span class="toc-text">5.9 部署Controller Manager服务</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#5-10-启动Controller-Manager服务"><span class="toc-number">4.</span> <span class="toc-text">5.10 启动Controller Manager服务</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#5-11-验证Controller-Manager服务"><span class="toc-number">5.</span> <span class="toc-text">5.11 验证Controller Manager服务</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#5-12-部署Kubernetes-Scheduler"><span class="toc-number">6.</span> <span class="toc-text">5.12 部署Kubernetes Scheduler</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#5-13-启动Kubernetes-Scheduler"><span class="toc-number">7.</span> <span class="toc-text">5.13 启动Kubernetes Scheduler</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#5-14-验证Kubernetes-Scheduler"><span class="toc-number">8.</span> <span class="toc-text">5.14 验证Kubernetes Scheduler</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#5-15-部署kubectl命令"><span class="toc-number">9.</span> <span class="toc-text">5.15 部署kubectl命令</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#5-16-创建-admin-证书签名请求"><span class="toc-number">10.</span> <span class="toc-text">5.16 创建 admin 证书签名请求</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#5-17-生成admin证书、私钥"><span class="toc-number">11.</span> <span class="toc-text">5.17 生成admin证书、私钥</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#5-18-设置集群参数"><span class="toc-number">12.</span> <span class="toc-text">5.18 设置集群参数</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#5-19-设置客户端认证参数"><span class="toc-number">13.</span> <span class="toc-text">5.19 设置客户端认证参数</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#5-20-设置上下文参数"><span class="toc-number">14.</span> <span class="toc-text">5.20 设置上下文参数</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#5-21-设置默认上下文"><span class="toc-number">15.</span> <span class="toc-text">5.21 设置默认上下文</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#5-22-使用kubectl命令验证"><span class="toc-number">16.</span> <span class="toc-text">5.22 使用kubectl命令验证</span></a></li></ol>
+    </nav>
+  </div>
+</aside>
+
+<main class="main" role="main">
+  <div class="content">
+  <article id="post-k8s-4" class="article article-type-post" itemscope itemtype="http://schema.org/BlogPosting">
+    
+    <div class="article-header">
+      
+        
+  
+    <h1 class="article-title" itemprop="name">
+      Kubernets集群安装部署 04
+    </h1>
+  
+
+      
+      <div class="article-meta">
+        <span class="article-date">
+    <i class="icon icon-calendar-check"></i>
+	<a href="/2018-10/k8s-4/" class="article-date">
+	  <time datetime="2018-10-01T20:16:57.000Z" itemprop="datePublished">2018-10-02</time>
+	</a>
+</span>
+        
+  <span class="article-category">
+    <i class="icon icon-folder"></i>
+    <a class="article-category-link" href="/categories/运维/">运维</a>
+  </span>
+
+        
+  <span class="article-tag">
+    <i class="icon icon-tags"></i>
+	<a class="article-tag-link" href="/tags/docker/">docker</a>, <a class="article-tag-link" href="/tags/kubernets/">kubernets</a>, <a class="article-tag-link" href="/tags/容器/">容器</a>
+  </span>
+
+
+        
+
+        <span class="post-comment"><i class="icon icon-comment"></i> <a href="/2018-10/k8s-4/#comments" class="article-comment-link">评论</a></span>
+        
+	
+		<span class="post-wordcount hidden-xs" itemprop="wordCount">字数统计: 1.3k(字)</span>
+	
+	
+		<span class="post-readcount hidden-xs" itemprop="timeRequired">阅读时长: 7(分)</span>
+	
+
+      </div>
+    </div>
+    <div class="article-entry marked-body" itemprop="articleBody">
+      
+        <p><br></p>
+<h3 id="5-7-启动API-Server服务"><a href="#5-7-启动API-Server服务" class="headerlink" title="5.7 启动API Server服务"></a>5.7 启动API Server服务</h3><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">systemctl daemon-reload</span><br><span class="line">systemctl enable kube-apiserver</span><br><span class="line">systemctl start kube-apiserver</span><br></pre></td></tr></table></figure>
+<h3 id="5-8-验证API-Server"><a href="#5-8-验证API-Server" class="headerlink" title="5.8 验证API Server"></a>5.8 验证API Server</h3><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br></pre></td><td class="code"><pre><span class="line">[root@k8s-master /usr/local/src/kubernetes 11:19:42]# systemctl status kube-apiserver             </span><br><span class="line">● kube-apiserver.service - Kubernetes API Server</span><br><span class="line">   Loaded: loaded (/usr/lib/systemd/system/kube-apiserver.service; enabled; vendor preset: disabled)</span><br><span class="line">   Active: active (running) since 四 2018-06-07 11:19:42 CST; 8s ago</span><br><span class="line">     Docs: https://github.com/GoogleCloudPlatform/kubernetes</span><br><span class="line"> Main PID: 22837 (kube-apiserver)</span><br><span class="line">    Tasks: 7</span><br><span class="line">   Memory: 303.5M</span><br><span class="line">   CGroup: /system.slice/kube-apiserver.service</span><br><span class="line">           └─22837 /opt/kubernetes/bin/kube-apiserver --admission-control=NamespaceLifecycle,LimitRanger,ServiceAccount,DefaultStorageClass,ResourceQuota,NodeRestriction --bind-address=192.168.217.10 --insecure-bind-address=127.0...</span><br><span class="line"></span><br><span class="line">6月 07 11:19:35 k8s-master systemd[1]: kube-apiserver.service holdoff time over, scheduling restart.</span><br><span class="line">6月 07 11:19:35 k8s-master systemd[1]: Starting Kubernetes API Server...</span><br><span class="line">6月 07 11:19:36 k8s-master kube-apiserver[22837]: Flag --admission-control has been deprecated, Use --enable-admission-plugins or --disable-admission-plugins instead. Will be removed in a future version.</span><br><span class="line">6月 07 11:19:36 k8s-master kube-apiserver[22837]: Flag --insecure-bind-address has been deprecated, This flag will be removed in a future version.</span><br><span class="line">6月 07 11:19:38 k8s-master kube-apiserver[22837]: [restful] 2018/06/07 11:19:38 log.go:33: [restful/swagger] listing is available at https://192.168.217.10:6443/swaggerapi</span><br><span class="line">6月 07 11:19:38 k8s-master kube-apiserver[22837]: [restful] 2018/06/07 11:19:38 log.go:33: [restful/swagger] https://192.168.217.10:6443/swaggerui/ is mapped to folder /swagger-ui/</span><br><span class="line">6月 07 11:19:39 k8s-master kube-apiserver[22837]: [restful] 2018/06/07 11:19:39 log.go:33: [restful/swagger] listing is available at https://192.168.217.10:6443/swaggerapi</span><br><span class="line">6月 07 11:19:39 k8s-master kube-apiserver[22837]: [restful] 2018/06/07 11:19:39 log.go:33: [restful/swagger] https://192.168.217.10:6443/swaggerui/ is mapped to folder /swagger-ui/</span><br><span class="line">6月 07 11:19:42 k8s-master systemd[1]: Started Kubernetes API Server.</span><br><span class="line">[root@k8s-master /usr/local/src/kubernetes 11:19:50]#</span><br></pre></td></tr></table></figure>
+<h3 id="5-9-部署Controller-Manager服务"><a href="#5-9-部署Controller-Manager服务" class="headerlink" title="5.9 部署Controller Manager服务"></a>5.9 部署Controller Manager服务</h3><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br></pre></td><td class="code"><pre><span class="line">cat &gt;/usr/lib/systemd/system/kube-controller-manager.service&lt;&lt;EOF</span><br><span class="line">[Unit]</span><br><span class="line">Description=Kubernetes Controller Manager</span><br><span class="line">Documentation=https://github.com/GoogleCloudPlatform/kubernetes</span><br><span class="line"></span><br><span class="line">[Service]</span><br><span class="line">ExecStart=/opt/kubernetes/bin/kube-controller-manager \</span><br><span class="line">  --address=127.0.0.1 \</span><br><span class="line">  --master=http://127.0.0.1:8080 \</span><br><span class="line">  --allocate-node-cidrs=true \</span><br><span class="line">  --service-cluster-ip-range=10.1.0.0/16 \</span><br><span class="line">  --cluster-cidr=10.2.0.0/16 \</span><br><span class="line">  --cluster-name=kubernetes \</span><br><span class="line">  --cluster-signing-cert-file=/opt/kubernetes/ssl/ca.pem \</span><br><span class="line">  --cluster-signing-key-file=/opt/kubernetes/ssl/ca-key.pem \</span><br><span class="line">  --service-account-private-key-file=/opt/kubernetes/ssl/ca-key.pem \</span><br><span class="line">  --root-ca-file=/opt/kubernetes/ssl/ca.pem \</span><br><span class="line">  --leader-elect=true \</span><br><span class="line">  --v=2 \</span><br><span class="line">  --logtostderr=false \</span><br><span class="line">  --log-dir=/opt/kubernetes/log</span><br><span class="line"></span><br><span class="line">Restart=on-failure</span><br><span class="line">RestartSec=5</span><br><span class="line"></span><br><span class="line">[Install]</span><br><span class="line">WantedBy=multi-user.target</span><br><span class="line">EOF</span><br></pre></td></tr></table></figure>
+<h3 id="5-10-启动Controller-Manager服务"><a href="#5-10-启动Controller-Manager服务" class="headerlink" title="5.10 启动Controller Manager服务"></a>5.10 启动Controller Manager服务</h3><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">systemctl daemon-reload</span><br><span class="line">systemctl enable kube-controller-manager</span><br><span class="line">systemctl start kube-controller-manager</span><br></pre></td></tr></table></figure>
+<h3 id="5-11-验证Controller-Manager服务"><a href="#5-11-验证Controller-Manager服务" class="headerlink" title="5.11 验证Controller Manager服务"></a>5.11 验证Controller Manager服务</h3><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br></pre></td><td class="code"><pre><span class="line">[root@k8s-master /usr/local/src/kubernetes 11:45:24]# systemctl status kube-controller-manager</span><br><span class="line">● kube-controller-manager.service - Kubernetes Controller Manager</span><br><span class="line">   Loaded: loaded (/usr/lib/systemd/system/kube-controller-manager.service; enabled; vendor preset: disabled)</span><br><span class="line">   Active: active (running) since 四 2018-06-07 11:45:24 CST; 8s ago</span><br><span class="line">     Docs: https://github.com/GoogleCloudPlatform/kubernetes</span><br><span class="line"> Main PID: 22894 (kube-controller)</span><br><span class="line">    Tasks: 7</span><br><span class="line">   Memory: 10.1M</span><br><span class="line">   CGroup: /system.slice/kube-controller-manager.service</span><br><span class="line">           └─22894 /opt/kubernetes/bin/kube-controller-manager --address=127.0.0.1 --master=http://127.0.0.1:8080 --allocate-node-cidrs=true --service-cluster-ip-range=10.1.0.0/16 --cluster-cidr=10.2.0.0/16 --cluster-name=kuberne...</span><br><span class="line"></span><br><span class="line">6月 07 11:45:24 k8s-master systemd[1]: Started Kubernetes Controller Manager.</span><br><span class="line">6月 07 11:45:24 k8s-master systemd[1]: Starting Kubernetes Controller Manager...</span><br><span class="line">6月 07 11:45:26 k8s-master kube-controller-manager[22894]: E0607 11:45:26.105012   22894 core.go:75] Failed to start service controller: WARNING: no cloud provider provided, services of type LoadBalancer will fail</span><br></pre></td></tr></table></figure>
+<h3 id="5-12-部署Kubernetes-Scheduler"><a href="#5-12-部署Kubernetes-Scheduler" class="headerlink" title="5.12 部署Kubernetes Scheduler"></a>5.12 部署Kubernetes Scheduler</h3><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br></pre></td><td class="code"><pre><span class="line">cat &gt;/usr/lib/systemd/system/kube-scheduler.service&lt;&lt;EOF</span><br><span class="line">[Unit]</span><br><span class="line">Description=Kubernetes Scheduler</span><br><span class="line">Documentation=https://github.com/GoogleCloudPlatform/kubernetes</span><br><span class="line"></span><br><span class="line">[Service]</span><br><span class="line">ExecStart=/opt/kubernetes/bin/kube-scheduler \</span><br><span class="line">  --address=127.0.0.1 \</span><br><span class="line">  --master=http://127.0.0.1:8080 \</span><br><span class="line">  --leader-elect=true \</span><br><span class="line">  --v=2 \</span><br><span class="line">  --logtostderr=false \</span><br><span class="line">  --log-dir=/opt/kubernetes/log</span><br><span class="line"></span><br><span class="line">Restart=on-failure</span><br><span class="line">RestartSec=5</span><br><span class="line"></span><br><span class="line">[Install]</span><br><span class="line">WantedBy=multi-user.target</span><br><span class="line">EOF</span><br></pre></td></tr></table></figure>
+<h3 id="5-13-启动Kubernetes-Scheduler"><a href="#5-13-启动Kubernetes-Scheduler" class="headerlink" title="5.13 启动Kubernetes Scheduler"></a>5.13 启动Kubernetes Scheduler</h3><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">systemctl daemon-reload</span><br><span class="line">systemctl enable kube-scheduler</span><br><span class="line">systemctl start kube-scheduler</span><br></pre></td></tr></table></figure>
+<h3 id="5-14-验证Kubernetes-Scheduler"><a href="#5-14-验证Kubernetes-Scheduler" class="headerlink" title="5.14 验证Kubernetes Scheduler"></a>5.14 验证Kubernetes Scheduler</h3><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br></pre></td><td class="code"><pre><span class="line">[root@k8s-master /usr/local/src/kubernetes 11:48:35]# systemctl status kube-scheduler</span><br><span class="line">● kube-scheduler.service - Kubernetes Scheduler</span><br><span class="line">   Loaded: loaded (/usr/lib/systemd/system/kube-scheduler.service; enabled; vendor preset: disabled)</span><br><span class="line">   Active: active (running) since 四 2018-06-07 11:48:35 CST; 7s ago</span><br><span class="line">     Docs: https://github.com/GoogleCloudPlatform/kubernetes</span><br><span class="line"> Main PID: 22942 (kube-scheduler)</span><br><span class="line">    Tasks: 6</span><br><span class="line">   Memory: 8.2M</span><br><span class="line">   CGroup: /system.slice/kube-scheduler.service</span><br><span class="line">           └─22942 /opt/kubernetes/bin/kube-scheduler --address=127.0.0.1 --master=http://127.0.0.1:8080 --leader-elect=true --v=2 --logtostderr=false --log-dir=/opt/kubernetes/log</span><br><span class="line"></span><br><span class="line">6月 07 11:48:35 k8s-master systemd[1]: Started Kubernetes Scheduler.</span><br><span class="line">6月 07 11:48:35 k8s-master systemd[1]: Starting Kubernetes Scheduler...</span><br><span class="line">[root@k8s-master /usr/local/src/kubernetes 11:48:42]#</span><br></pre></td></tr></table></figure>
+<h3 id="5-15-部署kubectl命令"><a href="#5-15-部署kubectl命令" class="headerlink" title="5.15 部署kubectl命令"></a>5.15 部署kubectl命令</h3><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">tar zxf kubernetes-client-linux-amd64.tar.gz.tar </span><br><span class="line">cd /usr/local/src/kubernetes/client/bin</span><br><span class="line">cp kubectl /opt/kubernetes/bin/</span><br></pre></td></tr></table></figure>
+<h3 id="5-16-创建-admin-证书签名请求"><a href="#5-16-创建-admin-证书签名请求" class="headerlink" title="5.16 创建 admin 证书签名请求"></a>5.16 创建 admin 证书签名请求</h3><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br></pre></td><td class="code"><pre><span class="line">cd /usr/local/src/ssl/</span><br><span class="line">cat &gt; admin-csr.json&lt;&lt;EOF</span><br><span class="line">&#123;</span><br><span class="line">  &quot;CN&quot;: &quot;admin&quot;,</span><br><span class="line">  &quot;hosts&quot;: [],</span><br><span class="line">  &quot;key&quot;: &#123;</span><br><span class="line">    &quot;algo&quot;: &quot;rsa&quot;,</span><br><span class="line">    &quot;size&quot;: 2048</span><br><span class="line">  &#125;,</span><br><span class="line">  &quot;names&quot;: [</span><br><span class="line">    &#123;</span><br><span class="line">      &quot;C&quot;: &quot;CN&quot;,</span><br><span class="line">      &quot;ST&quot;: &quot;TianJin&quot;,</span><br><span class="line">      &quot;L&quot;: &quot;TianJin&quot;,</span><br><span class="line">      &quot;O&quot;: &quot;system:masters&quot;,</span><br><span class="line">      &quot;OU&quot;: &quot;System&quot;</span><br><span class="line">    &#125;</span><br><span class="line">  ]</span><br><span class="line">&#125;</span><br><span class="line">EOF</span><br></pre></td></tr></table></figure>
+<h3 id="5-17-生成admin证书、私钥"><a href="#5-17-生成admin证书、私钥" class="headerlink" title="5.17 生成admin证书、私钥"></a>5.17 生成admin证书、私钥</h3><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">cfssl gencert -ca=/opt/kubernetes/ssl/ca.pem \</span><br><span class="line">   -ca-key=/opt/kubernetes/ssl/ca-key.pem \</span><br><span class="line">   -config=/opt/kubernetes/ssl/ca-config.json \</span><br><span class="line">   -profile=kubernetes admin-csr.json | cfssljson -bare admin</span><br><span class="line">mv admin*.pem /opt/kubernetes/ssl/</span><br></pre></td></tr></table></figure>
+<h3 id="5-18-设置集群参数"><a href="#5-18-设置集群参数" class="headerlink" title="5.18 设置集群参数"></a>5.18 设置集群参数</h3><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">kubectl config set-cluster kubernetes \</span><br><span class="line">   --certificate-authority=/opt/kubernetes/ssl/ca.pem \</span><br><span class="line">   --embed-certs=true \</span><br><span class="line">   --server=https://192.168.217.10:6443</span><br></pre></td></tr></table></figure>
+<h3 id="5-19-设置客户端认证参数"><a href="#5-19-设置客户端认证参数" class="headerlink" title="5.19 设置客户端认证参数"></a>5.19 设置客户端认证参数</h3><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">kubectl config set-credentials admin \</span><br><span class="line">   --client-certificate=/opt/kubernetes/ssl/admin.pem \</span><br><span class="line">   --embed-certs=true \</span><br><span class="line">   --client-key=/opt/kubernetes/ssl/admin-key.pem</span><br></pre></td></tr></table></figure>
+<h3 id="5-20-设置上下文参数"><a href="#5-20-设置上下文参数" class="headerlink" title="5.20 设置上下文参数"></a>5.20 设置上下文参数</h3><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">kubectl config set-context kubernetes \</span><br><span class="line">   --cluster=kubernetes \</span><br><span class="line">   --user=admin</span><br></pre></td></tr></table></figure>
+<h3 id="5-21-设置默认上下文"><a href="#5-21-设置默认上下文" class="headerlink" title="5.21 设置默认上下文"></a>5.21 设置默认上下文</h3><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">kubectl config use-context kubernetes</span><br></pre></td></tr></table></figure>
+<h3 id="5-22-使用kubectl命令验证"><a href="#5-22-使用kubectl命令验证" class="headerlink" title="5.22 使用kubectl命令验证"></a>5.22 使用kubectl命令验证</h3><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line">[root@k8s-master /usr/local/src/ssl 11:58:48]# kubectl get cs</span><br><span class="line">NAME                 STATUS    MESSAGE             ERROR</span><br><span class="line">scheduler            Healthy   ok                  </span><br><span class="line">etcd-1               Healthy   &#123;&quot;health&quot;:&quot;true&quot;&#125;   </span><br><span class="line">etcd-2               Healthy   &#123;&quot;health&quot;:&quot;true&quot;&#125;   </span><br><span class="line">controller-manager   Healthy   ok                  </span><br><span class="line">etcd-0               Healthy   &#123;&quot;health&quot;:&quot;true&quot;&#125;   </span><br><span class="line">[root@k8s-master /usr/local/src/ssl 11:58:58]#</span><br></pre></td></tr></table></figure>
+
+      
+    </div>
+    <div class="article-footer">
+      <blockquote class="mt-2x">
+  <ul class="post-copyright list-unstyled">
+    
+    <li class="post-copyright-link hidden-xs">
+      <strong>本文链接：</strong>
+      <a href="http://duoyichen.github.com/2018-10/k8s-4/" title="Kubernets集群安装部署 04" target="_blank" rel="external">http://duoyichen.github.com/2018-10/k8s-4/</a>
+    </li>
+    
+    
+      <li class="post-copyright-license">
+        <strong>版权声明： </strong> 本博客所有文章除特别声明外，均采用 <a href="http://creativecommons.org/licenses/by/4.0/deed.zh" target="_blank" rel="external">CC BY 4.0 CN协议</a> 许可协议。转载请注明出处！
+      </li>
+    
+  </ul>
+</blockquote>
+
+
+<div class="panel panel-default panel-badger">
+  <div class="panel-body">
+    <figure class="media">
+      <div class="media-left">
+        <a href="https://duoyichen.github.com" target="_blank" class="img-burn thumb-sm visible-lg">
+          <img src="/images/avatar.jpg" class="img-rounded w-full" alt="">
+        </a>
+      </div>
+      <div class="media-body">
+        <h3 class="media-heading"><a href="https://duoyichen.github.com" target="_blank"><span class="text-dark">DuoyiChen</span><small class="ml-1x">运维开发工程师</small></a></h3>
+        <div>技术改变世界，学习改变人生！ 本人运维开发工程师，喜欢研究技术，熟悉Linux、Shell、Python，及云计算等，爱好旅游，诗词歌赋。欢迎交流与分享经验!</div>
+      </div>
+    </figure>
+  </div>
+</div>
+
+
+    </div>
+  </article>
+  
+    
+  <section id="comments">
+  	
+       
+<div id="lv-container" data-id="city" data-uid="MTAyMC80MDA3NS8xNjYwMg==">
+  <noscript> 为正常使用来必力评论功能请激活JavaScript</noscript>
+</div>
+      
+    
+  </section>
+
+
+  
+</div>
+
+  <nav class="bar bar-footer clearfix" data-stick-bottom>
+  <div class="bar-inner">
+  
+  <ul class="pager pull-left">
+    
+    <li class="prev">
+      <a href="/2018-10/k8s-5/" title="Kubernets集群安装部署 05"><i class="icon icon-angle-left" aria-hidden="true"></i><span>&nbsp;&nbsp;上一篇</span></a>
+    </li>
+    
+    
+    <li class="next">
+      <a href="/2018-10/k8s-3/" title="Kubernets集群安装部署 03"><span>下一篇&nbsp;&nbsp;</span><i class="icon icon-angle-right" aria-hidden="true"></i></a>
+    </li>
+    
+    
+    <li class="toggle-toc">
+      <a class="toggle-btn collapsed" data-toggle="collapse" href="#collapseToc" aria-expanded="false" title="文章目录" role="button">
+        <span>[&nbsp;</span><span>文章目录</span>
+        <i class="text-collapsed icon icon-anchor"></i>
+        <i class="text-in icon icon-close"></i>
+        <span>]</span>
+      </a>
+    </li>
+    
+  </ul>
+  
+  
+  <!-- Button trigger modal -->
+  <button type="button" class="btn btn-fancy btn-donate pop-onhover bg-gradient-warning" data-toggle="modal" data-target="#donateModal"><span>赏</span></button>
+  <!-- <div class="wave-icon wave-icon-danger btn-donate" data-toggle="modal" data-target="#donateModal">
+    <div class="wave-circle"><span class="icon"><i class="icon icon-bill"></i></span></div>
+  </div> -->
+  
+  
+  <div class="bar-right">
+    
+    <div class="share-component" data-sites="weibo,qq,wechat,facebook" data-mobile-sites="wechat,weibo,qq,qzone"></div>
+    
+  </div>
+  </div>
+</nav>
+  
+<!-- Modal -->
+<div class="modal modal-center modal-small modal-xs-full fade" id="donateModal" tabindex="-1" role="dialog">
+  <div class="modal-dialog" role="document">
+    <div class="modal-content donate">
+      <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+      <div class="modal-body">
+        <div class="donate-box">
+          <div class="donate-head">
+            <p>感谢您的支持，我会继续努力的!</p>
+          </div>
+          <div class="tab-content">
+            <div role="tabpanel" class="tab-pane fade active in" id="alipay">
+              <div class="donate-payimg">
+                <img src="/images/donate/alipayimg.png" alt="扫码支持" title="扫一扫" />
+              </div>
+              <p class="text-muted mv">扫码打赏，你说多少就多少</p>
+              <p class="text-grey">打开支付宝扫一扫，即可进行扫码打赏哦</p>
+            </div>
+            <div role="tabpanel" class="tab-pane fade" id="wechatpay">
+              <div class="donate-payimg">
+                <img src="/images/donate/wechatpayimg.png" alt="扫码支持" title="扫一扫" />
+              </div>
+              <p class="text-muted mv">扫码打赏，你说多少就多少</p>
+              <p class="text-grey">打开微信扫一扫，即可进行扫码打赏哦</p>
+            </div>
+          </div>
+          <div class="donate-footer">
+            <ul class="nav nav-tabs nav-justified" role="tablist">
+              <li role="presentation" class="active">
+                <a href="#alipay" id="alipay-tab" role="tab" data-toggle="tab" aria-controls="alipay" aria-expanded="true"><i class="icon icon-alipay"></i> 支付宝</a>
+              </li>
+              <li role="presentation" class="">
+                <a href="#wechatpay" role="tab" id="wechatpay-tab" data-toggle="tab" aria-controls="wechatpay" aria-expanded="false"><i class="icon icon-wepay"></i> 微信支付</a>
+              </li>
+            </ul>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+
+
+</main>
+
+  <footer class="footer" itemscope itemtype="http://schema.org/WPFooter">
+	
+	
+    <ul class="social-links">
+    	
+        <li><a href="https://github.com/duoyichen" target="_blank" title="Github" data-toggle=tooltip data-placement=top><i class="icon icon-github"></i></a></li>
+        
+        <li><a href="http://weibo.com/duoyichen" target="_blank" title="Weibo" data-toggle=tooltip data-placement=top><i class="icon icon-weibo"></i></a></li>
+        
+        <li><a href="https://duoyichen.github.com" target="_blank" title="Twitter" data-toggle=tooltip data-placement=top><i class="icon icon-twitter"></i></a></li>
+        
+        <li><a href="/atom.xml" target="_blank" title="Rss" data-toggle=tooltip data-placement=top><i class="icon icon-rss"></i></a></li>
+        
+    </ul>
+
+    <div class="copyright">
+    	
+        &copy; 2018 DuoyiChen
+        
+        <div class="publishby">
+        	Theme by <a href="https://github.com/cofess" target="_blank"> cofess </a>base on <a href="https://github.com/cofess/hexo-theme-pure" target="_blank">pure</a>.
+        </div>
+    </div>
+</footer>
+  <!-- <script src="https://cdn.bootcss.com/jquery/1.12.4/jquery.min.js"></script> -->
+<script src="https://cdn.bootcss.com/jquery/3.3.1/jquery.min.js"></script>
+
+<script>
+    window.jQuery || document.write('<script src="js/jquery.min.js"><\/script>')
+</script>
+
+    <link href="https://cdn.bootcss.com/fancybox/3.3.5/jquery.fancybox.min.css" rel="stylesheet">
+    <script src="https://cdn.bootcss.com/fancybox/3.3.5/jquery.fancybox.min.js"></script>
+    <script>
+        //利用 FancyBox 实现点击图片放大
+        $(document).ready(function() {
+            $('article img').not('[hidden]').not('.panel-body img').each(function () {
+                var $image = $(this);
+                var imageCaption = $image.attr('alt');
+                var $imageWrapLink = $image.parent('a');
+                if ($imageWrapLink.length < 1) {
+                var src = this.getAttribute('src');
+                var idx = src.lastIndexOf('?');
+                if (idx != -1) {
+                    src = src.substring(0, idx);
+                }
+                $imageWrapLink = $image.wrap('<a href="' + src + '"></a>').parent('a');
+                }
+                $imageWrapLink.attr('data-fancybox', 'images');
+                if (imageCaption) {
+                $imageWrapLink.attr('data-caption', imageCaption);
+                }
+            });
+            $().fancybox({
+                selector: '[data-fancybox="images"]',
+                hash: false,
+                loop: false,
+            }); 
+        });
+    </script>
+    
+<script src="/js/plugin.min.js"></script>
+<script src="/js/application.js"></script>
+  
+    
+    
+    
+        <script>
+(function (window) {
+    var INSIGHT_CONFIG = {
+        TRANSLATION: {
+            POSTS: '文章',
+            PAGES: '页面',
+            CATEGORIES: '分类',
+            TAGS: '标签',
+            UNTITLED: '(未命名)',
+        },
+        ROOT_URL: '/',
+        CONTENT_URL: '/content.json',
+    };
+    window.INSIGHT_CONFIG = INSIGHT_CONFIG;
+})(window);
+</script>
+<script src="/js/insight.js"></script>
+    
+    
+    
+        
+
+
+    
+    
+        
+    
+<script defer type="text/javascript">
+  (function(d, s) {
+    var j, e = d.getElementsByTagName(s)[0];
+
+    if (typeof LivereTower === 'function') { return; }
+
+    j = d.createElement(s);
+    j.src = 'https://cdn-city.livere.com/js/embed.dist.js';
+    j.async = true;
+
+    e.parentNode.insertBefore(j, e);
+  })(document, 'script');
+</script>
+
+
+    
+    
+
+
+
+</body>
+</html>
