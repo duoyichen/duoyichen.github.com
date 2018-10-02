@@ -1,0 +1,696 @@
+<!DOCTYPE html>
+<html lang=zh>
+<head>
+  <meta charset="utf-8">
+  <meta name=referrer content=never>
+  <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, minimum-scale=1, user-scalable=no, minimal-ui">
+  <meta name="renderer" content="webkit">
+  <meta http-equiv="Cache-Control" content="no-transform" />
+  <meta http-equiv="Cache-Control" content="no-siteapp" />
+  <meta name="apple-mobile-web-app-capable" content="yes">
+  <meta name="apple-mobile-web-app-status-bar-style" content="black">
+  <meta name="format-detection" content="telephone=no,email=no,adress=no">
+  <!-- Color theme for statusbar -->
+  <meta name="theme-color" content="#000000" />
+  <!-- 强制页面在当前窗口以独立页面显示,防止别人在框架里调用页面 -->
+  <meta http-equiv="window-target" content="_top" />
+  
+  
+  <title>OpenStack Mitaka + CentOS7.2 安装部署 03 | Duoyi&#39;s Blog</title>
+  <meta name="description" content="descriptions">
+<meta name="keywords" content="python,openstack,云计算">
+<meta property="og:type" content="article">
+<meta property="og:title" content="OpenStack Mitaka + CentOS7.2 安装部署 03">
+<meta property="og:url" content="http://duoyichen.github.com/2018/10/02/openstack-m-centos-3/index.html">
+<meta property="og:site_name" content="Duoyi&#39;s Blog">
+<meta property="og:description" content="descriptions">
+<meta property="og:locale" content="zh-CN">
+<meta property="og:updated_time" content="2018-10-01T23:22:09.133Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="OpenStack Mitaka + CentOS7.2 安装部署 03">
+<meta name="twitter:description" content="descriptions">
+  <!-- Canonical links -->
+  <link rel="canonical" href="http://duoyichen.github.com/2018/10/02/openstack-m-centos-3/index.html">
+  
+    <link rel="alternate" href="/atom.xml" title="Duoyi&#39;s Blog" type="application/atom+xml">
+  
+  
+    <link rel="icon" href="/favicon.png" type="image/x-icon">
+  
+  <!-- font-awesome CSS -->
+  <!-- <link href="https://cdn.bootcss.com/font-awesome/4.7.0/css/font-awesome.min.css" rel="stylesheet"> -->
+  <link rel="stylesheet" href="/css/style.css">
+  
+    
+    
+
+</head>
+
+
+<body class="main-center theme-green" itemscope itemtype="http://schema.org/WebPage">
+  <header class="header" itemscope itemtype="http://schema.org/WPHeader">
+  <div class="slimContent">
+    <div class="navbar-header">
+      
+      
+      <div class="profile-block text-center">
+        <a id="avatar" href="https://duoyichen.github.com" target="_blank">
+          <img class="img-circle img-rotate" src="/images/avatar.jpg" width="200" height="200">
+        </a>
+        <h2 id="name" class="hidden-xs hidden-sm">DuoyiChen</h2>
+        <h3 id="title" class="hidden-xs hidden-sm hidden-md">运维开发工程师</h3>
+        <small id="location" class="text-muted hidden-xs hidden-sm"><i class="icon icon-map-marker"></i> 北京  中国</small>
+      </div>
+      
+      <div class="search" id="search-form-wrap">
+
+    <form class="search-form sidebar-form">
+        <div class="input-group">
+            <input type="text" class="search-form-input form-control" placeholder="搜索" />
+            <span class="input-group-btn">
+                <button type="submit" class="search-form-submit btn btn-flat" onclick="return false;"><i class="icon icon-search"></i></button>
+            </span>
+        </div>
+    </form>
+    <div class="ins-search">
+  <div class="ins-search-mask"></div>
+  <div class="ins-search-container">
+    <div class="ins-input-wrapper">
+      <input type="text" class="ins-search-input" placeholder="想要查找什么..." x-webkit-speech />
+      <button type="button" class="close ins-close ins-selectable" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">×</span></button>
+    </div>
+    <div class="ins-section-wrapper">
+      <div class="ins-section-container"></div>
+    </div>
+  </div>
+</div>
+
+
+</div>
+      <button class="navbar-toggle collapsed" type="button" data-toggle="collapse" data-target="#main-navbar" aria-controls="main-navbar" aria-expanded="false">
+        <span class="sr-only">Toggle navigation</span>
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+      </button>
+    </div>
+    <nav id="main-navbar" class="collapse navbar-collapse" itemscope itemtype="http://schema.org/SiteNavigationElement" role="navigation">
+      <ul class="nav navbar-nav main-nav menu-highlight">
+        
+        
+        <li class="menu-item menu-item-home">
+          <a href="/.">
+            
+            <i class="icon icon-home-fill"></i>
+            
+            <span class="menu-title">首页</span>
+          </a>
+        </li>
+        
+        
+        <li class="menu-item menu-item-archives">
+          <a href="/archives">
+            
+            <i class="icon icon-archives-fill"></i>
+            
+            <span class="menu-title">归档</span>
+          </a>
+        </li>
+        
+        
+        <li class="menu-item menu-item-categories">
+          <a href="/categories">
+            
+            <i class="icon icon-folder"></i>
+            
+            <span class="menu-title">分类</span>
+          </a>
+        </li>
+        
+        
+        <li class="menu-item menu-item-tags">
+          <a href="/tags">
+            
+            <i class="icon icon-tags"></i>
+            
+            <span class="menu-title">标签</span>
+          </a>
+        </li>
+        
+        
+        <li class="menu-item menu-item-repository">
+          <a href="/repository">
+            
+            <i class="icon icon-project"></i>
+            
+            <span class="menu-title">项目</span>
+          </a>
+        </li>
+        
+        
+        <li class="menu-item menu-item-links">
+          <a href="/links">
+            
+            <i class="icon icon-friendship"></i>
+            
+            <span class="menu-title">友链</span>
+          </a>
+        </li>
+        
+        
+        <li class="menu-item menu-item-about">
+          <a href="/about">
+            
+            <i class="icon icon-cup-fill"></i>
+            
+            <span class="menu-title">关于</span>
+          </a>
+        </li>
+        
+      </ul>
+      
+	
+    <ul class="social-links">
+    	
+        <li><a href="https://github.com/duoyichen" target="_blank" title="Github" data-toggle=tooltip data-placement=top><i class="icon icon-github"></i></a></li>
+        
+        <li><a href="http://weibo.com/duoyichen" target="_blank" title="Weibo" data-toggle=tooltip data-placement=top><i class="icon icon-weibo"></i></a></li>
+        
+        <li><a href="https://duoyichen.github.com" target="_blank" title="Twitter" data-toggle=tooltip data-placement=top><i class="icon icon-twitter"></i></a></li>
+        
+        <li><a href="/atom.xml" target="_blank" title="Rss" data-toggle=tooltip data-placement=top><i class="icon icon-rss"></i></a></li>
+        
+    </ul>
+
+    </nav>
+  </div>
+</header>
+
+  
+    <aside class="sidebar" itemscope itemtype="http://schema.org/WPSideBar">
+  <div class="slimContent">
+    
+      <div class="widget">
+    <h3 class="widget-title">公告</h3>
+    <div class="widget-body">
+        <div id="board">
+            <div class="content">
+                <br>积土成山，风雨兴焉<br>积水成渊，蛟龙生焉<br>不积跬步，无以至千里<br>不积小流，无以成江海<br><p>技术改变世界，学习改变人生</p><p>欢迎交流与分享经验!</p>
+            </div>
+        </div>
+    </div>
+</div>
+
+    
+      
+  <div class="widget">
+    <h3 class="widget-title">分类</h3>
+    <div class="widget-body">
+      <ul class="category-list"><li class="category-list-item"><a class="category-list-link" href="/categories/云计算/">云计算</a><span class="category-list-count">6</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/其他/">其他</a><span class="category-list-count">2</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/开发/">开发</a><span class="category-list-count">1</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/运维/">运维</a><span class="category-list-count">7</span></li></ul>
+    </div>
+  </div>
+
+
+    
+      
+  <div class="widget">
+    <h3 class="widget-title">标签</h3>
+    <div class="widget-body">
+      <ul class="tag-list"><li class="tag-list-item"><a class="tag-list-link" href="/tags/cmdb/">cmdb</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/docker/">docker</a><span class="tag-list-count">6</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/keepalived/">keepalived</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/kubernets/">kubernets</a><span class="tag-list-count">6</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/lvs/">lvs</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/openstack/">openstack</a><span class="tag-list-count">6</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/python/">python</a><span class="tag-list-count">7</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/云计算/">云计算</a><span class="tag-list-count">6</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/其他/">其他</a><span class="tag-list-count">2</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/容器/">容器</a><span class="tag-list-count">6</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/负载均衡/">负载均衡</a><span class="tag-list-count">1</span></li></ul>
+    </div>
+  </div>
+
+
+    
+      
+  <div class="widget">
+    <h3 class="widget-title">标签云</h3>
+    <div class="widget-body tagcloud">
+      <a href="/tags/cmdb/" style="font-size: 13px;">cmdb</a> <a href="/tags/docker/" style="font-size: 13.67px;">docker</a> <a href="/tags/keepalived/" style="font-size: 13px;">keepalived</a> <a href="/tags/kubernets/" style="font-size: 13.67px;">kubernets</a> <a href="/tags/lvs/" style="font-size: 13px;">lvs</a> <a href="/tags/openstack/" style="font-size: 13.67px;">openstack</a> <a href="/tags/python/" style="font-size: 14px;">python</a> <a href="/tags/云计算/" style="font-size: 13.67px;">云计算</a> <a href="/tags/其他/" style="font-size: 13.33px;">其他</a> <a href="/tags/容器/" style="font-size: 13.67px;">容器</a> <a href="/tags/负载均衡/" style="font-size: 13px;">负载均衡</a>
+    </div>
+  </div>
+
+    
+      
+  <div class="widget">
+    <h3 class="widget-title">归档</h3>
+    <div class="widget-body">
+      <ul class="archive-list"><li class="archive-list-item"><a class="archive-list-link" href="/archives/2018/10/">十月 2018</a><span class="archive-list-count">16</span></li></ul>
+    </div>
+  </div>
+
+
+    
+      
+  <div class="widget">
+    <h3 class="widget-title">最新文章</h3>
+    <div class="widget-body">
+      <ul class="recent-post-list list-unstyled no-thumbnail">
+        
+          <li>
+            
+            <div class="item-inner">
+              <p class="item-category">
+                <a class="category-link" href="/categories/云计算/">云计算</a>
+              </p>
+              <p class="item-title">
+                <a href="/2018/10/02/openstack-m-centos-6/" class="title">OpenStack Mitaka + CentOS7.2 安装部署 06</a>
+              </p>
+              <p class="item-date">
+                <time datetime="2018-10-01T20:36:18.000Z" itemprop="datePublished">2018-10-02</time>
+              </p>
+            </div>
+          </li>
+          
+          <li>
+            
+            <div class="item-inner">
+              <p class="item-category">
+                <a class="category-link" href="/categories/云计算/">云计算</a>
+              </p>
+              <p class="item-title">
+                <a href="/2018/10/02/openstack-m-centos-5/" class="title">OpenStack Mitaka + CentOS7.2 安装部署 05</a>
+              </p>
+              <p class="item-date">
+                <time datetime="2018-10-01T20:36:17.000Z" itemprop="datePublished">2018-10-02</time>
+              </p>
+            </div>
+          </li>
+          
+          <li>
+            
+            <div class="item-inner">
+              <p class="item-category">
+                <a class="category-link" href="/categories/云计算/">云计算</a>
+              </p>
+              <p class="item-title">
+                <a href="/2018/10/02/openstack-m-centos-4/" class="title">OpenStack Mitaka + CentOS7.2 安装部署 04</a>
+              </p>
+              <p class="item-date">
+                <time datetime="2018-10-01T20:36:16.000Z" itemprop="datePublished">2018-10-02</time>
+              </p>
+            </div>
+          </li>
+          
+          <li>
+            
+            <div class="item-inner">
+              <p class="item-category">
+                <a class="category-link" href="/categories/云计算/">云计算</a>
+              </p>
+              <p class="item-title">
+                <a href="/2018/10/02/openstack-m-centos-3/" class="title">OpenStack Mitaka + CentOS7.2 安装部署 03</a>
+              </p>
+              <p class="item-date">
+                <time datetime="2018-10-01T20:36:15.000Z" itemprop="datePublished">2018-10-02</time>
+              </p>
+            </div>
+          </li>
+          
+          <li>
+            
+            <div class="item-inner">
+              <p class="item-category">
+                <a class="category-link" href="/categories/云计算/">云计算</a>
+              </p>
+              <p class="item-title">
+                <a href="/2018/10/02/openstack-m-centos-2/" class="title">OpenStack Mitaka + CentOS7.2 安装部署 02</a>
+              </p>
+              <p class="item-date">
+                <time datetime="2018-10-01T20:36:14.000Z" itemprop="datePublished">2018-10-02</time>
+              </p>
+            </div>
+          </li>
+          
+      </ul>
+    </div>
+  </div>
+  
+
+    
+  </div>
+</aside>
+
+  
+  
+<aside class="sidebar sidebar-toc collapse" id="collapseToc" itemscope itemtype="http://schema.org/WPSideBar">
+  <div class="slimContent">
+    <nav id="toc" class="article-toc">
+      <h3 class="toc-title">文章目录</h3>
+      <ol class="toc"><li class="toc-item toc-level-1"><a class="toc-link" href="#四、镜像服务（glance，在controller）"><span class="toc-number">1.</span> <span class="toc-text">四、镜像服务（glance，在controller）</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#4-1创建数据库"><span class="toc-number">1.1.</span> <span class="toc-text">4.1创建数据库</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#4-2获取admin权限"><span class="toc-number">1.2.</span> <span class="toc-text">4.2获取admin权限</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#4-3创建服务和api"><span class="toc-number">1.3.</span> <span class="toc-text">4.3创建服务和api</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#4-3-1创建glance用户"><span class="toc-number">1.3.1.</span> <span class="toc-text">4.3.1创建glance用户</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#4-3-2添加admin角色到glance用户和service项目上"><span class="toc-number">1.3.2.</span> <span class="toc-text">4.3.2添加admin角色到glance用户和service项目上</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#4-3-3创建glance服务"><span class="toc-number">1.3.3.</span> <span class="toc-text">4.3.3创建glance服务</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#4-3-4创建galnce的api"><span class="toc-number">1.3.4.</span> <span class="toc-text">4.3.4创建galnce的api</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#4-4安装配置glance"><span class="toc-number">1.4.</span> <span class="toc-text">4.4安装配置glance</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#4-4-1安装glance"><span class="toc-number">1.4.1.</span> <span class="toc-text">4.4.1安装glance</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#4-4-2配置glance-api的数据库连接"><span class="toc-number">1.4.2.</span> <span class="toc-text">4.4.2配置glance-api的数据库连接</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#4-4-3配置glance-api的认证"><span class="toc-number">1.4.3.</span> <span class="toc-text">4.4.3配置glance-api的认证</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#4-4-4配置镜像存储位置"><span class="toc-number">1.4.4.</span> <span class="toc-text">4.4.4配置镜像存储位置</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#4-4-5配置glance-registry的数据库连接"><span class="toc-number">1.4.5.</span> <span class="toc-text">4.4.5配置glance-registry的数据库连接</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#4-4-6配置glance-registry的认证"><span class="toc-number">1.4.6.</span> <span class="toc-text">4.4.6配置glance-registry的认证</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#4-5同步数据库"><span class="toc-number">1.5.</span> <span class="toc-text">4.5同步数据库</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#4-6启动glance"><span class="toc-number">1.6.</span> <span class="toc-text">4.6启动glance</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#4-7验证操作"><span class="toc-number">1.7.</span> <span class="toc-text">4.7验证操作</span></a></li></ol></li><li class="toc-item toc-level-1"><a class="toc-link" href="#五、安装compute（计算服务）"><span class="toc-number">2.</span> <span class="toc-text">五、安装compute（计算服务）</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#5-1安装配置控制节点（controller）"><span class="toc-number">2.1.</span> <span class="toc-text">5.1安装配置控制节点（controller）</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#5-1-1创建数据库"><span class="toc-number">2.1.1.</span> <span class="toc-text">5.1.1创建数据库</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#5-1-2创建nova用户"><span class="toc-number">2.1.2.</span> <span class="toc-text">5.1.2创建nova用户</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#5-1-3给nova用户添加admn角色"><span class="toc-number">2.1.3.</span> <span class="toc-text">5.1.3给nova用户添加admn角色</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#5-1-4创建nova服务"><span class="toc-number">2.1.4.</span> <span class="toc-text">5.1.4创建nova服务</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#5-1-5创建nova的api"><span class="toc-number">2.1.5.</span> <span class="toc-text">5.1.5创建nova的api</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#5-1-6安装nova"><span class="toc-number">2.1.6.</span> <span class="toc-text">5.1.6安装nova</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#5-1-7配置nova的default"><span class="toc-number">2.1.7.</span> <span class="toc-text">5.1.7配置nova的default</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#5-1-8配合nova数据库连接"><span class="toc-number">2.1.8.</span> <span class="toc-text">5.1.8配合nova数据库连接</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#5-1-9配置rabbitmq"><span class="toc-number">2.1.9.</span> <span class="toc-text">5.1.9配置rabbitmq</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#5-1-10配置keystone认证"><span class="toc-number">2.1.10.</span> <span class="toc-text">5.1.10配置keystone认证</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#5-1-11配置ip和网络"><span class="toc-number">2.1.11.</span> <span class="toc-text">5.1.11配置ip和网络</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#5-1-12配置vnc和glance"><span class="toc-number">2.1.12.</span> <span class="toc-text">5.1.12配置vnc和glance</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#5-1-13配置锁路径"><span class="toc-number">2.1.13.</span> <span class="toc-text">5.1.13配置锁路径</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#5-1-14同步数据库"><span class="toc-number">2.1.14.</span> <span class="toc-text">5.1.14同步数据库</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#5-1-15启动controller上的nova"><span class="toc-number">2.1.15.</span> <span class="toc-text">5.1.15启动controller上的nova</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#5-1-16验证"><span class="toc-number">2.1.16.</span> <span class="toc-text">5.1.16验证</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#5-2计算节点安装（compute）"><span class="toc-number">2.2.</span> <span class="toc-text">5.2计算节点安装（compute）</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#5-2-1-安装nova-compute"><span class="toc-number">2.2.1.</span> <span class="toc-text">5.2.1 安装nova-compute</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#5-2-2配置rabbitmq链接"><span class="toc-number">2.2.2.</span> <span class="toc-text">5.2.2配置rabbitmq链接</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#5-2-3配置keystone认证"><span class="toc-number">2.2.3.</span> <span class="toc-text">5.2.3配置keystone认证</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#5-2-4配置IP和网络"><span class="toc-number">2.2.4.</span> <span class="toc-text">5.2.4配置IP和网络</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#5-2-5配置vnc"><span class="toc-number">2.2.5.</span> <span class="toc-text">5.2.5配置vnc</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#5-2-6配置glance"><span class="toc-number">2.2.6.</span> <span class="toc-text">5.2.6配置glance</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#5-2-7配置所路径"><span class="toc-number">2.2.7.</span> <span class="toc-text">5.2.7配置所路径</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#5-2-8配置硬件加速"><span class="toc-number">2.2.8.</span> <span class="toc-text">5.2.8配置硬件加速</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#5-2-9启动nova-compute"><span class="toc-number">2.2.9.</span> <span class="toc-text">5.2.9启动nova-compute</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#5-2-10验证安装"><span class="toc-number">2.2.10.</span> <span class="toc-text">5.2.10验证安装</span></a></li></ol></li></ol></li></ol>
+    </nav>
+  </div>
+</aside>
+
+<main class="main" role="main">
+  <div class="content">
+  <article id="post-openstack-m-centos-3" class="article article-type-post" itemscope itemtype="http://schema.org/BlogPosting">
+    
+    <div class="article-header">
+      
+        
+  
+    <h1 class="article-title" itemprop="name">
+      OpenStack Mitaka + CentOS7.2 安装部署 03
+    </h1>
+  
+
+      
+      <div class="article-meta">
+        <span class="article-date">
+    <i class="icon icon-calendar-check"></i>
+	<a href="/2018/10/02/openstack-m-centos-3/" class="article-date">
+	  <time datetime="2018-10-01T20:36:15.000Z" itemprop="datePublished">2018-10-02</time>
+	</a>
+</span>
+        
+  <span class="article-category">
+    <i class="icon icon-folder"></i>
+    <a class="article-category-link" href="/categories/云计算/">云计算</a>
+  </span>
+
+        
+  <span class="article-tag">
+    <i class="icon icon-tags"></i>
+	<a class="article-tag-link" href="/tags/openstack/">openstack</a>, <a class="article-tag-link" href="/tags/python/">python</a>, <a class="article-tag-link" href="/tags/云计算/">云计算</a>
+  </span>
+
+
+        
+
+        <span class="post-comment"><i class="icon icon-comment"></i> <a href="/2018/10/02/openstack-m-centos-3/#comments" class="article-comment-link">评论</a></span>
+        
+	
+		<span class="post-wordcount hidden-xs" itemprop="wordCount">字数统计: 1.7k(字)</span>
+	
+	
+		<span class="post-readcount hidden-xs" itemprop="timeRequired">阅读时长: 9(分)</span>
+	
+
+      </div>
+    </div>
+    <div class="article-entry marked-body" itemprop="articleBody">
+      
+        <p><br></p>
+<h1 id="四、镜像服务（glance，在controller）"><a href="#四、镜像服务（glance，在controller）" class="headerlink" title="四、镜像服务（glance，在controller）"></a>四、镜像服务（glance，在controller）</h1><h2 id="4-1创建数据库"><a href="#4-1创建数据库" class="headerlink" title="4.1创建数据库"></a>4.1创建数据库</h2><figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">mysql -uroot -popenstack -e "CREATE DATABASE glance;"</span><br><span class="line">mysql -uroot -popenstack -e "GRANT ALL PRIVILEGES ON glance.* TO 'glance'@'controller' \</span><br><span class="line">  IDENTIFIED BY 'openstack';"</span><br><span class="line">mysql -uroot -popenstack -e "GRANT ALL PRIVILEGES ON glance.* TO 'glance'@'%' \</span><br><span class="line">  IDENTIFIED BY 'openstack';"</span><br></pre></td></tr></table></figure>
+<h2 id="4-2获取admin权限"><a href="#4-2获取admin权限" class="headerlink" title="4.2获取admin权限"></a>4.2获取admin权限</h2><figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">source ~/admin.rc</span><br></pre></td></tr></table></figure>
+<h2 id="4-3创建服务和api"><a href="#4-3创建服务和api" class="headerlink" title="4.3创建服务和api"></a>4.3创建服务和api</h2><h3 id="4-3-1创建glance用户"><a href="#4-3-1创建glance用户" class="headerlink" title="4.3.1创建glance用户"></a>4.3.1创建glance用户</h3><figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">openstack user create --domain default --password=glance glance</span><br></pre></td></tr></table></figure>
+<h3 id="4-3-2添加admin角色到glance用户和service项目上"><a href="#4-3-2添加admin角色到glance用户和service项目上" class="headerlink" title="4.3.2添加admin角色到glance用户和service项目上"></a>4.3.2添加admin角色到glance用户和service项目上</h3><figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">openstack role add --project service --user glance admin</span><br></pre></td></tr></table></figure>
+<h3 id="4-3-3创建glance服务"><a href="#4-3-3创建glance服务" class="headerlink" title="4.3.3创建glance服务"></a>4.3.3创建glance服务</h3><figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">openstack service create --name glance --description "OpenStack Image" image</span><br></pre></td></tr></table></figure>
+<h3 id="4-3-4创建galnce的api"><a href="#4-3-4创建galnce的api" class="headerlink" title="4.3.4创建galnce的api"></a>4.3.4创建galnce的api</h3><figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">openstack endpoint create --region RegionOne image public http://controller:9292</span><br><span class="line">openstack endpoint create --region RegionOne image internal http://controller:9292</span><br><span class="line">openstack endpoint create --region RegionOne image admin http://controller:9292</span><br></pre></td></tr></table></figure>
+<h2 id="4-4安装配置glance"><a href="#4-4安装配置glance" class="headerlink" title="4.4安装配置glance"></a>4.4安装配置glance</h2><h3 id="4-4-1安装glance"><a href="#4-4-1安装glance" class="headerlink" title="4.4.1安装glance"></a>4.4.1安装glance</h3><figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">yum install -y openstack-glance</span><br></pre></td></tr></table></figure>
+<h3 id="4-4-2配置glance-api的数据库连接"><a href="#4-4-2配置glance-api的数据库连接" class="headerlink" title="4.4.2配置glance-api的数据库连接"></a>4.4.2配置glance-api的数据库连接</h3><figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">openstack-config --set /etc/glance/glance-api.conf database \</span><br><span class="line">connection mysql+pymysql://glance:openstack@controller/glance</span><br></pre></td></tr></table></figure>
+<h3 id="4-4-3配置glance-api的认证"><a href="#4-4-3配置glance-api的认证" class="headerlink" title="4.4.3配置glance-api的认证"></a>4.4.3配置glance-api的认证</h3><figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line">openstack-config --set /etc/glance/glance-api.conf keystone_authtoken auth_uri http://controller:5000</span><br><span class="line">openstack-config --set /etc/glance/glance-api.conf keystone_authtoken auth_url http://controller:35357</span><br><span class="line">openstack-config --set /etc/glance/glance-api.conf keystone_authtoken memcached_servers controller:11211</span><br><span class="line">openstack-config --set /etc/glance/glance-api.conf keystone_authtoken auth_type password</span><br><span class="line">openstack-config --set /etc/glance/glance-api.conf keystone_authtoken project_domain_name default</span><br><span class="line">openstack-config --set /etc/glance/glance-api.conf keystone_authtoken user_domain_name default</span><br><span class="line">openstack-config --set /etc/glance/glance-api.conf keystone_authtoken project_name service</span><br><span class="line">openstack-config --set /etc/glance/glance-api.conf keystone_authtoken username glance</span><br><span class="line">openstack-config --set /etc/glance/glance-api.conf keystone_authtoken password glance</span><br><span class="line">openstack-config --set /etc/glance/glance-api.conf paste_deploy flavor keystone</span><br></pre></td></tr></table></figure>
+<h3 id="4-4-4配置镜像存储位置"><a href="#4-4-4配置镜像存储位置" class="headerlink" title="4.4.4配置镜像存储位置"></a>4.4.4配置镜像存储位置</h3><figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">openstack-config --set /etc/glance/glance-api.conf glance_store stores file,http</span><br><span class="line">openstack-config --set /etc/glance/glance-api.conf glance_store default_store file</span><br><span class="line">openstack-config --set /etc/glance/glance-api.conf glance_store filesystem_store_datadir /var/lib/glance/images/</span><br></pre></td></tr></table></figure>
+<h3 id="4-4-5配置glance-registry的数据库连接"><a href="#4-4-5配置glance-registry的数据库连接" class="headerlink" title="4.4.5配置glance-registry的数据库连接"></a>4.4.5配置glance-registry的数据库连接</h3><figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">openstack-config --set /etc/glance/glance-registry.conf database connection mysql+pymysql://glance:openstack@controller/glance</span><br></pre></td></tr></table></figure>
+<h3 id="4-4-6配置glance-registry的认证"><a href="#4-4-6配置glance-registry的认证" class="headerlink" title="4.4.6配置glance-registry的认证"></a>4.4.6配置glance-registry的认证</h3><figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line">openstack-config --set /etc/glance/glance-registry.conf keystone_authtoken auth_uri http://controller:5000</span><br><span class="line">openstack-config --set /etc/glance/glance-registry.conf keystone_authtoken auth_url http://controller:35357</span><br><span class="line">openstack-config --set /etc/glance/glance-registry.conf keystone_authtoken memcached_servers controller:11211</span><br><span class="line">openstack-config --set /etc/glance/glance-registry.conf keystone_authtoken auth_type password</span><br><span class="line">openstack-config --set /etc/glance/glance-registry.conf keystone_authtoken project_domain_name default</span><br><span class="line">openstack-config --set /etc/glance/glance-registry.conf keystone_authtoken user_domain_name default</span><br><span class="line">openstack-config --set /etc/glance/glance-registry.conf keystone_authtoken project_name service</span><br><span class="line">openstack-config --set /etc/glance/glance-registry.conf keystone_authtoken username glance</span><br><span class="line">openstack-config --set /etc/glance/glance-registry.conf keystone_authtoken password glance</span><br><span class="line">openstack-config --set /etc/glance/glance-registry.conf paste_deploy flavor keystone</span><br></pre></td></tr></table></figure>
+<h2 id="4-5同步数据库"><a href="#4-5同步数据库" class="headerlink" title="4.5同步数据库"></a>4.5同步数据库</h2><figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">su -s /bin/sh -c "glance-manage db_sync" glance</span><br></pre></td></tr></table></figure>
+<h2 id="4-6启动glance"><a href="#4-6启动glance" class="headerlink" title="4.6启动glance"></a>4.6启动glance</h2><figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">systemctl enable openstack-glance-api.service \</span><br><span class="line">  openstack-glance-registry.service</span><br><span class="line">systemctl start openstack-glance-api.service \</span><br><span class="line">  openstack-glance-registry.service</span><br></pre></td></tr></table></figure>
+<h2 id="4-7验证操作"><a href="#4-7验证操作" class="headerlink" title="4.7验证操作"></a>4.7验证操作</h2><figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line">openstack image create "cirros" \</span><br><span class="line">  --file cirros-0.3.4-x86_64-disk.img \</span><br><span class="line">  --disk-format qcow2 --container-format bare \</span><br><span class="line">  --public</span><br><span class="line"><span class="meta"> #</span><span class="bash">查看上传镜像</span></span><br><span class="line"> root@controller ~ 08:20:16 # openstack image list</span><br><span class="line">+--------------------------------------+--------+--------+</span><br><span class="line">| ID                                   | Name   | Status |</span><br><span class="line">+--------------------------------------+--------+--------+</span><br><span class="line">| 293a2b7f-7338-4900-90b7-2c1d6df56021 | cirros | active |</span><br><span class="line">+--------------------------------------+--------+--------+</span><br></pre></td></tr></table></figure>
+<p><br></p>
+<h1 id="五、安装compute（计算服务）"><a href="#五、安装compute（计算服务）" class="headerlink" title="五、安装compute（计算服务）"></a>五、安装compute（计算服务）</h1><h2 id="5-1安装配置控制节点（controller）"><a href="#5-1安装配置控制节点（controller）" class="headerlink" title="5.1安装配置控制节点（controller）"></a>5.1安装配置控制节点（controller）</h2><h3 id="5-1-1创建数据库"><a href="#5-1-1创建数据库" class="headerlink" title="5.1.1创建数据库"></a>5.1.1创建数据库</h3><figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">mysql -uroot -popenstack -e "CREATE DATABASE nova_api;"</span><br><span class="line">mysql -uroot -popenstack -e "CREATE DATABASE nova;"</span><br><span class="line">mysql -uroot -popenstack -e "GRANT ALL PRIVILEGES ON nova_api.* TO 'nova'@'controller' IDENTIFIED BY 'openstack';"</span><br><span class="line">mysql -uroot -popenstack -e "GRANT ALL PRIVILEGES ON nova_api.* TO 'nova'@'%' IDENTIFIED BY 'openstack';"</span><br><span class="line">mysql -uroot -popenstack -e "GRANT ALL PRIVILEGES ON nova.* TO 'nova'@'controller' IDENTIFIED BY 'openstack';"</span><br><span class="line">mysql -uroot -popenstack -e "GRANT ALL PRIVILEGES ON nova.* TO 'nova'@'%' IDENTIFIED BY 'openstack';"</span><br></pre></td></tr></table></figure>
+<h3 id="5-1-2创建nova用户"><a href="#5-1-2创建nova用户" class="headerlink" title="5.1.2创建nova用户"></a>5.1.2创建nova用户</h3><figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">openstack user create --domain default --password=nova nova</span><br></pre></td></tr></table></figure>
+<h3 id="5-1-3给nova用户添加admn角色"><a href="#5-1-3给nova用户添加admn角色" class="headerlink" title="5.1.3给nova用户添加admn角色"></a>5.1.3给nova用户添加admn角色</h3><figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">openstack role add --project service --user nova admin</span><br></pre></td></tr></table></figure>
+<h3 id="5-1-4创建nova服务"><a href="#5-1-4创建nova服务" class="headerlink" title="5.1.4创建nova服务"></a>5.1.4创建nova服务</h3><figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">openstack service create --name nova --description "OpenStack Compute" compute</span><br></pre></td></tr></table></figure>
+<h3 id="5-1-5创建nova的api"><a href="#5-1-5创建nova的api" class="headerlink" title="5.1.5创建nova的api"></a>5.1.5创建nova的api</h3><figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">openstack endpoint create --region RegionOne compute public http://controller:8774/v2.1/%\(tenant_id\)s</span><br><span class="line">openstack endpoint create --region RegionOne compute internal http://controller:8774/v2.1/%\(tenant_id\)s</span><br><span class="line">openstack endpoint create --region RegionOne compute admin http://controller:8774/v2.1/%\(tenant_id\)s</span><br></pre></td></tr></table></figure>
+<h3 id="5-1-6安装nova"><a href="#5-1-6安装nova" class="headerlink" title="5.1.6安装nova"></a>5.1.6安装nova</h3><figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">yum install -y openstack-nova-api openstack-nova-conductor \</span><br><span class="line">  openstack-nova-console openstack-nova-novncproxy \</span><br><span class="line">  openstack-nova-scheduler</span><br></pre></td></tr></table></figure>
+<h3 id="5-1-7配置nova的default"><a href="#5-1-7配置nova的default" class="headerlink" title="5.1.7配置nova的default"></a>5.1.7配置nova的default</h3><figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">openstack-config --set /etc/nova/nova.conf DEFAULT enabled_apis osapi_compute,metadata</span><br></pre></td></tr></table></figure>
+<h3 id="5-1-8配合nova数据库连接"><a href="#5-1-8配合nova数据库连接" class="headerlink" title="5.1.8配合nova数据库连接"></a>5.1.8配合nova数据库连接</h3><figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">openstack-config --set /etc/nova/nova.conf \</span><br><span class="line">api_database connection mysql+pymysql://nova:openstack@controller/nova_api</span><br><span class="line">openstack-config --set /etc/nova/nova.conf \</span><br><span class="line">database connection mysql+pymysql://nova:openstack@controller/nova</span><br></pre></td></tr></table></figure>
+<h3 id="5-1-9配置rabbitmq"><a href="#5-1-9配置rabbitmq" class="headerlink" title="5.1.9配置rabbitmq"></a>5.1.9配置rabbitmq</h3><figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">openstack-config --set /etc/nova/nova.conf DEFAULT rpc_backend rabbit</span><br><span class="line">openstack-config --set /etc/nova/nova.conf oslo_messaging_rabbit rabbit_host controller</span><br><span class="line">openstack-config --set /etc/nova/nova.conf oslo_messaging_rabbit rabbit_userid openstack</span><br><span class="line">openstack-config --set /etc/nova/nova.conf oslo_messaging_rabbit rabbit_password openstack</span><br></pre></td></tr></table></figure>
+<h3 id="5-1-10配置keystone认证"><a href="#5-1-10配置keystone认证" class="headerlink" title="5.1.10配置keystone认证"></a>5.1.10配置keystone认证</h3><figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line">openstack-config --set /etc/nova/nova.conf DEFAULT auth_strategy keystone</span><br><span class="line">openstack-config --set /etc/nova/nova.conf keystone_authtoken auth_uri http://controller:5000</span><br><span class="line">openstack-config --set /etc/nova/nova.conf keystone_authtoken auth_url http://controller:35357</span><br><span class="line">openstack-config --set /etc/nova/nova.conf keystone_authtoken memcached_servers controller:11211</span><br><span class="line">openstack-config --set /etc/nova/nova.conf keystone_authtoken auth_type password</span><br><span class="line">openstack-config --set /etc/nova/nova.conf keystone_authtoken project_domain_name default</span><br><span class="line">openstack-config --set /etc/nova/nova.conf keystone_authtoken user_domain_name default</span><br><span class="line">openstack-config --set /etc/nova/nova.conf keystone_authtoken project_name service</span><br><span class="line">openstack-config --set /etc/nova/nova.conf keystone_authtoken username nova</span><br><span class="line">openstack-config --set /etc/nova/nova.conf keystone_authtoken password nova</span><br></pre></td></tr></table></figure>
+<h3 id="5-1-11配置ip和网络"><a href="#5-1-11配置ip和网络" class="headerlink" title="5.1.11配置ip和网络"></a>5.1.11配置ip和网络</h3><figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">openstack-config --set /etc/nova/nova.conf DEFAULT my_ip 10.0.10.10</span><br><span class="line">openstack-config --set /etc/nova/nova.conf DEFAULT use_neutron True</span><br><span class="line">openstack-config --set /etc/nova/nova.conf DEFAULT firewall_driver nova.virt.firewall.NoopFirewallDriver</span><br></pre></td></tr></table></figure>
+<h3 id="5-1-12配置vnc和glance"><a href="#5-1-12配置vnc和glance" class="headerlink" title="5.1.12配置vnc和glance"></a>5.1.12配置vnc和glance</h3><figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">openstack-config --set /etc/nova/nova.conf vnc vncserver_listen 10.0.10.10</span><br><span class="line">openstack-config --set /etc/nova/nova.conf vnc vncserver_proxyclient_address 10.0.10.10</span><br><span class="line">openstack-config --set /etc/nova/nova.conf glance api_servers http://controller:9292</span><br></pre></td></tr></table></figure>
+<h3 id="5-1-13配置锁路径"><a href="#5-1-13配置锁路径" class="headerlink" title="5.1.13配置锁路径"></a>5.1.13配置锁路径</h3><figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">openstack-config --set /etc/nova/nova.conf oslo_concurrency lock_path /var/lib/nova/tmp</span><br></pre></td></tr></table></figure>
+<h3 id="5-1-14同步数据库"><a href="#5-1-14同步数据库" class="headerlink" title="5.1.14同步数据库"></a>5.1.14同步数据库</h3><figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">su -s /bin/sh -c "nova-manage api_db sync" nova</span><br><span class="line">su -s /bin/sh -c "nova-manage db sync" nova</span><br></pre></td></tr></table></figure>
+<h3 id="5-1-15启动controller上的nova"><a href="#5-1-15启动controller上的nova" class="headerlink" title="5.1.15启动controller上的nova"></a>5.1.15启动controller上的nova</h3><figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">systemctl enable openstack-nova-api.service \</span><br><span class="line">  openstack-nova-consoleauth.service openstack-nova-scheduler.service \</span><br><span class="line">  openstack-nova-conductor.service openstack-nova-novncproxy.service</span><br><span class="line">systemctl start openstack-nova-api.service \</span><br><span class="line">  openstack-nova-consoleauth.service openstack-nova-scheduler.service \</span><br><span class="line">  openstack-nova-conductor.service openstack-nova-novncproxy.service</span><br></pre></td></tr></table></figure>
+<h3 id="5-1-16验证"><a href="#5-1-16验证" class="headerlink" title="5.1.16验证"></a>5.1.16验证</h3><figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line">root@controller ~ 10:20:52 # openstack compute service list</span><br><span class="line">+----+------------------+------------+----------+---------+-------+----------------------------+</span><br><span class="line">| Id | Binary           | Host       | Zone     | Status  | State | Updated At                 |</span><br><span class="line">+----+------------------+------------+----------+---------+-------+----------------------------+</span><br><span class="line">|  1 | nova-conductor   | controller | internal | enabled | up    | 2017-03-09T02:21:25.000000 |</span><br><span class="line">|  2 | nova-consoleauth | controller | internal | enabled | up    | 2017-03-09T02:21:25.000000 |</span><br><span class="line">|  3 | nova-scheduler   | controller | internal | enabled | up    | 2017-03-09T02:21:25.000000 |</span><br><span class="line">+----+------------------+------------+----------+---------+-------+----------------------------+</span><br><span class="line">root@controller ~ 10:21:31 #</span><br></pre></td></tr></table></figure>
+<h2 id="5-2计算节点安装（compute）"><a href="#5-2计算节点安装（compute）" class="headerlink" title="5.2计算节点安装（compute）"></a>5.2计算节点安装（compute）</h2><h3 id="5-2-1-安装nova-compute"><a href="#5-2-1-安装nova-compute" class="headerlink" title="5.2.1 安装nova-compute"></a>5.2.1 安装nova-compute</h3><figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">yum install -y openstack-nova-compute</span><br></pre></td></tr></table></figure>
+<h3 id="5-2-2配置rabbitmq链接"><a href="#5-2-2配置rabbitmq链接" class="headerlink" title="5.2.2配置rabbitmq链接"></a>5.2.2配置rabbitmq链接</h3><figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">openstack-config --set /etc/nova/nova.conf DEFAULT rpc_backend rabbit</span><br><span class="line">openstack-config --set /etc/nova/nova.conf oslo_messaging_rabbit rabbit_host controller</span><br><span class="line">openstack-config --set /etc/nova/nova.conf oslo_messaging_rabbit rabbit_userid openstack</span><br><span class="line">openstack-config --set /etc/nova/nova.conf oslo_messaging_rabbit rabbit_password openstack</span><br></pre></td></tr></table></figure>
+<h3 id="5-2-3配置keystone认证"><a href="#5-2-3配置keystone认证" class="headerlink" title="5.2.3配置keystone认证"></a>5.2.3配置keystone认证</h3><figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line">openstack-config --set /etc/nova/nova.conf DEFAULT auth_strategy keystone</span><br><span class="line">openstack-config --set /etc/nova/nova.conf keystone_authtoken auth_uri http://controller:5000</span><br><span class="line">openstack-config --set /etc/nova/nova.conf keystone_authtoken auth_url http://controller:35357</span><br><span class="line">openstack-config --set /etc/nova/nova.conf keystone_authtoken memcached_servers controller:11211</span><br><span class="line">openstack-config --set /etc/nova/nova.conf keystone_authtoken auth_type password</span><br><span class="line">openstack-config --set /etc/nova/nova.conf keystone_authtoken project_domain_name default</span><br><span class="line">openstack-config --set /etc/nova/nova.conf keystone_authtoken user_domain_name default</span><br><span class="line">openstack-config --set /etc/nova/nova.conf keystone_authtoken project_name service</span><br><span class="line">openstack-config --set /etc/nova/nova.conf keystone_authtoken username nova</span><br><span class="line">openstack-config --set /etc/nova/nova.conf keystone_authtoken password nova</span><br></pre></td></tr></table></figure>
+<h3 id="5-2-4配置IP和网络"><a href="#5-2-4配置IP和网络" class="headerlink" title="5.2.4配置IP和网络"></a>5.2.4配置IP和网络</h3><figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">openstack-config --set /etc/nova/nova.conf DEFAULT my_ip 10.0.10.20</span><br><span class="line">openstack-config --set /etc/nova/nova.conf DEFAULT use_neutron True</span><br><span class="line">openstack-config --set /etc/nova/nova.conf DEFAULT firewall_driver nova.virt.firewall.NoopFirewallDriver</span><br></pre></td></tr></table></figure>
+<h3 id="5-2-5配置vnc"><a href="#5-2-5配置vnc" class="headerlink" title="5.2.5配置vnc"></a>5.2.5配置vnc</h3><figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">openstack-config --set /etc/nova/nova.conf vnc enabled True</span><br><span class="line">openstack-config --set /etc/nova/nova.conf vnc vncserver_listen 0.0.0.0</span><br><span class="line">openstack-config --set /etc/nova/nova.conf vnc vncserver_proxyclient_address 10.0.10.20</span><br><span class="line">openstack-config --set /etc/nova/nova.conf vnc novncproxy_base_url http://controller:6080/vnc_auto.html</span><br></pre></td></tr></table></figure>
+<h3 id="5-2-6配置glance"><a href="#5-2-6配置glance" class="headerlink" title="5.2.6配置glance"></a>5.2.6配置glance</h3><figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">openstack-config --set /etc/nova/nova.conf glance api_servers http://controller:9292</span><br></pre></td></tr></table></figure>
+<h3 id="5-2-7配置所路径"><a href="#5-2-7配置所路径" class="headerlink" title="5.2.7配置所路径"></a>5.2.7配置所路径</h3><figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">openstack-config --set /etc/nova/nova.conf oslo_concurrency lock_path /var/lib/nova/tmp</span><br></pre></td></tr></table></figure>
+<h3 id="5-2-8配置硬件加速"><a href="#5-2-8配置硬件加速" class="headerlink" title="5.2.8配置硬件加速"></a>5.2.8配置硬件加速</h3><figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">egrep -c '(vmx|svm)' /proc/cpuinfo</span><br><span class="line"><span class="meta">#</span><span class="bash">如果返回0则执行下面命令非0不做任何操作</span></span><br><span class="line">openstack-config --set /etc/nova/nova.conf libvirt virt_type qemu</span><br></pre></td></tr></table></figure>
+<h3 id="5-2-9启动nova-compute"><a href="#5-2-9启动nova-compute" class="headerlink" title="5.2.9启动nova-compute"></a>5.2.9启动nova-compute</h3><figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">systemctl enable libvirtd.service openstack-nova-compute.service</span><br><span class="line">systemctl start libvirtd.service openstack-nova-compute.service</span><br></pre></td></tr></table></figure>
+<h3 id="5-2-10验证安装"><a href="#5-2-10验证安装" class="headerlink" title="5.2.10验证安装"></a>5.2.10验证安装</h3><figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">#</span><span class="bash">在controller节点执行</span></span><br><span class="line">root@controller ~ 11:10:24 # openstack compute service list      </span><br><span class="line">+----+------------------+------------+----------+---------+-------+----------------------------+</span><br><span class="line">| Id | Binary           | Host       | Zone     | Status  | State | Updated At                 |</span><br><span class="line">+----+------------------+------------+----------+---------+-------+----------------------------+</span><br><span class="line">|  1 | nova-conductor   | controller | internal | enabled | up    | 2017-03-09T03:10:46.000000 |</span><br><span class="line">|  2 | nova-consoleauth | controller | internal | enabled | up    | 2017-03-09T03:10:46.000000 |</span><br><span class="line">|  3 | nova-scheduler   | controller | internal | enabled | up    | 2017-03-09T03:10:55.000000 |</span><br><span class="line">|  6 | nova-compute     | compute    | nova     | enabled | up    | 2017-03-09T03:10:55.000000 |</span><br><span class="line">+----+------------------+------------+----------+---------+-------+----------------------------+</span><br><span class="line">root@controller ~ 11:10:55 #</span><br></pre></td></tr></table></figure>
+      
+    </div>
+    <div class="article-footer">
+      <blockquote class="mt-2x">
+  <ul class="post-copyright list-unstyled">
+    
+    <li class="post-copyright-link hidden-xs">
+      <strong>本文链接：</strong>
+      <a href="http://duoyichen.github.com/2018/10/02/openstack-m-centos-3/" title="OpenStack Mitaka + CentOS7.2 安装部署 03" target="_blank" rel="external">http://duoyichen.github.com/2018/10/02/openstack-m-centos-3/</a>
+    </li>
+    
+    
+      <li class="post-copyright-license">
+        <strong>版权声明： </strong> 本博客所有文章除特别声明外，均采用 <a href="http://creativecommons.org/licenses/by/4.0/deed.zh" target="_blank" rel="external">CC BY 4.0 CN协议</a> 许可协议。转载请注明出处！
+      </li>
+    
+  </ul>
+</blockquote>
+
+
+<div class="panel panel-default panel-badger">
+  <div class="panel-body">
+    <figure class="media">
+      <div class="media-left">
+        <a href="https://duoyichen.github.com" target="_blank" class="img-burn thumb-sm visible-lg">
+          <img src="/images/avatar.jpg" class="img-rounded w-full" alt="">
+        </a>
+      </div>
+      <div class="media-body">
+        <h3 class="media-heading"><a href="https://duoyichen.github.com" target="_blank"><span class="text-dark">DuoyiChen</span><small class="ml-1x">运维开发工程师</small></a></h3>
+        <div>技术改变世界，学习改变人生！ 本人运维开发工程师，喜欢研究技术，熟悉Linux、Shell、Python，及云计算等，爱好旅游，诗词歌赋。欢迎交流与分享经验!</div>
+      </div>
+    </figure>
+  </div>
+</div>
+
+
+    </div>
+  </article>
+  
+    
+  <section id="comments">
+  	
+       
+<div id="lv-container" data-id="city" data-uid="MTAyMC80MDA3NS8xNjYwMg==">
+  <noscript> 为正常使用来必力评论功能请激活JavaScript</noscript>
+</div>
+      
+    
+  </section>
+
+
+  
+</div>
+
+  <nav class="bar bar-footer clearfix" data-stick-bottom>
+  <div class="bar-inner">
+  
+  <ul class="pager pull-left">
+    
+    <li class="prev">
+      <a href="/2018/10/02/openstack-m-centos-4/" title="OpenStack Mitaka + CentOS7.2 安装部署 04"><i class="icon icon-angle-left" aria-hidden="true"></i><span>&nbsp;&nbsp;上一篇</span></a>
+    </li>
+    
+    
+    <li class="next">
+      <a href="/2018/10/02/openstack-m-centos-2/" title="OpenStack Mitaka + CentOS7.2 安装部署 02"><span>下一篇&nbsp;&nbsp;</span><i class="icon icon-angle-right" aria-hidden="true"></i></a>
+    </li>
+    
+    
+    <li class="toggle-toc">
+      <a class="toggle-btn collapsed" data-toggle="collapse" href="#collapseToc" aria-expanded="false" title="文章目录" role="button">
+        <span>[&nbsp;</span><span>文章目录</span>
+        <i class="text-collapsed icon icon-anchor"></i>
+        <i class="text-in icon icon-close"></i>
+        <span>]</span>
+      </a>
+    </li>
+    
+  </ul>
+  
+  
+  <!-- Button trigger modal -->
+  <button type="button" class="btn btn-fancy btn-donate pop-onhover bg-gradient-warning" data-toggle="modal" data-target="#donateModal"><span>赏</span></button>
+  <!-- <div class="wave-icon wave-icon-danger btn-donate" data-toggle="modal" data-target="#donateModal">
+    <div class="wave-circle"><span class="icon"><i class="icon icon-bill"></i></span></div>
+  </div> -->
+  
+  
+  <div class="bar-right">
+    
+    <div class="share-component" data-sites="weibo,qq,wechat,facebook" data-mobile-sites="wechat,weibo,qq,qzone"></div>
+    
+  </div>
+  </div>
+</nav>
+  
+<!-- Modal -->
+<div class="modal modal-center modal-small modal-xs-full fade" id="donateModal" tabindex="-1" role="dialog">
+  <div class="modal-dialog" role="document">
+    <div class="modal-content donate">
+      <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+      <div class="modal-body">
+        <div class="donate-box">
+          <div class="donate-head">
+            <p>感谢您的支持，我会继续努力的!</p>
+          </div>
+          <div class="tab-content">
+            <div role="tabpanel" class="tab-pane fade active in" id="alipay">
+              <div class="donate-payimg">
+                <img src="/images/donate/alipayimg.png" alt="扫码支持" title="扫一扫" />
+              </div>
+              <p class="text-muted mv">扫码打赏，你说多少就多少</p>
+              <p class="text-grey">打开支付宝扫一扫，即可进行扫码打赏哦</p>
+            </div>
+            <div role="tabpanel" class="tab-pane fade" id="wechatpay">
+              <div class="donate-payimg">
+                <img src="/images/donate/wechatpayimg.png" alt="扫码支持" title="扫一扫" />
+              </div>
+              <p class="text-muted mv">扫码打赏，你说多少就多少</p>
+              <p class="text-grey">打开微信扫一扫，即可进行扫码打赏哦</p>
+            </div>
+          </div>
+          <div class="donate-footer">
+            <ul class="nav nav-tabs nav-justified" role="tablist">
+              <li role="presentation" class="active">
+                <a href="#alipay" id="alipay-tab" role="tab" data-toggle="tab" aria-controls="alipay" aria-expanded="true"><i class="icon icon-alipay"></i> 支付宝</a>
+              </li>
+              <li role="presentation" class="">
+                <a href="#wechatpay" role="tab" id="wechatpay-tab" data-toggle="tab" aria-controls="wechatpay" aria-expanded="false"><i class="icon icon-wepay"></i> 微信支付</a>
+              </li>
+            </ul>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+
+
+</main>
+
+  <footer class="footer" itemscope itemtype="http://schema.org/WPFooter">
+	
+	
+    <ul class="social-links">
+    	
+        <li><a href="https://github.com/duoyichen" target="_blank" title="Github" data-toggle=tooltip data-placement=top><i class="icon icon-github"></i></a></li>
+        
+        <li><a href="http://weibo.com/duoyichen" target="_blank" title="Weibo" data-toggle=tooltip data-placement=top><i class="icon icon-weibo"></i></a></li>
+        
+        <li><a href="https://duoyichen.github.com" target="_blank" title="Twitter" data-toggle=tooltip data-placement=top><i class="icon icon-twitter"></i></a></li>
+        
+        <li><a href="/atom.xml" target="_blank" title="Rss" data-toggle=tooltip data-placement=top><i class="icon icon-rss"></i></a></li>
+        
+    </ul>
+
+    <div class="copyright">
+    	
+        &copy; 2018 DuoyiChen
+        
+        <div class="publishby">
+        	Theme by <a href="https://github.com/cofess" target="_blank"> cofess </a>base on <a href="https://github.com/cofess/hexo-theme-pure" target="_blank">pure</a>.
+        </div>
+    </div>
+</footer>
+  <!-- <script src="https://cdn.bootcss.com/jquery/1.12.4/jquery.min.js"></script> -->
+<script src="https://cdn.bootcss.com/jquery/3.3.1/jquery.min.js"></script>
+
+<script>
+    window.jQuery || document.write('<script src="js/jquery.min.js"><\/script>')
+</script>
+
+    <link href="https://cdn.bootcss.com/fancybox/3.3.5/jquery.fancybox.min.css" rel="stylesheet">
+    <script src="https://cdn.bootcss.com/fancybox/3.3.5/jquery.fancybox.min.js"></script>
+    <script>
+        //利用 FancyBox 实现点击图片放大
+        $(document).ready(function() {
+            $('article img').not('[hidden]').not('.panel-body img').each(function () {
+                var $image = $(this);
+                var imageCaption = $image.attr('alt');
+                var $imageWrapLink = $image.parent('a');
+                if ($imageWrapLink.length < 1) {
+                var src = this.getAttribute('src');
+                var idx = src.lastIndexOf('?');
+                if (idx != -1) {
+                    src = src.substring(0, idx);
+                }
+                $imageWrapLink = $image.wrap('<a href="' + src + '"></a>').parent('a');
+                }
+                $imageWrapLink.attr('data-fancybox', 'images');
+                if (imageCaption) {
+                $imageWrapLink.attr('data-caption', imageCaption);
+                }
+            });
+            $().fancybox({
+                selector: '[data-fancybox="images"]',
+                hash: false,
+                loop: false,
+            }); 
+        });
+    </script>
+    
+<script src="/js/plugin.min.js"></script>
+<script src="/js/application.js"></script>
+  
+    
+    
+    
+        <script>
+(function (window) {
+    var INSIGHT_CONFIG = {
+        TRANSLATION: {
+            POSTS: '文章',
+            PAGES: '页面',
+            CATEGORIES: '分类',
+            TAGS: '标签',
+            UNTITLED: '(未命名)',
+        },
+        ROOT_URL: '/',
+        CONTENT_URL: '/content.json',
+    };
+    window.INSIGHT_CONFIG = INSIGHT_CONFIG;
+})(window);
+</script>
+<script src="/js/insight.js"></script>
+    
+    
+    
+        
+
+
+    
+    
+        
+    
+<script defer type="text/javascript">
+  (function(d, s) {
+    var j, e = d.getElementsByTagName(s)[0];
+
+    if (typeof LivereTower === 'function') { return; }
+
+    j = d.createElement(s);
+    j.src = 'https://cdn-city.livere.com/js/embed.dist.js';
+    j.async = true;
+
+    e.parentNode.insertBefore(j, e);
+  })(document, 'script');
+</script>
+
+
+    
+    
+
+
+
+</body>
+</html>

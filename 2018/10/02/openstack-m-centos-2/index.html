@@ -1,0 +1,682 @@
+<!DOCTYPE html>
+<html lang=zh>
+<head>
+  <meta charset="utf-8">
+  <meta name=referrer content=never>
+  <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, minimum-scale=1, user-scalable=no, minimal-ui">
+  <meta name="renderer" content="webkit">
+  <meta http-equiv="Cache-Control" content="no-transform" />
+  <meta http-equiv="Cache-Control" content="no-siteapp" />
+  <meta name="apple-mobile-web-app-capable" content="yes">
+  <meta name="apple-mobile-web-app-status-bar-style" content="black">
+  <meta name="format-detection" content="telephone=no,email=no,adress=no">
+  <!-- Color theme for statusbar -->
+  <meta name="theme-color" content="#000000" />
+  <!-- 强制页面在当前窗口以独立页面显示,防止别人在框架里调用页面 -->
+  <meta http-equiv="window-target" content="_top" />
+  
+  
+  <title>OpenStack Mitaka + CentOS7.2 安装部署 02 | Duoyi&#39;s Blog</title>
+  <meta name="description" content="descriptions">
+<meta name="keywords" content="python,openstack,云计算">
+<meta property="og:type" content="article">
+<meta property="og:title" content="OpenStack Mitaka + CentOS7.2 安装部署 02">
+<meta property="og:url" content="http://duoyichen.github.com/2018/10/02/openstack-m-centos-2/index.html">
+<meta property="og:site_name" content="Duoyi&#39;s Blog">
+<meta property="og:description" content="descriptions">
+<meta property="og:locale" content="zh-CN">
+<meta property="og:updated_time" content="2018-10-01T23:22:13.728Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="OpenStack Mitaka + CentOS7.2 安装部署 02">
+<meta name="twitter:description" content="descriptions">
+  <!-- Canonical links -->
+  <link rel="canonical" href="http://duoyichen.github.com/2018/10/02/openstack-m-centos-2/index.html">
+  
+    <link rel="alternate" href="/atom.xml" title="Duoyi&#39;s Blog" type="application/atom+xml">
+  
+  
+    <link rel="icon" href="/favicon.png" type="image/x-icon">
+  
+  <!-- font-awesome CSS -->
+  <!-- <link href="https://cdn.bootcss.com/font-awesome/4.7.0/css/font-awesome.min.css" rel="stylesheet"> -->
+  <link rel="stylesheet" href="/css/style.css">
+  
+    
+    
+
+</head>
+
+
+<body class="main-center theme-green" itemscope itemtype="http://schema.org/WebPage">
+  <header class="header" itemscope itemtype="http://schema.org/WPHeader">
+  <div class="slimContent">
+    <div class="navbar-header">
+      
+      
+      <div class="profile-block text-center">
+        <a id="avatar" href="https://duoyichen.github.com" target="_blank">
+          <img class="img-circle img-rotate" src="/images/avatar.jpg" width="200" height="200">
+        </a>
+        <h2 id="name" class="hidden-xs hidden-sm">DuoyiChen</h2>
+        <h3 id="title" class="hidden-xs hidden-sm hidden-md">运维开发工程师</h3>
+        <small id="location" class="text-muted hidden-xs hidden-sm"><i class="icon icon-map-marker"></i> 北京  中国</small>
+      </div>
+      
+      <div class="search" id="search-form-wrap">
+
+    <form class="search-form sidebar-form">
+        <div class="input-group">
+            <input type="text" class="search-form-input form-control" placeholder="搜索" />
+            <span class="input-group-btn">
+                <button type="submit" class="search-form-submit btn btn-flat" onclick="return false;"><i class="icon icon-search"></i></button>
+            </span>
+        </div>
+    </form>
+    <div class="ins-search">
+  <div class="ins-search-mask"></div>
+  <div class="ins-search-container">
+    <div class="ins-input-wrapper">
+      <input type="text" class="ins-search-input" placeholder="想要查找什么..." x-webkit-speech />
+      <button type="button" class="close ins-close ins-selectable" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">×</span></button>
+    </div>
+    <div class="ins-section-wrapper">
+      <div class="ins-section-container"></div>
+    </div>
+  </div>
+</div>
+
+
+</div>
+      <button class="navbar-toggle collapsed" type="button" data-toggle="collapse" data-target="#main-navbar" aria-controls="main-navbar" aria-expanded="false">
+        <span class="sr-only">Toggle navigation</span>
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+      </button>
+    </div>
+    <nav id="main-navbar" class="collapse navbar-collapse" itemscope itemtype="http://schema.org/SiteNavigationElement" role="navigation">
+      <ul class="nav navbar-nav main-nav menu-highlight">
+        
+        
+        <li class="menu-item menu-item-home">
+          <a href="/.">
+            
+            <i class="icon icon-home-fill"></i>
+            
+            <span class="menu-title">首页</span>
+          </a>
+        </li>
+        
+        
+        <li class="menu-item menu-item-archives">
+          <a href="/archives">
+            
+            <i class="icon icon-archives-fill"></i>
+            
+            <span class="menu-title">归档</span>
+          </a>
+        </li>
+        
+        
+        <li class="menu-item menu-item-categories">
+          <a href="/categories">
+            
+            <i class="icon icon-folder"></i>
+            
+            <span class="menu-title">分类</span>
+          </a>
+        </li>
+        
+        
+        <li class="menu-item menu-item-tags">
+          <a href="/tags">
+            
+            <i class="icon icon-tags"></i>
+            
+            <span class="menu-title">标签</span>
+          </a>
+        </li>
+        
+        
+        <li class="menu-item menu-item-repository">
+          <a href="/repository">
+            
+            <i class="icon icon-project"></i>
+            
+            <span class="menu-title">项目</span>
+          </a>
+        </li>
+        
+        
+        <li class="menu-item menu-item-links">
+          <a href="/links">
+            
+            <i class="icon icon-friendship"></i>
+            
+            <span class="menu-title">友链</span>
+          </a>
+        </li>
+        
+        
+        <li class="menu-item menu-item-about">
+          <a href="/about">
+            
+            <i class="icon icon-cup-fill"></i>
+            
+            <span class="menu-title">关于</span>
+          </a>
+        </li>
+        
+      </ul>
+      
+	
+    <ul class="social-links">
+    	
+        <li><a href="https://github.com/duoyichen" target="_blank" title="Github" data-toggle=tooltip data-placement=top><i class="icon icon-github"></i></a></li>
+        
+        <li><a href="http://weibo.com/duoyichen" target="_blank" title="Weibo" data-toggle=tooltip data-placement=top><i class="icon icon-weibo"></i></a></li>
+        
+        <li><a href="https://duoyichen.github.com" target="_blank" title="Twitter" data-toggle=tooltip data-placement=top><i class="icon icon-twitter"></i></a></li>
+        
+        <li><a href="/atom.xml" target="_blank" title="Rss" data-toggle=tooltip data-placement=top><i class="icon icon-rss"></i></a></li>
+        
+    </ul>
+
+    </nav>
+  </div>
+</header>
+
+  
+    <aside class="sidebar" itemscope itemtype="http://schema.org/WPSideBar">
+  <div class="slimContent">
+    
+      <div class="widget">
+    <h3 class="widget-title">公告</h3>
+    <div class="widget-body">
+        <div id="board">
+            <div class="content">
+                <br>积土成山，风雨兴焉<br>积水成渊，蛟龙生焉<br>不积跬步，无以至千里<br>不积小流，无以成江海<br><p>技术改变世界，学习改变人生</p><p>欢迎交流与分享经验!</p>
+            </div>
+        </div>
+    </div>
+</div>
+
+    
+      
+  <div class="widget">
+    <h3 class="widget-title">分类</h3>
+    <div class="widget-body">
+      <ul class="category-list"><li class="category-list-item"><a class="category-list-link" href="/categories/云计算/">云计算</a><span class="category-list-count">6</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/其他/">其他</a><span class="category-list-count">2</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/开发/">开发</a><span class="category-list-count">1</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/运维/">运维</a><span class="category-list-count">7</span></li></ul>
+    </div>
+  </div>
+
+
+    
+      
+  <div class="widget">
+    <h3 class="widget-title">标签</h3>
+    <div class="widget-body">
+      <ul class="tag-list"><li class="tag-list-item"><a class="tag-list-link" href="/tags/cmdb/">cmdb</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/docker/">docker</a><span class="tag-list-count">6</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/keepalived/">keepalived</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/kubernets/">kubernets</a><span class="tag-list-count">6</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/lvs/">lvs</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/openstack/">openstack</a><span class="tag-list-count">6</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/python/">python</a><span class="tag-list-count">7</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/云计算/">云计算</a><span class="tag-list-count">6</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/其他/">其他</a><span class="tag-list-count">2</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/容器/">容器</a><span class="tag-list-count">6</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/负载均衡/">负载均衡</a><span class="tag-list-count">1</span></li></ul>
+    </div>
+  </div>
+
+
+    
+      
+  <div class="widget">
+    <h3 class="widget-title">标签云</h3>
+    <div class="widget-body tagcloud">
+      <a href="/tags/cmdb/" style="font-size: 13px;">cmdb</a> <a href="/tags/docker/" style="font-size: 13.67px;">docker</a> <a href="/tags/keepalived/" style="font-size: 13px;">keepalived</a> <a href="/tags/kubernets/" style="font-size: 13.67px;">kubernets</a> <a href="/tags/lvs/" style="font-size: 13px;">lvs</a> <a href="/tags/openstack/" style="font-size: 13.67px;">openstack</a> <a href="/tags/python/" style="font-size: 14px;">python</a> <a href="/tags/云计算/" style="font-size: 13.67px;">云计算</a> <a href="/tags/其他/" style="font-size: 13.33px;">其他</a> <a href="/tags/容器/" style="font-size: 13.67px;">容器</a> <a href="/tags/负载均衡/" style="font-size: 13px;">负载均衡</a>
+    </div>
+  </div>
+
+    
+      
+  <div class="widget">
+    <h3 class="widget-title">归档</h3>
+    <div class="widget-body">
+      <ul class="archive-list"><li class="archive-list-item"><a class="archive-list-link" href="/archives/2018/10/">十月 2018</a><span class="archive-list-count">16</span></li></ul>
+    </div>
+  </div>
+
+
+    
+      
+  <div class="widget">
+    <h3 class="widget-title">最新文章</h3>
+    <div class="widget-body">
+      <ul class="recent-post-list list-unstyled no-thumbnail">
+        
+          <li>
+            
+            <div class="item-inner">
+              <p class="item-category">
+                <a class="category-link" href="/categories/云计算/">云计算</a>
+              </p>
+              <p class="item-title">
+                <a href="/2018/10/02/openstack-m-centos-6/" class="title">OpenStack Mitaka + CentOS7.2 安装部署 06</a>
+              </p>
+              <p class="item-date">
+                <time datetime="2018-10-01T20:36:18.000Z" itemprop="datePublished">2018-10-02</time>
+              </p>
+            </div>
+          </li>
+          
+          <li>
+            
+            <div class="item-inner">
+              <p class="item-category">
+                <a class="category-link" href="/categories/云计算/">云计算</a>
+              </p>
+              <p class="item-title">
+                <a href="/2018/10/02/openstack-m-centos-5/" class="title">OpenStack Mitaka + CentOS7.2 安装部署 05</a>
+              </p>
+              <p class="item-date">
+                <time datetime="2018-10-01T20:36:17.000Z" itemprop="datePublished">2018-10-02</time>
+              </p>
+            </div>
+          </li>
+          
+          <li>
+            
+            <div class="item-inner">
+              <p class="item-category">
+                <a class="category-link" href="/categories/云计算/">云计算</a>
+              </p>
+              <p class="item-title">
+                <a href="/2018/10/02/openstack-m-centos-4/" class="title">OpenStack Mitaka + CentOS7.2 安装部署 04</a>
+              </p>
+              <p class="item-date">
+                <time datetime="2018-10-01T20:36:16.000Z" itemprop="datePublished">2018-10-02</time>
+              </p>
+            </div>
+          </li>
+          
+          <li>
+            
+            <div class="item-inner">
+              <p class="item-category">
+                <a class="category-link" href="/categories/云计算/">云计算</a>
+              </p>
+              <p class="item-title">
+                <a href="/2018/10/02/openstack-m-centos-3/" class="title">OpenStack Mitaka + CentOS7.2 安装部署 03</a>
+              </p>
+              <p class="item-date">
+                <time datetime="2018-10-01T20:36:15.000Z" itemprop="datePublished">2018-10-02</time>
+              </p>
+            </div>
+          </li>
+          
+          <li>
+            
+            <div class="item-inner">
+              <p class="item-category">
+                <a class="category-link" href="/categories/云计算/">云计算</a>
+              </p>
+              <p class="item-title">
+                <a href="/2018/10/02/openstack-m-centos-2/" class="title">OpenStack Mitaka + CentOS7.2 安装部署 02</a>
+              </p>
+              <p class="item-date">
+                <time datetime="2018-10-01T20:36:14.000Z" itemprop="datePublished">2018-10-02</time>
+              </p>
+            </div>
+          </li>
+          
+      </ul>
+    </div>
+  </div>
+  
+
+    
+  </div>
+</aside>
+
+  
+  
+<aside class="sidebar sidebar-toc collapse" id="collapseToc" itemscope itemtype="http://schema.org/WPSideBar">
+  <div class="slimContent">
+    <nav id="toc" class="article-toc">
+      <h3 class="toc-title">文章目录</h3>
+      <ol class="toc"><li class="toc-item toc-level-1"><a class="toc-link" href="#三、安装keystone（认证服务，在controller）"><span class="toc-number">1.</span> <span class="toc-text">三、安装keystone（认证服务，在controller）</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#3-1为keystone创建mysql数据库和表"><span class="toc-number">1.1.</span> <span class="toc-text">3.1为keystone创建mysql数据库和表</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#3-2生成随机令牌"><span class="toc-number">1.2.</span> <span class="toc-text">3.2生成随机令牌</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#3-3安装keystone和相关组件"><span class="toc-number">1.3.</span> <span class="toc-text">3.3安装keystone和相关组件</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#3-4配置token"><span class="toc-number">1.4.</span> <span class="toc-text">3.4配置token</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#3-5配置mysql链接"><span class="toc-number">1.5.</span> <span class="toc-text">3.5配置mysql链接</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#3-6初始化数据库"><span class="toc-number">1.6.</span> <span class="toc-text">3.6初始化数据库</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#3-7初始化fernet-keys"><span class="toc-number">1.7.</span> <span class="toc-text">3.7初始化fernet keys</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#3-8配置apache"><span class="toc-number">1.8.</span> <span class="toc-text">3.8配置apache</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#3-8-1配置servername"><span class="toc-number">1.8.1.</span> <span class="toc-text">3.8.1配置servername</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#3-8-2配置keystone配置文件"><span class="toc-number">1.8.2.</span> <span class="toc-text">3.8.2配置keystone配置文件</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#3-8-3启动aapche"><span class="toc-number">1.8.3.</span> <span class="toc-text">3.8.3启动aapche</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#3-9创建keyston服务和节点"><span class="toc-number">1.9.</span> <span class="toc-text">3.9创建keyston服务和节点</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#3-9-1配置token环境变量"><span class="toc-number">1.9.1.</span> <span class="toc-text">3.9.1配置token环境变量</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#3-9-2创建keystone服务"><span class="toc-number">1.9.2.</span> <span class="toc-text">3.9.2创建keystone服务</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#3-9-3创建api"><span class="toc-number">1.9.3.</span> <span class="toc-text">3.9.3创建api</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#3-10创建域、用户和角色"><span class="toc-number">1.10.</span> <span class="toc-text">3.10创建域、用户和角色</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#3-10-1创建默认域"><span class="toc-number">1.10.1.</span> <span class="toc-text">3.10.1创建默认域</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#3-10-2创建admin项目"><span class="toc-number">1.10.2.</span> <span class="toc-text">3.10.2创建admin项目</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#3-10-3创建admin用户"><span class="toc-number">1.10.3.</span> <span class="toc-text">3.10.3创建admin用户</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#3-10-4创建admin角色"><span class="toc-number">1.10.4.</span> <span class="toc-text">3.10.4创建admin角色</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#3-10-5添加admin角色到admin项目和用户"><span class="toc-number">1.10.5.</span> <span class="toc-text">3.10.5添加admin角色到admin项目和用户</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#3-10-6创建service项目"><span class="toc-number">1.10.6.</span> <span class="toc-text">3.10.6创建service项目</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#3-10-7创建demo项目"><span class="toc-number">1.10.7.</span> <span class="toc-text">3.10.7创建demo项目</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#3-10-8创建demo用户"><span class="toc-number">1.10.8.</span> <span class="toc-text">3.10.8创建demo用户</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#3-10-9创建user角色"><span class="toc-number">1.10.9.</span> <span class="toc-text">3.10.9创建user角色</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#3-10-10添加user角色到demo-项目和用户"><span class="toc-number">1.10.10.</span> <span class="toc-text">3.10.10添加user角色到demo 项目和用户</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#3-11验证"><span class="toc-number">1.11.</span> <span class="toc-text">3.11验证</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#3-11-1清空环境变量"><span class="toc-number">1.11.1.</span> <span class="toc-text">3.11.1清空环境变量</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#3-11-2验证admin用户请求"><span class="toc-number">1.11.2.</span> <span class="toc-text">3.11.2验证admin用户请求</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#3-11-3验证demo用户请求"><span class="toc-number">1.11.3.</span> <span class="toc-text">3.11.3验证demo用户请求</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#3-11-4生成admin用户脚本"><span class="toc-number">1.11.4.</span> <span class="toc-text">3.11.4生成admin用户脚本</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#3-11-5生成demo用户脚本"><span class="toc-number">1.11.5.</span> <span class="toc-text">3.11.5生成demo用户脚本</span></a></li></ol></li></ol></li></ol>
+    </nav>
+  </div>
+</aside>
+
+<main class="main" role="main">
+  <div class="content">
+  <article id="post-openstack-m-centos-2" class="article article-type-post" itemscope itemtype="http://schema.org/BlogPosting">
+    
+    <div class="article-header">
+      
+        
+  
+    <h1 class="article-title" itemprop="name">
+      OpenStack Mitaka + CentOS7.2 安装部署 02
+    </h1>
+  
+
+      
+      <div class="article-meta">
+        <span class="article-date">
+    <i class="icon icon-calendar-check"></i>
+	<a href="/2018/10/02/openstack-m-centos-2/" class="article-date">
+	  <time datetime="2018-10-01T20:36:14.000Z" itemprop="datePublished">2018-10-02</time>
+	</a>
+</span>
+        
+  <span class="article-category">
+    <i class="icon icon-folder"></i>
+    <a class="article-category-link" href="/categories/云计算/">云计算</a>
+  </span>
+
+        
+  <span class="article-tag">
+    <i class="icon icon-tags"></i>
+	<a class="article-tag-link" href="/tags/openstack/">openstack</a>, <a class="article-tag-link" href="/tags/python/">python</a>, <a class="article-tag-link" href="/tags/云计算/">云计算</a>
+  </span>
+
+
+        
+
+        <span class="post-comment"><i class="icon icon-comment"></i> <a href="/2018/10/02/openstack-m-centos-2/#comments" class="article-comment-link">评论</a></span>
+        
+	
+		<span class="post-wordcount hidden-xs" itemprop="wordCount">字数统计: 744(字)</span>
+	
+	
+		<span class="post-readcount hidden-xs" itemprop="timeRequired">阅读时长: 4(分)</span>
+	
+
+      </div>
+    </div>
+    <div class="article-entry marked-body" itemprop="articleBody">
+      
+        <p><br></p>
+<h1 id="三、安装keystone（认证服务，在controller）"><a href="#三、安装keystone（认证服务，在controller）" class="headerlink" title="三、安装keystone（认证服务，在controller）"></a>三、安装keystone（认证服务，在controller）</h1><h2 id="3-1为keystone创建mysql数据库和表"><a href="#3-1为keystone创建mysql数据库和表" class="headerlink" title="3.1为keystone创建mysql数据库和表"></a>3.1为keystone创建mysql数据库和表</h2><figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">mysql -uroot -popenstack -e "CREATE DATABASE keystone;"</span><br><span class="line">mysql -uroot -popenstack -e "GRANT ALL PRIVILEGES ON keystone.* TO 'keystone'@'controller' IDENTIFIED BY 'openstack';"</span><br><span class="line">mysql -uroot -popenstack -e "GRANT ALL PRIVILEGES ON keystone.* TO 'keystone'@'%' IDENTIFIED BY 'openstack';"</span><br></pre></td></tr></table></figure>
+<h2 id="3-2生成随机令牌"><a href="#3-2生成随机令牌" class="headerlink" title="3.2生成随机令牌"></a>3.2生成随机令牌</h2><figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">ADMIN_TOKEN=$(openssl rand -hex 10)</span><br></pre></td></tr></table></figure>
+<h2 id="3-3安装keystone和相关组件"><a href="#3-3安装keystone和相关组件" class="headerlink" title="3.3安装keystone和相关组件"></a>3.3安装keystone和相关组件</h2><figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">yum install -y openstack-keystone httpd mod_wsgi</span><br></pre></td></tr></table></figure>
+<h2 id="3-4配置token"><a href="#3-4配置token" class="headerlink" title="3.4配置token"></a>3.4配置token</h2><figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">openstack-config --set /etc/keystone/keystone.conf DEFAULT admin_token $ADMIN_TOKEN</span><br><span class="line">openstack-config --set /etc/keystone/keystone.conf token provider fernet</span><br></pre></td></tr></table></figure>
+<h2 id="3-5配置mysql链接"><a href="#3-5配置mysql链接" class="headerlink" title="3.5配置mysql链接"></a>3.5配置mysql链接</h2><figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">openstack-config --set /etc/keystone/keystone.conf database connection mysql+pymysql://keystone:openstack@controller/keystone</span><br></pre></td></tr></table></figure>
+<h2 id="3-6初始化数据库"><a href="#3-6初始化数据库" class="headerlink" title="3.6初始化数据库"></a>3.6初始化数据库</h2><figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">su -s /bin/sh -c "keystone-manage db_sync" keystone</span><br></pre></td></tr></table></figure>
+<h2 id="3-7初始化fernet-keys"><a href="#3-7初始化fernet-keys" class="headerlink" title="3.7初始化fernet keys"></a>3.7初始化fernet keys</h2><figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">keystone-manage fernet_setup --keystone-user keystone --keystone-group keystone</span><br></pre></td></tr></table></figure>
+<h2 id="3-8配置apache"><a href="#3-8配置apache" class="headerlink" title="3.8配置apache"></a>3.8配置apache</h2><h3 id="3-8-1配置servername"><a href="#3-8-1配置servername" class="headerlink" title="3.8.1配置servername"></a>3.8.1配置servername</h3><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">sed -i &quot;s@#ServerName www.example.com:80@ServerName controller@g&quot; /etc/httpd/conf/httpd.conf</span><br></pre></td></tr></table></figure>
+<h3 id="3-8-2配置keystone配置文件"><a href="#3-8-2配置keystone配置文件" class="headerlink" title="3.8.2配置keystone配置文件"></a>3.8.2配置keystone配置文件</h3><figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">cat&gt;</span><span class="bash">&gt;/etc/httpd/conf.d/wsgi-keystone.conf&lt;&lt;EOF</span></span><br><span class="line">Listen 5000</span><br><span class="line">Listen 35357</span><br><span class="line"></span><br><span class="line">&lt;VirtualHost *:5000&gt;</span><br><span class="line">    WSGIDaemonProcess keystone-public processes=5 threads=1 user=keystone group=keystone display-name=%&#123;GROUP&#125;</span><br><span class="line">    WSGIProcessGroup keystone-public</span><br><span class="line">    WSGIScriptAlias / /usr/bin/keystone-wsgi-public</span><br><span class="line">    WSGIApplicationGroup %&#123;GLOBAL&#125;</span><br><span class="line">    WSGIPassAuthorization On</span><br><span class="line">    ErrorLogFormat "%&#123;cu&#125;t %M"</span><br><span class="line">    ErrorLog /var/log/httpd/keystone-error.log</span><br><span class="line">    CustomLog /var/log/httpd/keystone-access.log combined</span><br><span class="line"></span><br><span class="line">    &lt;Directory /usr/bin&gt;</span><br><span class="line">        Require all granted</span><br><span class="line">    &lt;/Directory&gt;</span><br><span class="line">&lt;/VirtualHost&gt;</span><br><span class="line"></span><br><span class="line">&lt;VirtualHost *:35357&gt;</span><br><span class="line">    WSGIDaemonProcess keystone-admin processes=5 threads=1 user=keystone group=keystone display-name=%&#123;GROUP&#125;</span><br><span class="line">    WSGIProcessGroup keystone-admin</span><br><span class="line">    WSGIScriptAlias / /usr/bin/keystone-wsgi-admin</span><br><span class="line">    WSGIApplicationGroup %&#123;GLOBAL&#125;</span><br><span class="line">    WSGIPassAuthorization On</span><br><span class="line">    ErrorLogFormat "%&#123;cu&#125;t %M"</span><br><span class="line">    ErrorLog /var/log/httpd/keystone-error.log</span><br><span class="line">    CustomLog /var/log/httpd/keystone-access.log combined</span><br><span class="line"></span><br><span class="line">    &lt;Directory /usr/bin&gt;</span><br><span class="line">        Require all granted</span><br><span class="line">    &lt;/Directory&gt;</span><br><span class="line">&lt;/VirtualHost&gt;</span><br><span class="line">EOF</span><br></pre></td></tr></table></figure>
+<h3 id="3-8-3启动aapche"><a href="#3-8-3启动aapche" class="headerlink" title="3.8.3启动aapche"></a>3.8.3启动aapche</h3><figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">systemctl enable httpd.service</span><br><span class="line">systemctl start httpd.service</span><br></pre></td></tr></table></figure>
+<h2 id="3-9创建keyston服务和节点"><a href="#3-9创建keyston服务和节点" class="headerlink" title="3.9创建keyston服务和节点"></a>3.9创建keyston服务和节点</h2><h3 id="3-9-1配置token环境变量"><a href="#3-9-1配置token环境变量" class="headerlink" title="3.9.1配置token环境变量"></a>3.9.1配置token环境变量</h3><figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">export OS_TOKEN=`echo $ADMIN_TOKEN`</span><br><span class="line">export OS_URL=http://controller:35357/v3</span><br><span class="line">export OS_IDENTITY_API_VERSION=3</span><br></pre></td></tr></table></figure>
+<h3 id="3-9-2创建keystone服务"><a href="#3-9-2创建keystone服务" class="headerlink" title="3.9.2创建keystone服务"></a>3.9.2创建keystone服务</h3><figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">openstack service create --name keystone --description "OpenStack Identity" identity</span><br></pre></td></tr></table></figure>
+<h3 id="3-9-3创建api"><a href="#3-9-3创建api" class="headerlink" title="3.9.3创建api"></a>3.9.3创建api</h3><figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">openstack endpoint create --region RegionOne identity public http://controller:5000/v3</span><br><span class="line">openstack endpoint create --region RegionOne identity internal http://controller:5000/v3</span><br><span class="line">openstack endpoint create --region RegionOne identity admin http://controller:35357/v3</span><br></pre></td></tr></table></figure>
+<h2 id="3-10创建域、用户和角色"><a href="#3-10创建域、用户和角色" class="headerlink" title="3.10创建域、用户和角色"></a>3.10创建域、用户和角色</h2><h3 id="3-10-1创建默认域"><a href="#3-10-1创建默认域" class="headerlink" title="3.10.1创建默认域"></a>3.10.1创建默认域</h3><figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">openstack domain create --description "Default Domain" default</span><br></pre></td></tr></table></figure>
+<h3 id="3-10-2创建admin项目"><a href="#3-10-2创建admin项目" class="headerlink" title="3.10.2创建admin项目"></a>3.10.2创建admin项目</h3><figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">openstack project create --domain default --description "Admin Project" admin</span><br></pre></td></tr></table></figure>
+<h3 id="3-10-3创建admin用户"><a href="#3-10-3创建admin用户" class="headerlink" title="3.10.3创建admin用户"></a>3.10.3创建admin用户</h3><figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">openstack user create --domain default --password=admin admin</span><br></pre></td></tr></table></figure>
+<h3 id="3-10-4创建admin角色"><a href="#3-10-4创建admin角色" class="headerlink" title="3.10.4创建admin角色"></a>3.10.4创建admin角色</h3><figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">openstack role create admin</span><br></pre></td></tr></table></figure>
+<h3 id="3-10-5添加admin角色到admin项目和用户"><a href="#3-10-5添加admin角色到admin项目和用户" class="headerlink" title="3.10.5添加admin角色到admin项目和用户"></a>3.10.5添加admin角色到admin项目和用户</h3><figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">openstack role add --project admin --user admin admin</span><br></pre></td></tr></table></figure>
+<h3 id="3-10-6创建service项目"><a href="#3-10-6创建service项目" class="headerlink" title="3.10.6创建service项目"></a>3.10.6创建service项目</h3><figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">openstack project create --domain default --description "Service Project" service</span><br></pre></td></tr></table></figure>
+<h3 id="3-10-7创建demo项目"><a href="#3-10-7创建demo项目" class="headerlink" title="3.10.7创建demo项目"></a>3.10.7创建demo项目</h3><figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">openstack project create --domain default --description "Demo Project" demo</span><br></pre></td></tr></table></figure>
+<h3 id="3-10-8创建demo用户"><a href="#3-10-8创建demo用户" class="headerlink" title="3.10.8创建demo用户"></a>3.10.8创建demo用户</h3><figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">openstack user create --domain default --password=demo demo</span><br></pre></td></tr></table></figure>
+<h3 id="3-10-9创建user角色"><a href="#3-10-9创建user角色" class="headerlink" title="3.10.9创建user角色"></a>3.10.9创建user角色</h3><figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">openstack role create user</span><br></pre></td></tr></table></figure>
+<h3 id="3-10-10添加user角色到demo-项目和用户"><a href="#3-10-10添加user角色到demo-项目和用户" class="headerlink" title="3.10.10添加user角色到demo 项目和用户"></a>3.10.10添加user角色到demo 项目和用户</h3><figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">openstack role add --project demo --user demo user</span><br></pre></td></tr></table></figure>
+<h2 id="3-11验证"><a href="#3-11验证" class="headerlink" title="3.11验证"></a>3.11验证</h2><h3 id="3-11-1清空环境变量"><a href="#3-11-1清空环境变量" class="headerlink" title="3.11.1清空环境变量"></a>3.11.1清空环境变量</h3><figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">unset OS_TOKEN OS_URL</span><br></pre></td></tr></table></figure>
+<h3 id="3-11-2验证admin用户请求"><a href="#3-11-2验证admin用户请求" class="headerlink" title="3.11.2验证admin用户请求"></a>3.11.2验证admin用户请求</h3><figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">openstack --os-auth-url http://controller:35357/v3 \</span><br><span class="line">  --os-project-domain-name default --os-user-domain-name default \</span><br><span class="line">  --os-project-name admin --os-username admin token issue</span><br></pre></td></tr></table></figure>
+<h3 id="3-11-3验证demo用户请求"><a href="#3-11-3验证demo用户请求" class="headerlink" title="3.11.3验证demo用户请求"></a>3.11.3验证demo用户请求</h3><figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">openstack --os-auth-url http://controller:5000/v3 \</span><br><span class="line">  --os-project-domain-name default --os-user-domain-name default \</span><br><span class="line">  --os-project-name demo --os-username demo token issue</span><br></pre></td></tr></table></figure>
+<h3 id="3-11-4生成admin用户脚本"><a href="#3-11-4生成admin用户脚本" class="headerlink" title="3.11.4生成admin用户脚本"></a>3.11.4生成admin用户脚本</h3><figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">cat&gt;</span><span class="bash">&gt;~/admin.rc&lt;&lt;EOF</span></span><br><span class="line">export OS_PROJECT_DOMAIN_NAME=default</span><br><span class="line">export OS_USER_DOMAIN_NAME=default</span><br><span class="line">export OS_PROJECT_NAME=admin</span><br><span class="line">export OS_USERNAME=admin</span><br><span class="line">export OS_PASSWORD=admin</span><br><span class="line">export OS_AUTH_URL=http://controller:35357/v3</span><br><span class="line">export OS_IDENTITY_API_VERSION=3</span><br><span class="line">export OS_IMAGE_API_VERSION=2</span><br><span class="line">EOF</span><br></pre></td></tr></table></figure>
+<h3 id="3-11-5生成demo用户脚本"><a href="#3-11-5生成demo用户脚本" class="headerlink" title="3.11.5生成demo用户脚本"></a>3.11.5生成demo用户脚本</h3><figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">cat&gt;</span><span class="bash">&gt;~/demo.rc&lt;&lt;EOF</span></span><br><span class="line">export OS_PROJECT_DOMAIN_NAME=default</span><br><span class="line">export OS_USER_DOMAIN_NAME=default</span><br><span class="line">export OS_PROJECT_NAME=demo</span><br><span class="line">export OS_USERNAME=demo</span><br><span class="line">export OS_PASSWORD=DEMO_PASS</span><br><span class="line">export OS_AUTH_URL=http://controller:5000/v3</span><br><span class="line">export OS_IDENTITY_API_VERSION=3</span><br><span class="line">export OS_IMAGE_API_VERSION=2</span><br><span class="line">EOF</span><br></pre></td></tr></table></figure>
+      
+    </div>
+    <div class="article-footer">
+      <blockquote class="mt-2x">
+  <ul class="post-copyright list-unstyled">
+    
+    <li class="post-copyright-link hidden-xs">
+      <strong>本文链接：</strong>
+      <a href="http://duoyichen.github.com/2018/10/02/openstack-m-centos-2/" title="OpenStack Mitaka + CentOS7.2 安装部署 02" target="_blank" rel="external">http://duoyichen.github.com/2018/10/02/openstack-m-centos-2/</a>
+    </li>
+    
+    
+      <li class="post-copyright-license">
+        <strong>版权声明： </strong> 本博客所有文章除特别声明外，均采用 <a href="http://creativecommons.org/licenses/by/4.0/deed.zh" target="_blank" rel="external">CC BY 4.0 CN协议</a> 许可协议。转载请注明出处！
+      </li>
+    
+  </ul>
+</blockquote>
+
+
+<div class="panel panel-default panel-badger">
+  <div class="panel-body">
+    <figure class="media">
+      <div class="media-left">
+        <a href="https://duoyichen.github.com" target="_blank" class="img-burn thumb-sm visible-lg">
+          <img src="/images/avatar.jpg" class="img-rounded w-full" alt="">
+        </a>
+      </div>
+      <div class="media-body">
+        <h3 class="media-heading"><a href="https://duoyichen.github.com" target="_blank"><span class="text-dark">DuoyiChen</span><small class="ml-1x">运维开发工程师</small></a></h3>
+        <div>技术改变世界，学习改变人生！ 本人运维开发工程师，喜欢研究技术，熟悉Linux、Shell、Python，及云计算等，爱好旅游，诗词歌赋。欢迎交流与分享经验!</div>
+      </div>
+    </figure>
+  </div>
+</div>
+
+
+    </div>
+  </article>
+  
+    
+  <section id="comments">
+  	
+       
+<div id="lv-container" data-id="city" data-uid="MTAyMC80MDA3NS8xNjYwMg==">
+  <noscript> 为正常使用来必力评论功能请激活JavaScript</noscript>
+</div>
+      
+    
+  </section>
+
+
+  
+</div>
+
+  <nav class="bar bar-footer clearfix" data-stick-bottom>
+  <div class="bar-inner">
+  
+  <ul class="pager pull-left">
+    
+    <li class="prev">
+      <a href="/2018/10/02/openstack-m-centos-3/" title="OpenStack Mitaka + CentOS7.2 安装部署 03"><i class="icon icon-angle-left" aria-hidden="true"></i><span>&nbsp;&nbsp;上一篇</span></a>
+    </li>
+    
+    
+    <li class="next">
+      <a href="/2018/10/02/openstack-m-centos/" title="OpenStack Mitaka + CentOS7.2 安装部署 01"><span>下一篇&nbsp;&nbsp;</span><i class="icon icon-angle-right" aria-hidden="true"></i></a>
+    </li>
+    
+    
+    <li class="toggle-toc">
+      <a class="toggle-btn collapsed" data-toggle="collapse" href="#collapseToc" aria-expanded="false" title="文章目录" role="button">
+        <span>[&nbsp;</span><span>文章目录</span>
+        <i class="text-collapsed icon icon-anchor"></i>
+        <i class="text-in icon icon-close"></i>
+        <span>]</span>
+      </a>
+    </li>
+    
+  </ul>
+  
+  
+  <!-- Button trigger modal -->
+  <button type="button" class="btn btn-fancy btn-donate pop-onhover bg-gradient-warning" data-toggle="modal" data-target="#donateModal"><span>赏</span></button>
+  <!-- <div class="wave-icon wave-icon-danger btn-donate" data-toggle="modal" data-target="#donateModal">
+    <div class="wave-circle"><span class="icon"><i class="icon icon-bill"></i></span></div>
+  </div> -->
+  
+  
+  <div class="bar-right">
+    
+    <div class="share-component" data-sites="weibo,qq,wechat,facebook" data-mobile-sites="wechat,weibo,qq,qzone"></div>
+    
+  </div>
+  </div>
+</nav>
+  
+<!-- Modal -->
+<div class="modal modal-center modal-small modal-xs-full fade" id="donateModal" tabindex="-1" role="dialog">
+  <div class="modal-dialog" role="document">
+    <div class="modal-content donate">
+      <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+      <div class="modal-body">
+        <div class="donate-box">
+          <div class="donate-head">
+            <p>感谢您的支持，我会继续努力的!</p>
+          </div>
+          <div class="tab-content">
+            <div role="tabpanel" class="tab-pane fade active in" id="alipay">
+              <div class="donate-payimg">
+                <img src="/images/donate/alipayimg.png" alt="扫码支持" title="扫一扫" />
+              </div>
+              <p class="text-muted mv">扫码打赏，你说多少就多少</p>
+              <p class="text-grey">打开支付宝扫一扫，即可进行扫码打赏哦</p>
+            </div>
+            <div role="tabpanel" class="tab-pane fade" id="wechatpay">
+              <div class="donate-payimg">
+                <img src="/images/donate/wechatpayimg.png" alt="扫码支持" title="扫一扫" />
+              </div>
+              <p class="text-muted mv">扫码打赏，你说多少就多少</p>
+              <p class="text-grey">打开微信扫一扫，即可进行扫码打赏哦</p>
+            </div>
+          </div>
+          <div class="donate-footer">
+            <ul class="nav nav-tabs nav-justified" role="tablist">
+              <li role="presentation" class="active">
+                <a href="#alipay" id="alipay-tab" role="tab" data-toggle="tab" aria-controls="alipay" aria-expanded="true"><i class="icon icon-alipay"></i> 支付宝</a>
+              </li>
+              <li role="presentation" class="">
+                <a href="#wechatpay" role="tab" id="wechatpay-tab" data-toggle="tab" aria-controls="wechatpay" aria-expanded="false"><i class="icon icon-wepay"></i> 微信支付</a>
+              </li>
+            </ul>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+
+
+</main>
+
+  <footer class="footer" itemscope itemtype="http://schema.org/WPFooter">
+	
+	
+    <ul class="social-links">
+    	
+        <li><a href="https://github.com/duoyichen" target="_blank" title="Github" data-toggle=tooltip data-placement=top><i class="icon icon-github"></i></a></li>
+        
+        <li><a href="http://weibo.com/duoyichen" target="_blank" title="Weibo" data-toggle=tooltip data-placement=top><i class="icon icon-weibo"></i></a></li>
+        
+        <li><a href="https://duoyichen.github.com" target="_blank" title="Twitter" data-toggle=tooltip data-placement=top><i class="icon icon-twitter"></i></a></li>
+        
+        <li><a href="/atom.xml" target="_blank" title="Rss" data-toggle=tooltip data-placement=top><i class="icon icon-rss"></i></a></li>
+        
+    </ul>
+
+    <div class="copyright">
+    	
+        &copy; 2018 DuoyiChen
+        
+        <div class="publishby">
+        	Theme by <a href="https://github.com/cofess" target="_blank"> cofess </a>base on <a href="https://github.com/cofess/hexo-theme-pure" target="_blank">pure</a>.
+        </div>
+    </div>
+</footer>
+  <!-- <script src="https://cdn.bootcss.com/jquery/1.12.4/jquery.min.js"></script> -->
+<script src="https://cdn.bootcss.com/jquery/3.3.1/jquery.min.js"></script>
+
+<script>
+    window.jQuery || document.write('<script src="js/jquery.min.js"><\/script>')
+</script>
+
+    <link href="https://cdn.bootcss.com/fancybox/3.3.5/jquery.fancybox.min.css" rel="stylesheet">
+    <script src="https://cdn.bootcss.com/fancybox/3.3.5/jquery.fancybox.min.js"></script>
+    <script>
+        //利用 FancyBox 实现点击图片放大
+        $(document).ready(function() {
+            $('article img').not('[hidden]').not('.panel-body img').each(function () {
+                var $image = $(this);
+                var imageCaption = $image.attr('alt');
+                var $imageWrapLink = $image.parent('a');
+                if ($imageWrapLink.length < 1) {
+                var src = this.getAttribute('src');
+                var idx = src.lastIndexOf('?');
+                if (idx != -1) {
+                    src = src.substring(0, idx);
+                }
+                $imageWrapLink = $image.wrap('<a href="' + src + '"></a>').parent('a');
+                }
+                $imageWrapLink.attr('data-fancybox', 'images');
+                if (imageCaption) {
+                $imageWrapLink.attr('data-caption', imageCaption);
+                }
+            });
+            $().fancybox({
+                selector: '[data-fancybox="images"]',
+                hash: false,
+                loop: false,
+            }); 
+        });
+    </script>
+    
+<script src="/js/plugin.min.js"></script>
+<script src="/js/application.js"></script>
+  
+    
+    
+    
+        <script>
+(function (window) {
+    var INSIGHT_CONFIG = {
+        TRANSLATION: {
+            POSTS: '文章',
+            PAGES: '页面',
+            CATEGORIES: '分类',
+            TAGS: '标签',
+            UNTITLED: '(未命名)',
+        },
+        ROOT_URL: '/',
+        CONTENT_URL: '/content.json',
+    };
+    window.INSIGHT_CONFIG = INSIGHT_CONFIG;
+})(window);
+</script>
+<script src="/js/insight.js"></script>
+    
+    
+    
+        
+
+
+    
+    
+        
+    
+<script defer type="text/javascript">
+  (function(d, s) {
+    var j, e = d.getElementsByTagName(s)[0];
+
+    if (typeof LivereTower === 'function') { return; }
+
+    j = d.createElement(s);
+    j.src = 'https://cdn-city.livere.com/js/embed.dist.js';
+    j.async = true;
+
+    e.parentNode.insertBefore(j, e);
+  })(document, 'script');
+</script>
+
+
+    
+    
+
+
+
+</body>
+</html>
