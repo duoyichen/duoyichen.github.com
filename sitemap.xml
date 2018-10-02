@@ -2,147 +2,147 @@
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
   
   <url>
-    <loc>http://duoyichen.github.com/2018-10/cmdb/</loc>
+    <loc>http://www.duoyichen.xyz/about/index.html</loc>
+    
+    <lastmod>2018-10-02T11:22:02.516Z</lastmod>
+    
+  </url>
+  
+  <url>
+    <loc>http://www.duoyichen.xyz/links/index.html</loc>
+    
+    <lastmod>2018-10-02T10:39:51.429Z</lastmod>
+    
+  </url>
+  
+  <url>
+    <loc>http://www.duoyichen.xyz/2018-10/cmdb/</loc>
     
     <lastmod>2018-10-01T23:25:51.534Z</lastmod>
     
   </url>
   
   <url>
-    <loc>http://duoyichen.github.com/2018-10/k8s-6/</loc>
+    <loc>http://www.duoyichen.xyz/2018-10/k8s-6/</loc>
     
     <lastmod>2018-10-01T23:24:07.593Z</lastmod>
     
   </url>
   
   <url>
-    <loc>http://duoyichen.github.com/2018-10/k8s-4/</loc>
+    <loc>http://www.duoyichen.xyz/2018-10/k8s-4/</loc>
     
     <lastmod>2018-10-01T23:24:05.179Z</lastmod>
     
   </url>
   
   <url>
-    <loc>http://duoyichen.github.com/2018-10/k8s-3/</loc>
+    <loc>http://www.duoyichen.xyz/2018-10/k8s-3/</loc>
     
     <lastmod>2018-10-01T23:24:01.653Z</lastmod>
     
   </url>
   
   <url>
-    <loc>http://duoyichen.github.com/2018-10/k8s-2/</loc>
+    <loc>http://www.duoyichen.xyz/2018-10/k8s-2/</loc>
     
     <lastmod>2018-10-01T23:23:59.041Z</lastmod>
     
   </url>
   
   <url>
-    <loc>http://duoyichen.github.com/2018-10/k8s/</loc>
+    <loc>http://www.duoyichen.xyz/2018-10/k8s/</loc>
     
     <lastmod>2018-10-01T23:23:56.868Z</lastmod>
     
   </url>
   
   <url>
-    <loc>http://duoyichen.github.com/2018-10/k8s-5/</loc>
+    <loc>http://www.duoyichen.xyz/2018-10/k8s-5/</loc>
     
     <lastmod>2018-10-01T23:23:52.324Z</lastmod>
     
   </url>
   
   <url>
-    <loc>http://duoyichen.github.com/2018-10/openstack-m-centos/</loc>
+    <loc>http://www.duoyichen.xyz/2018-10/openstack-m-centos/</loc>
     
     <lastmod>2018-10-01T23:22:18.426Z</lastmod>
     
   </url>
   
   <url>
-    <loc>http://duoyichen.github.com/2018-10/openstack-m-centos-2/</loc>
+    <loc>http://www.duoyichen.xyz/2018-10/openstack-m-centos-2/</loc>
     
     <lastmod>2018-10-01T23:22:13.728Z</lastmod>
     
   </url>
   
   <url>
-    <loc>http://duoyichen.github.com/2018-10/openstack-m-centos-3/</loc>
+    <loc>http://www.duoyichen.xyz/2018-10/openstack-m-centos-3/</loc>
     
     <lastmod>2018-10-01T23:22:09.133Z</lastmod>
     
   </url>
   
   <url>
-    <loc>http://duoyichen.github.com/2018-10/openstack-m-centos-6/</loc>
+    <loc>http://www.duoyichen.xyz/2018-10/openstack-m-centos-6/</loc>
     
     <lastmod>2018-10-01T23:21:34.155Z</lastmod>
     
   </url>
   
   <url>
-    <loc>http://duoyichen.github.com/2018-10/openstack-m-centos-5/</loc>
+    <loc>http://www.duoyichen.xyz/2018-10/openstack-m-centos-5/</loc>
     
     <lastmod>2018-10-01T23:21:15.572Z</lastmod>
     
   </url>
   
   <url>
-    <loc>http://duoyichen.github.com/2018-10/openstack-m-centos-4/</loc>
+    <loc>http://www.duoyichen.xyz/2018-10/openstack-m-centos-4/</loc>
     
     <lastmod>2018-10-01T23:19:50.890Z</lastmod>
     
   </url>
   
   <url>
-    <loc>http://duoyichen.github.com/2018-10/firsr-blog/</loc>
+    <loc>http://www.duoyichen.xyz/2018-10/firsr-blog/</loc>
     
     <lastmod>2018-10-01T20:48:11.597Z</lastmod>
     
   </url>
   
   <url>
-    <loc>http://duoyichen.github.com/2018-10/lvs-kl/</loc>
+    <loc>http://www.duoyichen.xyz/2018-10/lvs-kl/</loc>
     
     <lastmod>2018-10-01T20:24:21.234Z</lastmod>
     
   </url>
   
   <url>
-    <loc>http://duoyichen.github.com/links/index.html</loc>
-    
-    <lastmod>2018-10-01T19:49:22.322Z</lastmod>
-    
-  </url>
-  
-  <url>
-    <loc>http://duoyichen.github.com/repository/index.html</loc>
+    <loc>http://www.duoyichen.xyz/repository/index.html</loc>
     
     <lastmod>2018-10-01T19:49:19.569Z</lastmod>
     
   </url>
   
   <url>
-    <loc>http://duoyichen.github.com/about/index.html</loc>
-    
-    <lastmod>2018-10-01T19:16:14.544Z</lastmod>
-    
-  </url>
-  
-  <url>
-    <loc>http://duoyichen.github.com/categories/index.html</loc>
+    <loc>http://www.duoyichen.xyz/categories/index.html</loc>
     
     <lastmod>2018-10-01T19:14:11.376Z</lastmod>
     
   </url>
   
   <url>
-    <loc>http://duoyichen.github.com/tags/index.html</loc>
+    <loc>http://www.duoyichen.xyz/tags/index.html</loc>
     
     <lastmod>2018-10-01T19:13:49.922Z</lastmod>
     
   </url>
   
   <url>
-    <loc>http://duoyichen.github.com/2018-10/hello-world/</loc>
+    <loc>http://www.duoyichen.xyz/2018-10/hello-world/</loc>
     
     <lastmod>2018-10-01T19:06:13.090Z</lastmod>
     

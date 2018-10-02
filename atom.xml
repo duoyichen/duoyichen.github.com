@@ -5,9 +5,9 @@
   <subtitle>一个学习的小天地</subtitle>
   <link href="/atom.xml" rel="self"/>
   
-  <link href="http://duoyichen.github.com/"/>
+  <link href="http://www.duoyichen.xyz/"/>
   <updated>2018-10-01T23:21:34.155Z</updated>
-  <id>http://duoyichen.github.com/</id>
+  <id>http://www.duoyichen.xyz/</id>
   
   <author>
     <name>DuoyiChen</name>
@@ -18,8 +18,8 @@
   
   <entry>
     <title>OpenStack Mitaka + CentOS7.2 安装部署 06</title>
-    <link href="http://duoyichen.github.com/2018-10/openstack-m-centos-6/"/>
-    <id>http://duoyichen.github.com/2018-10/openstack-m-centos-6/</id>
+    <link href="http://www.duoyichen.xyz/2018-10/openstack-m-centos-6/"/>
+    <id>http://www.duoyichen.xyz/2018-10/openstack-m-centos-6/</id>
     <published>2018-10-01T20:36:18.000Z</published>
     <updated>2018-10-01T23:21:34.155Z</updated>
     
@@ -31,21 +31,21 @@
     
     </summary>
     
-      <category term="云计算" scheme="http://duoyichen.github.com/categories/%E4%BA%91%E8%AE%A1%E7%AE%97/"/>
+      <category term="云计算" scheme="http://www.duoyichen.xyz/categories/%E4%BA%91%E8%AE%A1%E7%AE%97/"/>
     
     
-      <category term="python" scheme="http://duoyichen.github.com/tags/python/"/>
+      <category term="python" scheme="http://www.duoyichen.xyz/tags/python/"/>
     
-      <category term="openstack" scheme="http://duoyichen.github.com/tags/openstack/"/>
+      <category term="openstack" scheme="http://www.duoyichen.xyz/tags/openstack/"/>
     
-      <category term="云计算" scheme="http://duoyichen.github.com/tags/%E4%BA%91%E8%AE%A1%E7%AE%97/"/>
+      <category term="云计算" scheme="http://www.duoyichen.xyz/tags/%E4%BA%91%E8%AE%A1%E7%AE%97/"/>
     
   </entry>
   
   <entry>
     <title>OpenStack Mitaka + CentOS7.2 安装部署 05</title>
-    <link href="http://duoyichen.github.com/2018-10/openstack-m-centos-5/"/>
-    <id>http://duoyichen.github.com/2018-10/openstack-m-centos-5/</id>
+    <link href="http://www.duoyichen.xyz/2018-10/openstack-m-centos-5/"/>
+    <id>http://www.duoyichen.xyz/2018-10/openstack-m-centos-5/</id>
     <published>2018-10-01T20:36:17.000Z</published>
     <updated>2018-10-01T23:21:15.572Z</updated>
     
@@ -57,21 +57,21 @@
     
     </summary>
     
-      <category term="云计算" scheme="http://duoyichen.github.com/categories/%E4%BA%91%E8%AE%A1%E7%AE%97/"/>
+      <category term="云计算" scheme="http://www.duoyichen.xyz/categories/%E4%BA%91%E8%AE%A1%E7%AE%97/"/>
     
     
-      <category term="python" scheme="http://duoyichen.github.com/tags/python/"/>
+      <category term="python" scheme="http://www.duoyichen.xyz/tags/python/"/>
     
-      <category term="openstack" scheme="http://duoyichen.github.com/tags/openstack/"/>
+      <category term="openstack" scheme="http://www.duoyichen.xyz/tags/openstack/"/>
     
-      <category term="云计算" scheme="http://duoyichen.github.com/tags/%E4%BA%91%E8%AE%A1%E7%AE%97/"/>
+      <category term="云计算" scheme="http://www.duoyichen.xyz/tags/%E4%BA%91%E8%AE%A1%E7%AE%97/"/>
     
   </entry>
   
   <entry>
     <title>OpenStack Mitaka + CentOS7.2 安装部署 04</title>
-    <link href="http://duoyichen.github.com/2018-10/openstack-m-centos-4/"/>
-    <id>http://duoyichen.github.com/2018-10/openstack-m-centos-4/</id>
+    <link href="http://www.duoyichen.xyz/2018-10/openstack-m-centos-4/"/>
+    <id>http://www.duoyichen.xyz/2018-10/openstack-m-centos-4/</id>
     <published>2018-10-01T20:36:16.000Z</published>
     <updated>2018-10-01T23:19:50.890Z</updated>
     
@@ -83,21 +83,21 @@
     
     </summary>
     
-      <category term="云计算" scheme="http://duoyichen.github.com/categories/%E4%BA%91%E8%AE%A1%E7%AE%97/"/>
+      <category term="云计算" scheme="http://www.duoyichen.xyz/categories/%E4%BA%91%E8%AE%A1%E7%AE%97/"/>
     
     
-      <category term="python" scheme="http://duoyichen.github.com/tags/python/"/>
+      <category term="python" scheme="http://www.duoyichen.xyz/tags/python/"/>
     
-      <category term="openstack" scheme="http://duoyichen.github.com/tags/openstack/"/>
+      <category term="openstack" scheme="http://www.duoyichen.xyz/tags/openstack/"/>
     
-      <category term="云计算" scheme="http://duoyichen.github.com/tags/%E4%BA%91%E8%AE%A1%E7%AE%97/"/>
+      <category term="云计算" scheme="http://www.duoyichen.xyz/tags/%E4%BA%91%E8%AE%A1%E7%AE%97/"/>
     
   </entry>
   
   <entry>
     <title>OpenStack Mitaka + CentOS7.2 安装部署 03</title>
-    <link href="http://duoyichen.github.com/2018-10/openstack-m-centos-3/"/>
-    <id>http://duoyichen.github.com/2018-10/openstack-m-centos-3/</id>
+    <link href="http://www.duoyichen.xyz/2018-10/openstack-m-centos-3/"/>
+    <id>http://www.duoyichen.xyz/2018-10/openstack-m-centos-3/</id>
     <published>2018-10-01T20:36:15.000Z</published>
     <updated>2018-10-01T23:22:09.133Z</updated>
     
@@ -109,21 +109,21 @@
     
     </summary>
     
-      <category term="云计算" scheme="http://duoyichen.github.com/categories/%E4%BA%91%E8%AE%A1%E7%AE%97/"/>
+      <category term="云计算" scheme="http://www.duoyichen.xyz/categories/%E4%BA%91%E8%AE%A1%E7%AE%97/"/>
     
     
-      <category term="python" scheme="http://duoyichen.github.com/tags/python/"/>
+      <category term="python" scheme="http://www.duoyichen.xyz/tags/python/"/>
     
-      <category term="openstack" scheme="http://duoyichen.github.com/tags/openstack/"/>
+      <category term="openstack" scheme="http://www.duoyichen.xyz/tags/openstack/"/>
     
-      <category term="云计算" scheme="http://duoyichen.github.com/tags/%E4%BA%91%E8%AE%A1%E7%AE%97/"/>
+      <category term="云计算" scheme="http://www.duoyichen.xyz/tags/%E4%BA%91%E8%AE%A1%E7%AE%97/"/>
     
   </entry>
   
   <entry>
     <title>OpenStack Mitaka + CentOS7.2 安装部署 02</title>
-    <link href="http://duoyichen.github.com/2018-10/openstack-m-centos-2/"/>
-    <id>http://duoyichen.github.com/2018-10/openstack-m-centos-2/</id>
+    <link href="http://www.duoyichen.xyz/2018-10/openstack-m-centos-2/"/>
+    <id>http://www.duoyichen.xyz/2018-10/openstack-m-centos-2/</id>
     <published>2018-10-01T20:36:14.000Z</published>
     <updated>2018-10-01T23:22:13.728Z</updated>
     
@@ -135,21 +135,21 @@
     
     </summary>
     
-      <category term="云计算" scheme="http://duoyichen.github.com/categories/%E4%BA%91%E8%AE%A1%E7%AE%97/"/>
+      <category term="云计算" scheme="http://www.duoyichen.xyz/categories/%E4%BA%91%E8%AE%A1%E7%AE%97/"/>
     
     
-      <category term="python" scheme="http://duoyichen.github.com/tags/python/"/>
+      <category term="python" scheme="http://www.duoyichen.xyz/tags/python/"/>
     
-      <category term="openstack" scheme="http://duoyichen.github.com/tags/openstack/"/>
+      <category term="openstack" scheme="http://www.duoyichen.xyz/tags/openstack/"/>
     
-      <category term="云计算" scheme="http://duoyichen.github.com/tags/%E4%BA%91%E8%AE%A1%E7%AE%97/"/>
+      <category term="云计算" scheme="http://www.duoyichen.xyz/tags/%E4%BA%91%E8%AE%A1%E7%AE%97/"/>
     
   </entry>
   
   <entry>
     <title>OpenStack Mitaka + CentOS7.2 安装部署 01</title>
-    <link href="http://duoyichen.github.com/2018-10/openstack-m-centos/"/>
-    <id>http://duoyichen.github.com/2018-10/openstack-m-centos/</id>
+    <link href="http://www.duoyichen.xyz/2018-10/openstack-m-centos/"/>
+    <id>http://www.duoyichen.xyz/2018-10/openstack-m-centos/</id>
     <published>2018-10-01T20:36:13.000Z</published>
     <updated>2018-10-01T23:22:18.426Z</updated>
     
@@ -161,21 +161,21 @@
     
     </summary>
     
-      <category term="云计算" scheme="http://duoyichen.github.com/categories/%E4%BA%91%E8%AE%A1%E7%AE%97/"/>
+      <category term="云计算" scheme="http://www.duoyichen.xyz/categories/%E4%BA%91%E8%AE%A1%E7%AE%97/"/>
     
     
-      <category term="python" scheme="http://duoyichen.github.com/tags/python/"/>
+      <category term="python" scheme="http://www.duoyichen.xyz/tags/python/"/>
     
-      <category term="openstack" scheme="http://duoyichen.github.com/tags/openstack/"/>
+      <category term="openstack" scheme="http://www.duoyichen.xyz/tags/openstack/"/>
     
-      <category term="云计算" scheme="http://duoyichen.github.com/tags/%E4%BA%91%E8%AE%A1%E7%AE%97/"/>
+      <category term="云计算" scheme="http://www.duoyichen.xyz/tags/%E4%BA%91%E8%AE%A1%E7%AE%97/"/>
     
   </entry>
   
   <entry>
     <title>Lvs+Keepalived高可用负载均衡</title>
-    <link href="http://duoyichen.github.com/2018-10/lvs-kl/"/>
-    <id>http://duoyichen.github.com/2018-10/lvs-kl/</id>
+    <link href="http://www.duoyichen.xyz/2018-10/lvs-kl/"/>
+    <id>http://www.duoyichen.xyz/2018-10/lvs-kl/</id>
     <published>2018-10-01T20:21:48.000Z</published>
     <updated>2018-10-01T20:24:21.234Z</updated>
     
@@ -187,21 +187,21 @@
     
     </summary>
     
-      <category term="运维" scheme="http://duoyichen.github.com/categories/%E8%BF%90%E7%BB%B4/"/>
+      <category term="运维" scheme="http://www.duoyichen.xyz/categories/%E8%BF%90%E7%BB%B4/"/>
     
     
-      <category term="keepalived" scheme="http://duoyichen.github.com/tags/keepalived/"/>
+      <category term="keepalived" scheme="http://www.duoyichen.xyz/tags/keepalived/"/>
     
-      <category term="lvs" scheme="http://duoyichen.github.com/tags/lvs/"/>
+      <category term="lvs" scheme="http://www.duoyichen.xyz/tags/lvs/"/>
     
-      <category term="负载均衡" scheme="http://duoyichen.github.com/tags/%E8%B4%9F%E8%BD%BD%E5%9D%87%E8%A1%A1/"/>
+      <category term="负载均衡" scheme="http://www.duoyichen.xyz/tags/%E8%B4%9F%E8%BD%BD%E5%9D%87%E8%A1%A1/"/>
     
   </entry>
   
   <entry>
     <title>Kubernets集群安装部署 06</title>
-    <link href="http://duoyichen.github.com/2018-10/k8s-6/"/>
-    <id>http://duoyichen.github.com/2018-10/k8s-6/</id>
+    <link href="http://www.duoyichen.xyz/2018-10/k8s-6/"/>
+    <id>http://www.duoyichen.xyz/2018-10/k8s-6/</id>
     <published>2018-10-01T20:19:57.000Z</published>
     <updated>2018-10-01T23:24:07.593Z</updated>
     
@@ -213,21 +213,21 @@
     
     </summary>
     
-      <category term="运维" scheme="http://duoyichen.github.com/categories/%E8%BF%90%E7%BB%B4/"/>
+      <category term="运维" scheme="http://www.duoyichen.xyz/categories/%E8%BF%90%E7%BB%B4/"/>
     
     
-      <category term="kubernets" scheme="http://duoyichen.github.com/tags/kubernets/"/>
+      <category term="kubernets" scheme="http://www.duoyichen.xyz/tags/kubernets/"/>
     
-      <category term="docker" scheme="http://duoyichen.github.com/tags/docker/"/>
+      <category term="docker" scheme="http://www.duoyichen.xyz/tags/docker/"/>
     
-      <category term="容器" scheme="http://duoyichen.github.com/tags/%E5%AE%B9%E5%99%A8/"/>
+      <category term="容器" scheme="http://www.duoyichen.xyz/tags/%E5%AE%B9%E5%99%A8/"/>
     
   </entry>
   
   <entry>
     <title>Kubernets集群安装部署 05</title>
-    <link href="http://duoyichen.github.com/2018-10/k8s-5/"/>
-    <id>http://duoyichen.github.com/2018-10/k8s-5/</id>
+    <link href="http://www.duoyichen.xyz/2018-10/k8s-5/"/>
+    <id>http://www.duoyichen.xyz/2018-10/k8s-5/</id>
     <published>2018-10-01T20:18:57.000Z</published>
     <updated>2018-10-01T23:23:52.324Z</updated>
     
@@ -239,21 +239,21 @@
     
     </summary>
     
-      <category term="运维" scheme="http://duoyichen.github.com/categories/%E8%BF%90%E7%BB%B4/"/>
+      <category term="运维" scheme="http://www.duoyichen.xyz/categories/%E8%BF%90%E7%BB%B4/"/>
     
     
-      <category term="kubernets" scheme="http://duoyichen.github.com/tags/kubernets/"/>
+      <category term="kubernets" scheme="http://www.duoyichen.xyz/tags/kubernets/"/>
     
-      <category term="docker" scheme="http://duoyichen.github.com/tags/docker/"/>
+      <category term="docker" scheme="http://www.duoyichen.xyz/tags/docker/"/>
     
-      <category term="容器" scheme="http://duoyichen.github.com/tags/%E5%AE%B9%E5%99%A8/"/>
+      <category term="容器" scheme="http://www.duoyichen.xyz/tags/%E5%AE%B9%E5%99%A8/"/>
     
   </entry>
   
   <entry>
     <title>Kubernets集群安装部署 04</title>
-    <link href="http://duoyichen.github.com/2018-10/k8s-4/"/>
-    <id>http://duoyichen.github.com/2018-10/k8s-4/</id>
+    <link href="http://www.duoyichen.xyz/2018-10/k8s-4/"/>
+    <id>http://www.duoyichen.xyz/2018-10/k8s-4/</id>
     <published>2018-10-01T20:16:57.000Z</published>
     <updated>2018-10-01T23:24:05.179Z</updated>
     
@@ -265,21 +265,21 @@
     
     </summary>
     
-      <category term="运维" scheme="http://duoyichen.github.com/categories/%E8%BF%90%E7%BB%B4/"/>
+      <category term="运维" scheme="http://www.duoyichen.xyz/categories/%E8%BF%90%E7%BB%B4/"/>
     
     
-      <category term="kubernets" scheme="http://duoyichen.github.com/tags/kubernets/"/>
+      <category term="kubernets" scheme="http://www.duoyichen.xyz/tags/kubernets/"/>
     
-      <category term="docker" scheme="http://duoyichen.github.com/tags/docker/"/>
+      <category term="docker" scheme="http://www.duoyichen.xyz/tags/docker/"/>
     
-      <category term="容器" scheme="http://duoyichen.github.com/tags/%E5%AE%B9%E5%99%A8/"/>
+      <category term="容器" scheme="http://www.duoyichen.xyz/tags/%E5%AE%B9%E5%99%A8/"/>
     
   </entry>
   
   <entry>
     <title>Kubernets集群安装部署 03</title>
-    <link href="http://duoyichen.github.com/2018-10/k8s-3/"/>
-    <id>http://duoyichen.github.com/2018-10/k8s-3/</id>
+    <link href="http://www.duoyichen.xyz/2018-10/k8s-3/"/>
+    <id>http://www.duoyichen.xyz/2018-10/k8s-3/</id>
     <published>2018-10-01T20:15:57.000Z</published>
     <updated>2018-10-01T23:24:01.653Z</updated>
     
@@ -291,21 +291,21 @@
     
     </summary>
     
-      <category term="运维" scheme="http://duoyichen.github.com/categories/%E8%BF%90%E7%BB%B4/"/>
+      <category term="运维" scheme="http://www.duoyichen.xyz/categories/%E8%BF%90%E7%BB%B4/"/>
     
     
-      <category term="kubernets" scheme="http://duoyichen.github.com/tags/kubernets/"/>
+      <category term="kubernets" scheme="http://www.duoyichen.xyz/tags/kubernets/"/>
     
-      <category term="docker" scheme="http://duoyichen.github.com/tags/docker/"/>
+      <category term="docker" scheme="http://www.duoyichen.xyz/tags/docker/"/>
     
-      <category term="容器" scheme="http://duoyichen.github.com/tags/%E5%AE%B9%E5%99%A8/"/>
+      <category term="容器" scheme="http://www.duoyichen.xyz/tags/%E5%AE%B9%E5%99%A8/"/>
     
   </entry>
   
   <entry>
     <title>Kubernets集群安装部署 02</title>
-    <link href="http://duoyichen.github.com/2018-10/k8s-2/"/>
-    <id>http://duoyichen.github.com/2018-10/k8s-2/</id>
+    <link href="http://www.duoyichen.xyz/2018-10/k8s-2/"/>
+    <id>http://www.duoyichen.xyz/2018-10/k8s-2/</id>
     <published>2018-10-01T20:14:57.000Z</published>
     <updated>2018-10-01T23:23:59.041Z</updated>
     
@@ -317,21 +317,21 @@
     
     </summary>
     
-      <category term="运维" scheme="http://duoyichen.github.com/categories/%E8%BF%90%E7%BB%B4/"/>
+      <category term="运维" scheme="http://www.duoyichen.xyz/categories/%E8%BF%90%E7%BB%B4/"/>
     
     
-      <category term="kubernets" scheme="http://duoyichen.github.com/tags/kubernets/"/>
+      <category term="kubernets" scheme="http://www.duoyichen.xyz/tags/kubernets/"/>
     
-      <category term="docker" scheme="http://duoyichen.github.com/tags/docker/"/>
+      <category term="docker" scheme="http://www.duoyichen.xyz/tags/docker/"/>
     
-      <category term="容器" scheme="http://duoyichen.github.com/tags/%E5%AE%B9%E5%99%A8/"/>
+      <category term="容器" scheme="http://www.duoyichen.xyz/tags/%E5%AE%B9%E5%99%A8/"/>
     
   </entry>
   
   <entry>
     <title>Kubernets集群安装部署 01</title>
-    <link href="http://duoyichen.github.com/2018-10/k8s/"/>
-    <id>http://duoyichen.github.com/2018-10/k8s/</id>
+    <link href="http://www.duoyichen.xyz/2018-10/k8s/"/>
+    <id>http://www.duoyichen.xyz/2018-10/k8s/</id>
     <published>2018-10-01T20:13:57.000Z</published>
     <updated>2018-10-01T23:23:56.868Z</updated>
     
@@ -343,21 +343,21 @@
     
     </summary>
     
-      <category term="运维" scheme="http://duoyichen.github.com/categories/%E8%BF%90%E7%BB%B4/"/>
+      <category term="运维" scheme="http://www.duoyichen.xyz/categories/%E8%BF%90%E7%BB%B4/"/>
     
     
-      <category term="kubernets" scheme="http://duoyichen.github.com/tags/kubernets/"/>
+      <category term="kubernets" scheme="http://www.duoyichen.xyz/tags/kubernets/"/>
     
-      <category term="docker" scheme="http://duoyichen.github.com/tags/docker/"/>
+      <category term="docker" scheme="http://www.duoyichen.xyz/tags/docker/"/>
     
-      <category term="容器" scheme="http://duoyichen.github.com/tags/%E5%AE%B9%E5%99%A8/"/>
+      <category term="容器" scheme="http://www.duoyichen.xyz/tags/%E5%AE%B9%E5%99%A8/"/>
     
   </entry>
   
   <entry>
     <title>CMDB资产管理系统</title>
-    <link href="http://duoyichen.github.com/2018-10/cmdb/"/>
-    <id>http://duoyichen.github.com/2018-10/cmdb/</id>
+    <link href="http://www.duoyichen.xyz/2018-10/cmdb/"/>
+    <id>http://www.duoyichen.xyz/2018-10/cmdb/</id>
     <published>2018-10-01T20:02:22.000Z</published>
     <updated>2018-10-01T23:25:51.534Z</updated>
     
@@ -369,19 +369,19 @@
     
     </summary>
     
-      <category term="开发" scheme="http://duoyichen.github.com/categories/%E5%BC%80%E5%8F%91/"/>
+      <category term="开发" scheme="http://www.duoyichen.xyz/categories/%E5%BC%80%E5%8F%91/"/>
     
     
-      <category term="python" scheme="http://duoyichen.github.com/tags/python/"/>
+      <category term="python" scheme="http://www.duoyichen.xyz/tags/python/"/>
     
-      <category term="cmdb" scheme="http://duoyichen.github.com/tags/cmdb/"/>
+      <category term="cmdb" scheme="http://www.duoyichen.xyz/tags/cmdb/"/>
     
   </entry>
   
   <entry>
     <title>Hexo静态博客搭建指南</title>
-    <link href="http://duoyichen.github.com/2018-10/firsr-blog/"/>
-    <id>http://duoyichen.github.com/2018-10/firsr-blog/</id>
+    <link href="http://www.duoyichen.xyz/2018-10/firsr-blog/"/>
+    <id>http://www.duoyichen.xyz/2018-10/firsr-blog/</id>
     <published>2018-10-01T01:27:47.000Z</published>
     <updated>2018-10-01T20:48:11.597Z</updated>
     
@@ -393,17 +393,17 @@
     
     </summary>
     
-      <category term="其他" scheme="http://duoyichen.github.com/categories/%E5%85%B6%E4%BB%96/"/>
+      <category term="其他" scheme="http://www.duoyichen.xyz/categories/%E5%85%B6%E4%BB%96/"/>
     
     
-      <category term="其他" scheme="http://duoyichen.github.com/tags/%E5%85%B6%E4%BB%96/"/>
+      <category term="其他" scheme="http://www.duoyichen.xyz/tags/%E5%85%B6%E4%BB%96/"/>
     
   </entry>
   
   <entry>
     <title>Hello World</title>
-    <link href="http://duoyichen.github.com/2018-10/hello-world/"/>
-    <id>http://duoyichen.github.com/2018-10/hello-world/</id>
+    <link href="http://www.duoyichen.xyz/2018-10/hello-world/"/>
+    <id>http://www.duoyichen.xyz/2018-10/hello-world/</id>
     <published>2018-10-01T01:07:47.000Z</published>
     <updated>2018-10-01T19:06:13.090Z</updated>
     
@@ -415,10 +415,10 @@
     
     </summary>
     
-      <category term="其他" scheme="http://duoyichen.github.com/categories/%E5%85%B6%E4%BB%96/"/>
+      <category term="其他" scheme="http://www.duoyichen.xyz/categories/%E5%85%B6%E4%BB%96/"/>
     
     
-      <category term="其他" scheme="http://duoyichen.github.com/tags/%E5%85%B6%E4%BB%96/"/>
+      <category term="其他" scheme="http://www.duoyichen.xyz/tags/%E5%85%B6%E4%BB%96/"/>
     
   </entry>
   
