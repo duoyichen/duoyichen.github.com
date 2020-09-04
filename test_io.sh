@@ -10,8 +10,8 @@ dt1=$(date -d @${dt0} "+%Y%m%d_%H%M%S")
 dt2=$(date -d @${dt0} "+%Y-%m-%d %H:%M:%S")
 file_name=$(basename $(readlink -f "$0"))
 dir_name=$(dirname $(readlink -f "$0"))
-result_path="/root/o/result"
-mkdir -p ${result_path}
+result_path="${dir_name}"
+#mkdir -p ${result_path}
 logfile="${result_path}/${file_name}_${dt1}.log"
 
 
